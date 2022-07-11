@@ -1818,7 +1818,7 @@
             }
         }
     },
-    "revision": "20220517",
+    "revision": "20220629",
     "rootUrl": "https://notebooks.googleapis.com/",
     "schemas": {
         "AcceleratorConfig": {

@@ -269,7 +269,7 @@
             }
         }
     },
-    "revision": "20220606",
+    "revision": "20220627",
     "rootUrl": "https://versionhistory.googleapis.com/",
     "schemas": {
         "Channel": {

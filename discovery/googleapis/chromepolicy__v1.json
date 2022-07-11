@@ -276,53 +276,9 @@
                     }
                 }
             }
-        },
-        "media": {
-            "methods": {
-                "upload": {
-                    "description": "Creates an enterprise file from the content provided by user. Returns a public download url for end user.",
-                    "flatPath": "v1/customers/{customersId}/policies/files:uploadPolicyFile",
-                    "httpMethod": "POST",
-                    "id": "chromepolicy.media.upload",
-                    "mediaUpload": {
-                        "accept": [
-                            "*/*"
-                        ],
-                        "protocols": {
-                            "simple": {
-                                "multipart": true,
-                                "path": "/upload/v1/{+customer}/policies/files:uploadPolicyFile"
-                            }
-                        }
-                    },
-                    "parameterOrder": [
-                        "customer"
-                    ],
-                    "parameters": {
-                        "customer": {
-                            "description": "Required. The customer for which the file upload will apply.",
-                            "location": "path",
-                            "pattern": "^customers/[^/]+$",
-                            "required": true,
-                            "type": "string"
-                        }
-                    },
-                    "path": "v1/{+customer}/policies/files:uploadPolicyFile",
-                    "request": {
-                        "$ref": "GoogleChromePolicyV1UploadPolicyFileRequest"
-                    },
-                    "response": {
-                        "$ref": "GoogleChromePolicyV1UploadPolicyFileResponse"
-                    },
-                    "scopes": [
-                        "https://www.googleapis.com/auth/chrome.management.policy"
-                    ],
-                    "supportsMediaUpload": true
-                }
-            }
         }
     },
-    "revision": "20220607",
+    "revision": "20220708",
     "rootUrl": "https://chromepolicy.googleapis.com/",
     "schemas": {
         "ChromeCrosDpanelAutosettingsProtoPolicyApiLifecycle": {
@@ -723,7 +679,7 @@
                     "type": "string"
                 },
                 "policySchemaFilter": {
-                    "description": "The schema filter to apply to the resolve request. Specify a schema name to view a particular schema, for example: chrome.users.ShowLogoutButton Wildcards are supported, but only in the leaf portion of the schema name. Wildcards cannot be used in namespace directly. Please read https://developers.google.com/chrome/chrome-management/guides/policyapi for details on schema namepsaces. For example: Valid: \"chrome.users.*\", \"chrome.users.apps.*\", \"chrome.printers.*\" Invalid: \"*\", \"*.users\", \"chrome.*\", \"chrome.*.apps.*\"",
+                    "description": "The schema filter to apply to the resolve request. Specify a schema name to view a particular schema, for example: chrome.users.ShowLogoutButton Wildcards are supported, but only in the leaf portion of the schema name. Wildcards cannot be used in namespace directly. Please read https://developers.google.com/chrome/policy/guides/policy-schemas for details on schema namepsaces. For example: Valid: \"chrome.users.*\", \"chrome.users.apps.*\", \"chrome.printers.*\" Invalid: \"*\", \"*.users\", \"chrome.*\", \"chrome.*.apps.*\"",
                     "type": "string"
                 },
                 "policyTargetKey": {
@@ -774,28 +730,6 @@
                     "$ref": "GoogleChromePolicyV1PolicyValue",
                     "description": "Output only. The resolved value of the policy.",
                     "readOnly": true
-                }
-            },
-            "type": "object"
-        },
-        "GoogleChromePolicyV1UploadPolicyFileRequest": {
-            "description": "Request message for uploading a file for a policy. Next ID: 5",
-            "id": "GoogleChromePolicyV1UploadPolicyFileRequest",
-            "properties": {
-                "policyField": {
-                    "description": "Required. The fully qualified policy schema and field name this file is uploaded for. This information will be used to validate the content type of the file.",
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "GoogleChromePolicyV1UploadPolicyFileResponse": {
-            "description": "Response message for downloading an uploaded file. Next ID: 2",
-            "id": "GoogleChromePolicyV1UploadPolicyFileResponse",
-            "properties": {
-                "downloadUri": {
-                    "description": "The uri for end user to download the file.",
-                    "type": "string"
                 }
             },
             "type": "object"
@@ -1010,7 +944,7 @@
                     "type": "string"
                 },
                 "syntax": {
-                    "description": "The syntax of the proto file. The supported values are \"proto2\" and \"proto3\".",
+                    "description": "The syntax of the proto file. The supported values are \"proto2\", \"proto3\", and \"editions\". If `edition` is present, this value must be \"editions\".",
                     "type": "string"
                 }
             },

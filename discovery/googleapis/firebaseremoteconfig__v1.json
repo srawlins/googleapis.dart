@@ -368,7 +368,7 @@
             }
         }
     },
-    "revision": "20220606",
+    "revision": "20220708",
     "rootUrl": "https://firebaseremoteconfig.googleapis.com/",
     "schemas": {
         "ExperimentDescription": {
@@ -804,9 +804,17 @@
             "description": "Open a stream of Fetch response invalidation signals.",
             "id": "StreamFetchInvalidationsRequest",
             "properties": {
+                "appId": {
+                    "description": "GMP App id.",
+                    "type": "string"
+                },
                 "lastKnownVersionNumber": {
                     "description": "If this client has previously performed a Fetch, this indicates which Template version was used to process it (returned in the Fetch response).",
                     "format": "int64",
+                    "type": "string"
+                },
+                "sdkVersion": {
+                    "description": "Version of the Firebase Remote Config SDK. This number is hard-coded into each client.",
                     "type": "string"
                 }
             },
@@ -816,6 +824,10 @@
             "description": "Response indicating that the previous Fetch response is now invalid.",
             "id": "StreamFetchInvalidationsResponse",
             "properties": {
+                "featureDisabled": {
+                    "description": "Indicates whether or not the client should stop using Realtime feature.",
+                    "type": "boolean"
+                },
                 "latestTemplateVersionNumber": {
                     "description": "Indicates the new Template version number which triggered this invalidation event.",
                     "format": "int64",

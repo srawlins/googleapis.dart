@@ -316,7 +316,7 @@
             }
         }
     },
-    "revision": "20220525",
+    "revision": "20220622",
     "rootUrl": "https://cloudfunctions.googleapis.com/",
     "schemas": {
         "AuditConfig": {

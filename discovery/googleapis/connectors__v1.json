@@ -1053,7 +1053,7 @@
             }
         }
     },
-    "revision": "20220523",
+    "revision": "20220616",
     "rootUrl": "https://connectors.googleapis.com/",
     "schemas": {
         "AuditConfig": {
@@ -1121,13 +1121,15 @@
                         "AUTH_TYPE_UNSPECIFIED",
                         "USER_PASSWORD",
                         "OAUTH2_JWT_BEARER",
-                        "OAUTH2_CLIENT_CREDENTIALS"
+                        "OAUTH2_CLIENT_CREDENTIALS",
+                        "SSH_PUBLIC_KEY"
                     ],
                     "enumDescriptions": [
                         "Authentication type not specified.",
                         "Username and Password Authentication.",
                         "JSON Web Token (JWT) Profile for Oauth 2.0 Authorization Grant based authentication",
-                        "Oauth 2.0 Client Credentials Grant Authentication"
+                        "Oauth 2.0 Client Credentials Grant Authentication",
+                        "SSH Public Key Authentication"
                     ],
                     "type": "string"
                 },
@@ -1138,6 +1140,10 @@
                 "oauth2JwtBearer": {
                     "$ref": "Oauth2JwtBearer",
                     "description": "Oauth2JwtBearer."
+                },
+                "sshPublicKey": {
+                    "$ref": "SshPublicKey",
+                    "description": "SSH Public Key."
                 },
                 "userPassword": {
                     "$ref": "UserPassword",
@@ -1156,13 +1162,15 @@
                         "AUTH_TYPE_UNSPECIFIED",
                         "USER_PASSWORD",
                         "OAUTH2_JWT_BEARER",
-                        "OAUTH2_CLIENT_CREDENTIALS"
+                        "OAUTH2_CLIENT_CREDENTIALS",
+                        "SSH_PUBLIC_KEY"
                     ],
                     "enumDescriptions": [
                         "Authentication type not specified.",
                         "Username and Password Authentication.",
                         "JSON Web Token (JWT) Profile for Oauth 2.0 Authorization Grant based authentication",
-                        "Oauth 2.0 Client Credentials Grant Authentication"
+                        "Oauth 2.0 Client Credentials Grant Authentication",
+                        "SSH Public Key Authentication"
                     ],
                     "type": "string"
                 },
@@ -2751,6 +2759,29 @@
                         "Default SOURCE.",
                         "Config Variable source type."
                     ],
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "SshPublicKey": {
+            "description": "Parameters to support Ssh public key Authentication.",
+            "id": "SshPublicKey",
+            "properties": {
+                "certType": {
+                    "description": "Format of SSH Client cert.",
+                    "type": "string"
+                },
+                "password": {
+                    "$ref": "Secret",
+                    "description": "This is an optional field used in case client has enabled multi-factor authentication"
+                },
+                "sshClientCert": {
+                    "$ref": "Secret",
+                    "description": "SSH Client Cert. It should contain both public and private key."
+                },
+                "username": {
+                    "description": "The user account used to authenticate.",
                     "type": "string"
                 }
             },

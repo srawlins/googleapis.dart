@@ -3114,7 +3114,7 @@
             }
         }
     },
-    "revision": "20220509",
+    "revision": "20220615",
     "rootUrl": "https://apigeeregistry.googleapis.com/",
     "schemas": {
         "Api": {
