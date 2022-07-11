@@ -1365,7 +1365,10 @@ class Filter {
 
   /// The dimension name or metric name.
   ///
-  /// Must be a name defined in dimensions or metrics.
+  /// In most methods, dimensions & metrics can be used for the first time in
+  /// this field. However in a RunPivotReportRequest, this field must be
+  /// additionally specified by name in the RunPivotReportRequest's dimensions
+  /// or metrics.
   core.String? fieldName;
 
   /// A filter for in list values.
@@ -2803,8 +2806,7 @@ class RunPivotReportResponse {
 class RunRealtimeReportRequest {
   /// The filter clause of dimensions.
   ///
-  /// Dimensions must be requested to be used in this filter. Metrics cannot be
-  /// used in this filter.
+  /// Metrics cannot be used in this filter.
   FilterExpression? dimensionFilter;
 
   /// The dimensions requested and displayed.
@@ -2829,9 +2831,8 @@ class RunRealtimeReportRequest {
 
   /// The filter clause of metrics.
   ///
-  /// Applied at post aggregation phase, similar to SQL having-clause. Metrics
-  /// must be requested to be used in this filter. Dimensions cannot be used in
-  /// this filter.
+  /// Applied at post aggregation phase, similar to SQL having-clause.
+  /// Dimensions cannot be used in this filter.
   FilterExpression? metricFilter;
 
   /// The metrics requested and displayed.

@@ -1035,6 +1035,9 @@ class Case {
   /// available.
   core.String? priority;
 
+  /// The ID of the project associated with the case.
+  core.String? projectId;
+
   /// The severity of this case.
   ///
   /// Deprecated. Use priority instead.
@@ -1093,6 +1096,7 @@ class Case {
     this.escalated,
     this.name,
     this.priority,
+    this.projectId,
     this.severity,
     this.state,
     this.subscriberEmailAddresses,
@@ -1127,6 +1131,9 @@ class Case {
           priority: _json.containsKey('priority')
               ? _json['priority'] as core.String
               : null,
+          projectId: _json.containsKey('projectId')
+              ? _json['projectId'] as core.String
+              : null,
           severity: _json.containsKey('severity')
               ? _json['severity'] as core.String
               : null,
@@ -1158,6 +1165,7 @@ class Case {
         if (escalated != null) 'escalated': escalated!,
         if (name != null) 'name': name!,
         if (priority != null) 'priority': priority!,
+        if (projectId != null) 'projectId': projectId!,
         if (severity != null) 'severity': severity!,
         if (state != null) 'state': state!,
         if (subscriberEmailAddresses != null)

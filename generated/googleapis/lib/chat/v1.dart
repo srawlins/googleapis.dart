@@ -556,12 +556,12 @@ class SpacesResource {
   ///
   /// Request parameters:
   ///
-  /// [pageSize] - Requested page size. The value is capped at 1000. Server may
-  /// return fewer results than requested. If unspecified, server will default
-  /// to 100.
+  /// [pageSize] - Optional. Requested page size. The value is capped at 1000.
+  /// Server may return fewer results than requested. If unspecified, server
+  /// will default to 100.
   ///
-  /// [pageToken] - A token identifying a page of results the server should
-  /// return.
+  /// [pageToken] - Optional. A token identifying a page of results the server
+  /// should return.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -909,9 +909,10 @@ class SpacesMessagesResource {
   /// `spaces/AAAAAAAAAAA/messages/BBBBBBBBBBB.BBBBBBBBBBB`
   /// Value must have pattern `^spaces/\[^/\]+/messages/\[^/\]+$`.
   ///
-  /// [updateMask] - Required. The field paths to be updated, comma separated if
-  /// there are multiple. Currently supported field paths: * text * cards *
-  /// attachment
+  /// [updateMask] - Required. The field paths to update. Separate multiple
+  /// values with commas. Currently supported field paths: - text - cards
+  /// (Requires \[service account
+  /// authentication\](/chat/api/guides/auth/service-accounts).) - attachment
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -1779,6 +1780,46 @@ class GoogleAppsCardV1Action {
 /// and snooze time in the list of string parameters.
 typedef GoogleAppsCardV1ActionParameter = $ActionParameter;
 
+/// Represents the platform specific uri/intent to open for each client.
+class GoogleAppsCardV1AppUri {
+  /// An intent object to be opened in the corresponding android hosting app.
+  GoogleAppsCardV1Intent? androidIntent;
+
+  /// A companion uri string to be opened in the chat companion window.
+  ///
+  /// on the web.
+  core.String? companionUri;
+
+  /// A uri string to be opened in the corresponding iOS hosting app.
+  core.String? iosUri;
+
+  GoogleAppsCardV1AppUri({
+    this.androidIntent,
+    this.companionUri,
+    this.iosUri,
+  });
+
+  GoogleAppsCardV1AppUri.fromJson(core.Map _json)
+      : this(
+          androidIntent: _json.containsKey('androidIntent')
+              ? GoogleAppsCardV1Intent.fromJson(
+                  _json['androidIntent'] as core.Map<core.String, core.dynamic>)
+              : null,
+          companionUri: _json.containsKey('companionUri')
+              ? _json['companionUri'] as core.String
+              : null,
+          iosUri: _json.containsKey('iosUri')
+              ? _json['iosUri'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (androidIntent != null) 'androidIntent': androidIntent!,
+        if (companionUri != null) 'companionUri': companionUri!,
+        if (iosUri != null) 'iosUri': iosUri!,
+      };
+}
+
 /// Represents the complete border style applied to widgets.
 class GoogleAppsCardV1BorderStyle {
   /// The corner radius for the border.
@@ -2346,6 +2387,34 @@ class GoogleAppsCardV1DecoratedText {
 /// A divider that appears in between widgets.
 typedef GoogleAppsCardV1Divider = $Empty;
 
+/// Extra data for an android intent.
+///
+/// Valid keys are defined in the hosting app contract.
+class GoogleAppsCardV1ExtraData {
+  /// A key for the intent extra data.
+  core.String? key;
+
+  /// Value for the given extra data key.
+  core.String? value;
+
+  GoogleAppsCardV1ExtraData({
+    this.key,
+    this.value,
+  });
+
+  GoogleAppsCardV1ExtraData.fromJson(core.Map _json)
+      : this(
+          key: _json.containsKey('key') ? _json['key'] as core.String : null,
+          value:
+              _json.containsKey('value') ? _json['value'] as core.String : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (key != null) 'key': key!,
+        if (value != null) 'value': value!,
+      };
+}
+
 /// Represents a Grid widget that displays items in a configurable grid layout.
 class GoogleAppsCardV1Grid {
   /// The border style to apply to each grid item.
@@ -2652,6 +2721,45 @@ class GoogleAppsCardV1ImageCropStyle {
       };
 }
 
+/// Android intent.
+class GoogleAppsCardV1Intent {
+  /// A list of extra data for the android intent.
+  ///
+  /// For example, for a calendar event edit intent, the event title information
+  /// can be passed as extra data.
+  core.List<GoogleAppsCardV1ExtraData>? extraData;
+
+  /// An android intent action string for the {@link android.content.Intent}
+  /// object.
+  ///
+  /// For example: for the view intent action type, a valid value will be
+  /// android.content.Intent.ACTION_VIEW.
+  core.String? intentAction;
+
+  GoogleAppsCardV1Intent({
+    this.extraData,
+    this.intentAction,
+  });
+
+  GoogleAppsCardV1Intent.fromJson(core.Map _json)
+      : this(
+          extraData: _json.containsKey('extraData')
+              ? (_json['extraData'] as core.List)
+                  .map((value) => GoogleAppsCardV1ExtraData.fromJson(
+                      value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+          intentAction: _json.containsKey('intentAction')
+              ? _json['intentAction'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (extraData != null) 'extraData': extraData!,
+        if (intentAction != null) 'intentAction': intentAction!,
+      };
+}
+
 /// Represents the response to an `onClick` event.
 class GoogleAppsCardV1OnClick {
   /// If specified, an action is triggered by this `onClick`.
@@ -2708,6 +2816,16 @@ class GoogleAppsCardV1OnClick {
 
 /// Represents an `onClick` event that opens a hyperlink.
 class GoogleAppsCardV1OpenLink {
+  /// Represents the platform specific uri/intent to open on each client.
+  ///
+  /// For example: A companion_url will open in a companion window on the web.
+  /// An iOS URL and android intent will open in the corresponding hosting apps.
+  /// If these platform specific URLs can't be handled correctly, i.e. if the
+  /// companion isn't supported on web and the hosting apps aren't available on
+  /// the mobile platforms then the `uri` will open in a new browser window on
+  /// all the platforms.
+  GoogleAppsCardV1AppUri? appUri;
+
   /// Whether the client forgets about a link after opening it, or observes it
   /// until the window closes.
   ///
@@ -2734,6 +2852,7 @@ class GoogleAppsCardV1OpenLink {
   core.String? url;
 
   GoogleAppsCardV1OpenLink({
+    this.appUri,
     this.onClose,
     this.openAs,
     this.url,
@@ -2741,6 +2860,10 @@ class GoogleAppsCardV1OpenLink {
 
   GoogleAppsCardV1OpenLink.fromJson(core.Map _json)
       : this(
+          appUri: _json.containsKey('appUri')
+              ? GoogleAppsCardV1AppUri.fromJson(
+                  _json['appUri'] as core.Map<core.String, core.dynamic>)
+              : null,
           onClose: _json.containsKey('onClose')
               ? _json['onClose'] as core.String
               : null,
@@ -2751,6 +2874,7 @@ class GoogleAppsCardV1OpenLink {
         );
 
   core.Map<core.String, core.dynamic> toJson() => {
+        if (appUri != null) 'appUri': appUri!,
         if (onClose != null) 'onClose': onClose!,
         if (openAs != null) 'openAs': openAs!,
         if (url != null) 'url': url!,

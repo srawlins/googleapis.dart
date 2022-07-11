@@ -31,6 +31,7 @@
 ///       - [ProjectsLocationsCatalogsCompletionDataResource]
 ///       - [ProjectsLocationsCatalogsOperationsResource]
 ///       - [ProjectsLocationsCatalogsPlacementsResource]
+///       - [ProjectsLocationsCatalogsServingConfigsResource]
 ///       - [ProjectsLocationsCatalogsUserEventsResource]
 ///     - [ProjectsLocationsOperationsResource]
 ///   - [ProjectsOperationsResource]
@@ -103,6 +104,8 @@ class ProjectsLocationsCatalogsResource {
       ProjectsLocationsCatalogsOperationsResource(_requester);
   ProjectsLocationsCatalogsPlacementsResource get placements =>
       ProjectsLocationsCatalogsPlacementsResource(_requester);
+  ProjectsLocationsCatalogsServingConfigsResource get servingConfigs =>
+      ProjectsLocationsCatalogsServingConfigsResource(_requester);
   ProjectsLocationsCatalogsUserEventsResource get userEvents =>
       ProjectsLocationsCatalogsUserEventsResource(_requester);
 
@@ -137,11 +140,12 @@ class ProjectsLocationsCatalogsResource {
   /// types. Supported formats: * `UNKNOWN_DEVICE_TYPE` * `DESKTOP` * `MOBILE` *
   /// A customized string starts with `OTHER_`, e.g. `OTHER_IPHONE`.
   ///
-  /// [languageCodes] - The language filters applied to the output suggestions.
-  /// If set, it should contain the language of the query. If not set,
-  /// suggestions are returned without considering language restrictions. This
-  /// is the BCP-47 language code, such as "en-US" or "sr-Latn". For more
-  /// information, see
+  /// [languageCodes] - Note that this field applies for `user-data` dataset
+  /// only. For requests with `cloud-retail` dataset, setting this field has no
+  /// effect. The language filters applied to the output suggestions. If set, it
+  /// should contain the language of the query. If not set, suggestions are
+  /// returned without considering language restrictions. This is the BCP-47
+  /// language code, such as "en-US" or "sr-Latn". For more information, see
   /// [Tags for Identifying Languages](https://tools.ietf.org/html/bcp47). The
   /// maximum number of language codes is 3.
   ///
@@ -479,9 +483,10 @@ class ProjectsLocationsCatalogsBranchesProductsResource {
   /// before updating fulfillment information. If the request is valid, the
   /// update will be enqueued and processed downstream. As a consequence, when a
   /// response is returned, the added place IDs are not immediately manifested
-  /// in the Product queried by GetProduct or ListProducts. This feature is only
-  /// available for users who have Retail Search enabled. Please enable Retail
-  /// Search on Cloud Console before using this feature.
+  /// in the Product queried by ProductService.GetProduct or
+  /// ProductService.ListProducts. This feature is only available for users who
+  /// have Retail Search enabled. Please enable Retail Search on Cloud Console
+  /// before using this feature.
   ///
   /// [request] - The metadata request object.
   ///
@@ -534,11 +539,12 @@ class ProjectsLocationsCatalogsBranchesProductsResource {
   /// before updating inventory information. If the request is valid, the update
   /// will be enqueued and processed downstream. As a consequence, when a
   /// response is returned, updates are not immediately manifested in the
-  /// Product queried by GetProduct or ListProducts. Local inventory information
-  /// can only be modified using this method. CreateProduct and UpdateProduct
-  /// has no effect on local inventories. This feature is only available for
-  /// users who have Retail Search enabled. Please enable Retail Search on Cloud
-  /// Console before using this feature.
+  /// Product queried by ProductService.GetProduct or
+  /// ProductService.ListProducts. Local inventory information can only be
+  /// modified using this method. ProductService.CreateProduct and
+  /// ProductService.UpdateProduct has no effect on local inventories. This
+  /// feature is only available for users who have Retail Search enabled. Please
+  /// enable Retail Search on Cloud Console before using this feature.
   ///
   /// [request] - The metadata request object.
   ///
@@ -918,9 +924,10 @@ class ProjectsLocationsCatalogsBranchesProductsResource {
   /// before updating fulfillment information. If the request is valid, the
   /// update will be enqueued and processed downstream. As a consequence, when a
   /// response is returned, the removed place IDs are not immediately manifested
-  /// in the Product queried by GetProduct or ListProducts. This feature is only
-  /// available for users who have Retail Search enabled. Please enable Retail
-  /// Search on Cloud Console before using this feature.
+  /// in the Product queried by ProductService.GetProduct or
+  /// ProductService.ListProducts. This feature is only available for users who
+  /// have Retail Search enabled. Please enable Retail Search on Cloud Console
+  /// before using this feature.
   ///
   /// [request] - The metadata request object.
   ///
@@ -972,11 +979,12 @@ class ProjectsLocationsCatalogsBranchesProductsResource {
   /// This process is asynchronous. If the request is valid, the removal will be
   /// enqueued and processed downstream. As a consequence, when a response is
   /// returned, removals are not immediately manifested in the Product queried
-  /// by GetProduct or ListProducts. Local inventory information can only be
-  /// removed using this method. CreateProduct and UpdateProduct has no effect
-  /// on local inventories. This feature is only available for users who have
-  /// Retail Search enabled. Please enable Retail Search on Cloud Console before
-  /// using this feature.
+  /// by ProductService.GetProduct or ProductService.ListProducts. Local
+  /// inventory information can only be removed using this method.
+  /// ProductService.CreateProduct and ProductService.UpdateProduct has no
+  /// effect on local inventories. This feature is only available for users who
+  /// have Retail Search enabled. Please enable Retail Search on Cloud Console
+  /// before using this feature.
   ///
   /// [request] - The metadata request object.
   ///
@@ -1029,20 +1037,22 @@ class ProjectsLocationsCatalogsBranchesProductsResource {
   /// before updating fulfillment information. If the request is valid, the
   /// update will be enqueued and processed downstream. As a consequence, when a
   /// response is returned, updates are not immediately manifested in the
-  /// Product queried by GetProduct or ListProducts. When inventory is updated
-  /// with CreateProduct and UpdateProduct, the specified inventory field
-  /// value(s) will overwrite any existing value(s) while ignoring the last
-  /// update time for this field. Furthermore, the last update time for the
-  /// specified inventory fields will be overwritten to the time of the
-  /// CreateProduct or UpdateProduct request. If no inventory fields are set in
-  /// CreateProductRequest.product, then any pre-existing inventory information
-  /// for this product will be used. If no inventory fields are set in
-  /// SetInventoryRequest.set_mask, then any existing inventory information will
-  /// be preserved. Pre-existing inventory information can only be updated with
-  /// SetInventory, ProductService.AddFulfillmentPlaces, and
-  /// RemoveFulfillmentPlaces. This feature is only available for users who have
-  /// Retail Search enabled. Please enable Retail Search on Cloud Console before
-  /// using this feature.
+  /// Product queried by ProductService.GetProduct or
+  /// ProductService.ListProducts. When inventory is updated with
+  /// ProductService.CreateProduct and ProductService.UpdateProduct, the
+  /// specified inventory field value(s) will overwrite any existing value(s)
+  /// while ignoring the last update time for this field. Furthermore, the last
+  /// update time for the specified inventory fields will be overwritten to the
+  /// time of the ProductService.CreateProduct or ProductService.UpdateProduct
+  /// request. If no inventory fields are set in CreateProductRequest.product,
+  /// then any pre-existing inventory information for this product will be used.
+  /// If no inventory fields are set in SetInventoryRequest.set_mask, then any
+  /// existing inventory information will be preserved. Pre-existing inventory
+  /// information can only be updated with ProductService.SetInventory,
+  /// ProductService.AddFulfillmentPlaces, and
+  /// ProductService.RemoveFulfillmentPlaces. This feature is only available for
+  /// users who have Retail Search enabled. Please enable Retail Search on Cloud
+  /// Console before using this feature.
   ///
   /// [request] - The metadata request object.
   ///
@@ -1261,14 +1271,18 @@ class ProjectsLocationsCatalogsPlacementsResource {
   ///
   /// Request parameters:
   ///
-  /// [placement] - Required. Full resource name of the format: `{name=projects
-  /// / * /locations/global/catalogs/default_catalog/placements / * }` The ID of
-  /// the Recommendations AI placement. Before you can request predictions from
-  /// your model, you must create at least one placement for it. For more
-  /// information, see
-  /// [Managing placements](https://cloud.google.com/retail/recommendations-ai/docs/manage-placements).
-  /// The full list of available placements can be seen at
-  /// https://console.cloud.google.com/recommendation/catalogs/default_catalog/placements
+  /// [placement] - Required. Full resource name of the format:
+  /// {placement=projects / *
+  /// /locations/global/catalogs/default_catalog/servingConfigs / * } or
+  /// {placement=projects / *
+  /// /locations/global/catalogs/default_catalog/placements / * }. We recommend
+  /// using the `servingConfigs` resource. `placements` is a legacy resource.
+  /// The ID of the Recommendations AI serving config or placement. Before you
+  /// can request predictions from your model, you must create at least one
+  /// serving config or placement for it. For more information, see
+  /// [Managing serving configurations](https://cloud.google.com/retail/docs/manage-configs).
+  /// The full list of available serving configs can be seen at
+  /// https://console.cloud.google.com/ai/retail/catalogs/default_catalog/configs
   /// Value must have pattern
   /// `^projects/\[^/\]+/locations/\[^/\]+/catalogs/\[^/\]+/placements/\[^/\]+$`.
   ///
@@ -1313,13 +1327,126 @@ class ProjectsLocationsCatalogsPlacementsResource {
   ///
   /// Request parameters:
   ///
-  /// [placement] - Required. The resource name of the search engine placement,
-  /// such as `projects / *
+  /// [placement] - Required. The resource name of the Retail Search serving
+  /// config, such as `projects / *
+  /// /locations/global/catalogs/default_catalog/servingConfigs/default_serving_config`
+  /// or the name of the legacy placement resource, such as `projects / *
   /// /locations/global/catalogs/default_catalog/placements/default_search`.
   /// This field is used to identify the serving configuration name and the set
   /// of models that will be used to make the search.
   /// Value must have pattern
   /// `^projects/\[^/\]+/locations/\[^/\]+/catalogs/\[^/\]+/placements/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudRetailV2SearchResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudRetailV2SearchResponse> search(
+    GoogleCloudRetailV2SearchRequest request,
+    core.String placement, {
+    core.String? $fields,
+  }) async {
+    final _body = convert.json.encode(request);
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v2/' + core.Uri.encodeFull('$placement') + ':search';
+
+    final _response = await _requester.request(
+      _url,
+      'POST',
+      body: _body,
+      queryParams: _queryParams,
+    );
+    return GoogleCloudRetailV2SearchResponse.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+}
+
+class ProjectsLocationsCatalogsServingConfigsResource {
+  final commons.ApiRequester _requester;
+
+  ProjectsLocationsCatalogsServingConfigsResource(commons.ApiRequester client)
+      : _requester = client;
+
+  /// Makes a recommendation prediction.
+  ///
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [placement] - Required. Full resource name of the format:
+  /// {placement=projects / *
+  /// /locations/global/catalogs/default_catalog/servingConfigs / * } or
+  /// {placement=projects / *
+  /// /locations/global/catalogs/default_catalog/placements / * }. We recommend
+  /// using the `servingConfigs` resource. `placements` is a legacy resource.
+  /// The ID of the Recommendations AI serving config or placement. Before you
+  /// can request predictions from your model, you must create at least one
+  /// serving config or placement for it. For more information, see
+  /// [Managing serving configurations](https://cloud.google.com/retail/docs/manage-configs).
+  /// The full list of available serving configs can be seen at
+  /// https://console.cloud.google.com/ai/retail/catalogs/default_catalog/configs
+  /// Value must have pattern
+  /// `^projects/\[^/\]+/locations/\[^/\]+/catalogs/\[^/\]+/servingConfigs/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudRetailV2PredictResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudRetailV2PredictResponse> predict(
+    GoogleCloudRetailV2PredictRequest request,
+    core.String placement, {
+    core.String? $fields,
+  }) async {
+    final _body = convert.json.encode(request);
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v2/' + core.Uri.encodeFull('$placement') + ':predict';
+
+    final _response = await _requester.request(
+      _url,
+      'POST',
+      body: _body,
+      queryParams: _queryParams,
+    );
+    return GoogleCloudRetailV2PredictResponse.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// Performs a search.
+  ///
+  /// This feature is only available for users who have Retail Search enabled.
+  /// Please enable Retail Search on Cloud Console before using this feature.
+  ///
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [placement] - Required. The resource name of the Retail Search serving
+  /// config, such as `projects / *
+  /// /locations/global/catalogs/default_catalog/servingConfigs/default_serving_config`
+  /// or the name of the legacy placement resource, such as `projects / *
+  /// /locations/global/catalogs/default_catalog/placements/default_search`.
+  /// This field is used to identify the serving configuration name and the set
+  /// of models that will be used to make the search.
+  /// Value must have pattern
+  /// `^projects/\[^/\]+/locations/\[^/\]+/catalogs/\[^/\]+/servingConfigs/\[^/\]+$`.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -3095,7 +3222,11 @@ class GoogleCloudRetailV2PredictRequest {
   /// results strictly matching the filters, set `strictFiltering` to True in
   /// `PredictRequest.params` to receive empty results instead. Note that the
   /// API will never return items with storageStatus of "EXPIRED" or "DELETED"
-  /// regardless of filter choices.
+  /// regardless of filter choices. If `filterSyntaxV2` is set to true under the
+  /// `params` field, then attribute based expressions are expected instead of
+  /// the above described tag-based syntax. Examples: * (colors: ANY("Red",
+  /// "Blue")) AND NOT (categories: ANY("Phones")) * (availability:
+  /// ANY("IN_STOCK")) AND (colors: ANY("Red") OR categories: ANY("Phones"))
   core.String? filter;
 
   /// The labels applied to a resource must meet the following requirements: *
@@ -3142,7 +3273,9 @@ class GoogleCloudRetailV2PredictRequest {
   /// then it needs to be one of {'no-diversity', 'low-diversity',
   /// 'medium-diversity', 'high-diversity', 'auto-diversity'}. This gives
   /// request-level control and adjusts prediction results based on product
-  /// category.
+  /// category. * `filterSyntaxV2`: Boolean. False by default. If set to true,
+  /// the `filter` field will be interpreteted according to the new,
+  /// attribute-based syntax.
   ///
   /// The values for Object must be JSON objects. It can consist of `num`,
   /// `String`, `bool` and `null` as well as `Map` and `List` values.
@@ -4406,7 +4539,7 @@ class GoogleCloudRetailV2RejoinUserEventsRequest {
       };
 }
 
-/// Request message for RemoveFulfillmentPlaces method.
+/// Request message for ProductService.RemoveFulfillmentPlaces method.
 class GoogleCloudRetailV2RemoveFulfillmentPlacesRequest {
   /// If set to true, and the Product is not found, the fulfillment information
   /// will still be processed and retained for at most 1 day and processed once
@@ -4477,7 +4610,7 @@ class GoogleCloudRetailV2RemoveFulfillmentPlacesRequest {
       };
 }
 
-/// Request message for RemoveLocalInventories method.
+/// Request message for ProductService.RemoveLocalInventories method.
 class GoogleCloudRetailV2RemoveLocalInventoriesRequest {
   /// If set to true, and the Product is not found, the local inventory removal
   /// request will still be processed and retained for at most 1 day and
@@ -5073,6 +5206,10 @@ class GoogleCloudRetailV2SearchRequestFacetSpec {
 
 /// Specifies how a facet is computed.
 class GoogleCloudRetailV2SearchRequestFacetSpecFacetKey {
+  /// True to make facet keys case insensitive when getting faceting values with
+  /// prefixes or contains; false otherwise.
+  core.bool? caseInsensitive;
+
   /// Only get facet values that contains the given strings.
   ///
   /// For example, suppose "categories" has three values "Women \> Shoe", "Women
@@ -5105,12 +5242,12 @@ class GoogleCloudRetailV2SearchRequestFacetSpecFacetKey {
   /// Required.
   core.String? key;
 
-  /// The order in which Facet.values are returned.
+  /// The order in which SearchResponse.Facet.values are returned.
   ///
   /// Allowed values are: * "count desc", which means order by
-  /// Facet.FacetValue.count descending. * "value desc", which means order by
-  /// Facet.FacetValue.value descending. Only applies to textual facets. If not
-  /// set, textual values are sorted in
+  /// SearchResponse.Facet.values.count descending. * "value desc", which means
+  /// order by SearchResponse.Facet.values.value descending. Only applies to
+  /// textual facets. If not set, textual values are sorted in
   /// [natural order](https://en.wikipedia.org/wiki/Natural_sort_order);
   /// numerical intervals are sorted in the order given by
   /// FacetSpec.FacetKey.intervals; FulfillmentInfo.place_ids are sorted in the
@@ -5131,12 +5268,13 @@ class GoogleCloudRetailV2SearchRequestFacetSpecFacetKey {
   /// The query syntax is the same as a filter expression. See
   /// SearchRequest.filter for detail syntax and limitations. Notice that there
   /// is no limitation on FacetKey.key when query is specified. In the response,
-  /// FacetValue.value will be always "1" and FacetValue.count will be the
-  /// number of results that matches the query. For example, you can set a
-  /// customized facet for "shipToStore", where FacetKey.key is
-  /// "customizedShipToStore", and FacetKey.query is "availability:
-  /// ANY(\"IN_STOCK\") AND shipToStore: ANY(\"123\")". Then the facet will
-  /// count the products that are both in stock and ship to store "123".
+  /// SearchResponse.Facet.values.value will be always "1" and
+  /// SearchResponse.Facet.values.count will be the number of results that match
+  /// the query. For example, you can set a customized facet for "shipToStore",
+  /// where FacetKey.key is "customizedShipToStore", and FacetKey.query is
+  /// "availability: ANY(\"IN_STOCK\") AND shipToStore: ANY(\"123\")". Then the
+  /// facet will count the products that are both in stock and ship to store
+  /// "123".
   core.String? query;
 
   /// Only get facet for the given restricted values.
@@ -5151,6 +5289,7 @@ class GoogleCloudRetailV2SearchRequestFacetSpecFacetKey {
   core.List<core.String>? restrictedValues;
 
   GoogleCloudRetailV2SearchRequestFacetSpecFacetKey({
+    this.caseInsensitive,
     this.contains,
     this.intervals,
     this.key,
@@ -5162,6 +5301,9 @@ class GoogleCloudRetailV2SearchRequestFacetSpecFacetKey {
 
   GoogleCloudRetailV2SearchRequestFacetSpecFacetKey.fromJson(core.Map _json)
       : this(
+          caseInsensitive: _json.containsKey('caseInsensitive')
+              ? _json['caseInsensitive'] as core.bool
+              : null,
           contains: _json.containsKey('contains')
               ? (_json['contains'] as core.List)
                   .map((value) => value as core.String)
@@ -5192,6 +5334,7 @@ class GoogleCloudRetailV2SearchRequestFacetSpecFacetKey {
         );
 
   core.Map<core.String, core.dynamic> toJson() => {
+        if (caseInsensitive != null) 'caseInsensitive': caseInsensitive!,
         if (contains != null) 'contains': contains!,
         if (intervals != null) 'intervals': intervals!,
         if (key != null) 'key': key!,
@@ -5681,7 +5824,7 @@ class GoogleCloudRetailV2SetDefaultBranchRequest {
       };
 }
 
-/// Request message for SetInventory method.
+/// Request message for ProductService.SetInventory method.
 class GoogleCloudRetailV2SetInventoryRequest {
   /// If set to true, and the Product with name Product.name is not found, the
   /// inventory update will still be processed and retained for at most 1 day
@@ -5719,8 +5862,8 @@ class GoogleCloudRetailV2SetInventoryRequest {
   /// time is recorded for the following inventory fields: * Product.price_info
   /// * Product.availability * Product.available_quantity *
   /// Product.fulfillment_info If a full overwrite of inventory information
-  /// while ignoring timestamps is needed, UpdateProduct should be invoked
-  /// instead.
+  /// while ignoring timestamps is needed, ProductService.UpdateProduct should
+  /// be invoked instead.
   ///
   /// Required.
   GoogleCloudRetailV2Product? inventory;

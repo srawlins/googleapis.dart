@@ -122,6 +122,7 @@ api.AuthConfig buildAuthConfig() {
     o.authType = 'foo';
     o.oauth2ClientCredentials = buildOauth2ClientCredentials();
     o.oauth2JwtBearer = buildOauth2JwtBearer();
+    o.sshPublicKey = buildSshPublicKey();
     o.userPassword = buildUserPassword();
   }
   buildCounterAuthConfig--;
@@ -138,6 +139,7 @@ void checkAuthConfig(api.AuthConfig o) {
     );
     checkOauth2ClientCredentials(o.oauth2ClientCredentials!);
     checkOauth2JwtBearer(o.oauth2JwtBearer!);
+    checkSshPublicKey(o.sshPublicKey!);
     checkUserPassword(o.userPassword!);
   }
   buildCounterAuthConfig--;
@@ -2181,6 +2183,37 @@ void checkSource(api.Source o) {
   buildCounterSource--;
 }
 
+core.int buildCounterSshPublicKey = 0;
+api.SshPublicKey buildSshPublicKey() {
+  final o = api.SshPublicKey();
+  buildCounterSshPublicKey++;
+  if (buildCounterSshPublicKey < 3) {
+    o.certType = 'foo';
+    o.password = buildSecret();
+    o.sshClientCert = buildSecret();
+    o.username = 'foo';
+  }
+  buildCounterSshPublicKey--;
+  return o;
+}
+
+void checkSshPublicKey(api.SshPublicKey o) {
+  buildCounterSshPublicKey++;
+  if (buildCounterSshPublicKey < 3) {
+    unittest.expect(
+      o.certType!,
+      unittest.equals('foo'),
+    );
+    checkSecret(o.password!);
+    checkSecret(o.sshClientCert!);
+    unittest.expect(
+      o.username!,
+      unittest.equals('foo'),
+    );
+  }
+  buildCounterSshPublicKey--;
+}
+
 core.Map<core.String, core.Object?> buildUnnamed41() => {
       'x': {
         'list': [1, 2, 3],
@@ -2843,6 +2876,16 @@ void main() {
       final od =
           api.Source.fromJson(oJson as core.Map<core.String, core.dynamic>);
       checkSource(od);
+    });
+  });
+
+  unittest.group('obj-schema-SshPublicKey', () {
+    unittest.test('to-json--from-json', () async {
+      final o = buildSshPublicKey();
+      final oJson = convert.jsonDecode(convert.jsonEncode(o));
+      final od = api.SshPublicKey.fromJson(
+          oJson as core.Map<core.String, core.dynamic>);
+      checkSshPublicKey(od);
     });
   });
 

@@ -3724,6 +3724,8 @@ class GoogleCloudDatacatalogV1DataSourceConnectionSpec {
 class GoogleCloudDatacatalogV1DatabaseTableSpec {
   /// Fields specific to a Dataplex table and present only in the Dataplex table
   /// entries.
+  ///
+  /// Output only.
   GoogleCloudDatacatalogV1DataplexTableSpec? dataplexTable;
 
   /// Type of this table.
@@ -3943,11 +3945,15 @@ class GoogleCloudDatacatalogV1Entry {
   ///
   /// For more information, see
   /// [Introduction to partitioned tables](https://cloud.google.com/bigquery/docs/partitioned-tables#partitioning_versus_sharding).
+  ///
+  /// Output only.
   GoogleCloudDatacatalogV1BigQueryDateShardedSpec? bigqueryDateShardedSpec;
 
   /// Specification that applies to a BigQuery table.
   ///
   /// Valid only for entries with the `TABLE` type.
+  ///
+  /// Output only.
   GoogleCloudDatacatalogV1BigQueryTableSpec? bigqueryTableSpec;
 
   /// Business Context of the entry.
@@ -4082,8 +4088,8 @@ class GoogleCloudDatacatalogV1Entry {
   /// in Data Catalog must use the `user_specified_type`.
   /// Possible string values are:
   /// - "ENTRY_TYPE_UNSPECIFIED" : Default unknown type.
-  /// - "TABLE" : Output only. The entry type that has a GoogleSQL schema,
-  /// including logical views.
+  /// - "TABLE" : The entry type that has a GoogleSQL schema, including logical
+  /// views.
   /// - "MODEL" : Output only. The type of models. For more information, see
   /// [Supported models in BigQuery ML](https://cloud.google.com/bigquery-ml/docs/introduction#supported_models_in).
   /// - "DATA_STREAM" : An entry type for streaming entries. For example, a

@@ -833,54 +833,6 @@ void checkGoogleChromePolicyV1ResolvedPolicy(
   buildCounterGoogleChromePolicyV1ResolvedPolicy--;
 }
 
-core.int buildCounterGoogleChromePolicyV1UploadPolicyFileRequest = 0;
-api.GoogleChromePolicyV1UploadPolicyFileRequest
-    buildGoogleChromePolicyV1UploadPolicyFileRequest() {
-  final o = api.GoogleChromePolicyV1UploadPolicyFileRequest();
-  buildCounterGoogleChromePolicyV1UploadPolicyFileRequest++;
-  if (buildCounterGoogleChromePolicyV1UploadPolicyFileRequest < 3) {
-    o.policyField = 'foo';
-  }
-  buildCounterGoogleChromePolicyV1UploadPolicyFileRequest--;
-  return o;
-}
-
-void checkGoogleChromePolicyV1UploadPolicyFileRequest(
-    api.GoogleChromePolicyV1UploadPolicyFileRequest o) {
-  buildCounterGoogleChromePolicyV1UploadPolicyFileRequest++;
-  if (buildCounterGoogleChromePolicyV1UploadPolicyFileRequest < 3) {
-    unittest.expect(
-      o.policyField!,
-      unittest.equals('foo'),
-    );
-  }
-  buildCounterGoogleChromePolicyV1UploadPolicyFileRequest--;
-}
-
-core.int buildCounterGoogleChromePolicyV1UploadPolicyFileResponse = 0;
-api.GoogleChromePolicyV1UploadPolicyFileResponse
-    buildGoogleChromePolicyV1UploadPolicyFileResponse() {
-  final o = api.GoogleChromePolicyV1UploadPolicyFileResponse();
-  buildCounterGoogleChromePolicyV1UploadPolicyFileResponse++;
-  if (buildCounterGoogleChromePolicyV1UploadPolicyFileResponse < 3) {
-    o.downloadUri = 'foo';
-  }
-  buildCounterGoogleChromePolicyV1UploadPolicyFileResponse--;
-  return o;
-}
-
-void checkGoogleChromePolicyV1UploadPolicyFileResponse(
-    api.GoogleChromePolicyV1UploadPolicyFileResponse o) {
-  buildCounterGoogleChromePolicyV1UploadPolicyFileResponse++;
-  if (buildCounterGoogleChromePolicyV1UploadPolicyFileResponse < 3) {
-    unittest.expect(
-      o.downloadUri!,
-      unittest.equals('foo'),
-    );
-  }
-  buildCounterGoogleChromePolicyV1UploadPolicyFileResponse--;
-}
-
 core.int buildCounterGoogleProtobufEmpty = 0;
 api.GoogleProtobufEmpty buildGoogleProtobufEmpty() {
   final o = api.GoogleProtobufEmpty();
@@ -1400,26 +1352,6 @@ void main() {
     });
   });
 
-  unittest.group('obj-schema-GoogleChromePolicyV1UploadPolicyFileRequest', () {
-    unittest.test('to-json--from-json', () async {
-      final o = buildGoogleChromePolicyV1UploadPolicyFileRequest();
-      final oJson = convert.jsonDecode(convert.jsonEncode(o));
-      final od = api.GoogleChromePolicyV1UploadPolicyFileRequest.fromJson(
-          oJson as core.Map<core.String, core.dynamic>);
-      checkGoogleChromePolicyV1UploadPolicyFileRequest(od);
-    });
-  });
-
-  unittest.group('obj-schema-GoogleChromePolicyV1UploadPolicyFileResponse', () {
-    unittest.test('to-json--from-json', () async {
-      final o = buildGoogleChromePolicyV1UploadPolicyFileResponse();
-      final oJson = convert.jsonDecode(convert.jsonEncode(o));
-      final od = api.GoogleChromePolicyV1UploadPolicyFileResponse.fromJson(
-          oJson as core.Map<core.String, core.dynamic>);
-      checkGoogleChromePolicyV1UploadPolicyFileResponse(od);
-    });
-  });
-
   unittest.group('obj-schema-GoogleProtobufEmpty', () {
     unittest.test('to-json--from-json', () async {
       final o = buildGoogleProtobufEmpty();
@@ -1810,71 +1742,6 @@ void main() {
           $fields: arg_$fields);
       checkGoogleChromePolicyV1ListPolicySchemasResponse(
           response as api.GoogleChromePolicyV1ListPolicySchemasResponse);
-    });
-  });
-
-  unittest.group('resource-MediaResource', () {
-    unittest.test('method--upload', () async {
-      // TODO: Implement tests for media upload;
-      // TODO: Implement tests for media download;
-
-      final mock = HttpServerMock();
-      final res = api.ChromePolicyApi(mock).media;
-      final arg_request = buildGoogleChromePolicyV1UploadPolicyFileRequest();
-      final arg_customer = 'foo';
-      final arg_$fields = 'foo';
-      mock.register(unittest.expectAsync2((http.BaseRequest req, json) {
-        final obj = api.GoogleChromePolicyV1UploadPolicyFileRequest.fromJson(
-            json as core.Map<core.String, core.dynamic>);
-        checkGoogleChromePolicyV1UploadPolicyFileRequest(obj);
-
-        final path = (req.url).path;
-        var pathOffset = 0;
-        core.int index;
-        core.String subPart;
-        unittest.expect(
-          path.substring(pathOffset, pathOffset + 1),
-          unittest.equals('/'),
-        );
-        pathOffset += 1;
-        unittest.expect(
-          path.substring(pathOffset, pathOffset + 3),
-          unittest.equals('v1/'),
-        );
-        pathOffset += 3;
-        // NOTE: We cannot test reserved expansions due to the inability to reverse the operation;
-
-        final query = (req.url).query;
-        var queryOffset = 0;
-        final queryMap = <core.String, core.List<core.String>>{};
-        void addQueryParam(core.String n, core.String v) =>
-            queryMap.putIfAbsent(n, () => []).add(v);
-
-        if (query.isNotEmpty) {
-          for (var part in query.split('&')) {
-            final keyValue = part.split('=');
-            addQueryParam(
-              core.Uri.decodeQueryComponent(keyValue[0]),
-              core.Uri.decodeQueryComponent(keyValue[1]),
-            );
-          }
-        }
-        unittest.expect(
-          queryMap['fields']!.first,
-          unittest.equals(arg_$fields),
-        );
-
-        final h = {
-          'content-type': 'application/json; charset=utf-8',
-        };
-        final resp = convert.json
-            .encode(buildGoogleChromePolicyV1UploadPolicyFileResponse());
-        return async.Future.value(stringResponse(200, h, resp));
-      }), true);
-      final response =
-          await res.upload(arg_request, arg_customer, $fields: arg_$fields);
-      checkGoogleChromePolicyV1UploadPolicyFileResponse(
-          response as api.GoogleChromePolicyV1UploadPolicyFileResponse);
     });
   });
 }

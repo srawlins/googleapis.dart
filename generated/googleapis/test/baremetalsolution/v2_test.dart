@@ -75,6 +75,7 @@ api.DetachLunRequest buildDetachLunRequest() {
   buildCounterDetachLunRequest++;
   if (buildCounterDetachLunRequest < 3) {
     o.lun = 'foo';
+    o.skipReboot = true;
   }
   buildCounterDetachLunRequest--;
   return o;
@@ -87,6 +88,7 @@ void checkDetachLunRequest(api.DetachLunRequest o) {
       o.lun!,
       unittest.equals('foo'),
     );
+    unittest.expect(o.skipReboot!, unittest.isTrue);
   }
   buildCounterDetachLunRequest--;
 }
@@ -1424,6 +1426,7 @@ api.NfsShare buildNfsShare() {
   buildCounterNfsShare++;
   if (buildCounterNfsShare < 3) {
     o.allowedClients = buildUnnamed27();
+    o.id = 'foo';
     o.labels = buildUnnamed28();
     o.name = 'foo';
     o.nfsShareId = 'foo';
@@ -1439,6 +1442,10 @@ void checkNfsShare(api.NfsShare o) {
   buildCounterNfsShare++;
   if (buildCounterNfsShare < 3) {
     checkUnnamed27(o.allowedClients!);
+    unittest.expect(
+      o.id!,
+      unittest.equals('foo'),
+    );
     checkUnnamed28(o.labels!);
     unittest.expect(
       o.name!,
@@ -1694,6 +1701,7 @@ api.ProvisioningConfig buildProvisioningConfig() {
     o.name = 'foo';
     o.networks = buildUnnamed34();
     o.state = 'foo';
+    o.statusMessage = 'foo';
     o.ticketId = 'foo';
     o.updateTime = 'foo';
     o.volumes = buildUnnamed35();
@@ -1730,6 +1738,10 @@ void checkProvisioningConfig(api.ProvisioningConfig o) {
     checkUnnamed34(o.networks!);
     unittest.expect(
       o.state!,
+      unittest.equals('foo'),
+    );
+    unittest.expect(
+      o.statusMessage!,
       unittest.equals('foo'),
     );
     unittest.expect(
@@ -3900,6 +3912,60 @@ void main() {
       }), true);
       final response = await res.patch(arg_request, arg_name,
           updateMask: arg_updateMask, $fields: arg_$fields);
+      checkOperation(response as api.Operation);
+    });
+  });
+
+  unittest.group('resource-ProjectsLocationsOperationsResource', () {
+    unittest.test('method--get', () async {
+      final mock = HttpServerMock();
+      final res = api.BaremetalsolutionApi(mock).projects.locations.operations;
+      final arg_name = 'foo';
+      final arg_$fields = 'foo';
+      mock.register(unittest.expectAsync2((http.BaseRequest req, json) {
+        final path = (req.url).path;
+        var pathOffset = 0;
+        core.int index;
+        core.String subPart;
+        unittest.expect(
+          path.substring(pathOffset, pathOffset + 1),
+          unittest.equals('/'),
+        );
+        pathOffset += 1;
+        unittest.expect(
+          path.substring(pathOffset, pathOffset + 3),
+          unittest.equals('v2/'),
+        );
+        pathOffset += 3;
+        // NOTE: We cannot test reserved expansions due to the inability to reverse the operation;
+
+        final query = (req.url).query;
+        var queryOffset = 0;
+        final queryMap = <core.String, core.List<core.String>>{};
+        void addQueryParam(core.String n, core.String v) =>
+            queryMap.putIfAbsent(n, () => []).add(v);
+
+        if (query.isNotEmpty) {
+          for (var part in query.split('&')) {
+            final keyValue = part.split('=');
+            addQueryParam(
+              core.Uri.decodeQueryComponent(keyValue[0]),
+              core.Uri.decodeQueryComponent(keyValue[1]),
+            );
+          }
+        }
+        unittest.expect(
+          queryMap['fields']!.first,
+          unittest.equals(arg_$fields),
+        );
+
+        final h = {
+          'content-type': 'application/json; charset=utf-8',
+        };
+        final resp = convert.json.encode(buildOperation());
+        return async.Future.value(stringResponse(200, h, resp));
+      }), true);
+      final response = await res.get(arg_name, $fields: arg_$fields);
       checkOperation(response as api.Operation);
     });
   });

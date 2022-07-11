@@ -677,7 +677,9 @@ api.StreamFetchInvalidationsRequest buildStreamFetchInvalidationsRequest() {
   final o = api.StreamFetchInvalidationsRequest();
   buildCounterStreamFetchInvalidationsRequest++;
   if (buildCounterStreamFetchInvalidationsRequest < 3) {
+    o.appId = 'foo';
     o.lastKnownVersionNumber = 'foo';
+    o.sdkVersion = 'foo';
   }
   buildCounterStreamFetchInvalidationsRequest--;
   return o;
@@ -688,7 +690,15 @@ void checkStreamFetchInvalidationsRequest(
   buildCounterStreamFetchInvalidationsRequest++;
   if (buildCounterStreamFetchInvalidationsRequest < 3) {
     unittest.expect(
+      o.appId!,
+      unittest.equals('foo'),
+    );
+    unittest.expect(
       o.lastKnownVersionNumber!,
+      unittest.equals('foo'),
+    );
+    unittest.expect(
+      o.sdkVersion!,
       unittest.equals('foo'),
     );
   }
@@ -700,6 +710,7 @@ api.StreamFetchInvalidationsResponse buildStreamFetchInvalidationsResponse() {
   final o = api.StreamFetchInvalidationsResponse();
   buildCounterStreamFetchInvalidationsResponse++;
   if (buildCounterStreamFetchInvalidationsResponse < 3) {
+    o.featureDisabled = true;
     o.latestTemplateVersionNumber = 'foo';
   }
   buildCounterStreamFetchInvalidationsResponse--;
@@ -710,6 +721,7 @@ void checkStreamFetchInvalidationsResponse(
     api.StreamFetchInvalidationsResponse o) {
   buildCounterStreamFetchInvalidationsResponse++;
   if (buildCounterStreamFetchInvalidationsResponse < 3) {
+    unittest.expect(o.featureDisabled!, unittest.isTrue);
     unittest.expect(
       o.latestTemplateVersionNumber!,
       unittest.equals('foo'),

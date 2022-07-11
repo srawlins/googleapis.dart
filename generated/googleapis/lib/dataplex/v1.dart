@@ -668,10 +668,144 @@ class ProjectsLocationsLakesContentResource {
   ProjectsLocationsLakesContentResource(commons.ApiRequester client)
       : _requester = client;
 
-  /// Gets the access control policy for a resource.
+  /// Create a content.
   ///
-  /// Returns an empty policy if the resource exists and does not have a policy
-  /// set.
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [parent] - Required. The resource name of the parent lake:
+  /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}
+  /// Value must have pattern
+  /// `^projects/\[^/\]+/locations/\[^/\]+/lakes/\[^/\]+$`.
+  ///
+  /// [validateOnly] - Optional. Only validate the request, but do not perform
+  /// mutations. The default is false.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudDataplexV1Content].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudDataplexV1Content> create(
+    GoogleCloudDataplexV1Content request,
+    core.String parent, {
+    core.bool? validateOnly,
+    core.String? $fields,
+  }) async {
+    final _body = convert.json.encode(request);
+    final _queryParams = <core.String, core.List<core.String>>{
+      if (validateOnly != null) 'validateOnly': ['${validateOnly}'],
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$parent') + '/content';
+
+    final _response = await _requester.request(
+      _url,
+      'POST',
+      body: _body,
+      queryParams: _queryParams,
+    );
+    return GoogleCloudDataplexV1Content.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// Delete a content.
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Required. The resource name of the content:
+  /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
+  /// Value must have pattern
+  /// `^projects/\[^/\]+/locations/\[^/\]+/lakes/\[^/\]+/content/.*$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [Empty].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<Empty> delete(
+    core.String name, {
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'DELETE',
+      queryParams: _queryParams,
+    );
+    return Empty.fromJson(_response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// Get a content resource.
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Required. The resource name of the content:
+  /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
+  /// Value must have pattern
+  /// `^projects/\[^/\]+/locations/\[^/\]+/lakes/\[^/\]+/content/.*$`.
+  ///
+  /// [view] - Optional. Specify content view to make a partial request.
+  /// Possible string values are:
+  /// - "CONTENT_VIEW_UNSPECIFIED" : Content view not specified. Defaults to
+  /// BASIC. The API will default to the BASIC view.
+  /// - "BASIC" : Will not return the data_text field.
+  /// - "FULL" : Returns the complete proto.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudDataplexV1Content].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudDataplexV1Content> get(
+    core.String name, {
+    core.String? view,
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if (view != null) 'view': [view],
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleCloudDataplexV1Content.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// Gets the access control policy for a contentitem resource.
+  ///
+  /// A NOT_FOUND error is returned if the resource does not exist. An empty
+  /// policy is returned if the resource exists but does not have a policy set
+  /// on it.Caller must have Google IAM dataplex.content.getIamPolicy permission
+  /// on the resource.
   ///
   /// Request parameters:
   ///
@@ -680,7 +814,7 @@ class ProjectsLocationsLakesContentResource {
   /// (https://cloud.google.com/apis/design/resource_names) for the appropriate
   /// value for this field.
   /// Value must have pattern
-  /// `^projects/\[^/\]+/locations/\[^/\]+/lakes/\[^/\]+/content/\[^/\]+$`.
+  /// `^projects/\[^/\]+/locations/\[^/\]+/lakes/\[^/\]+/content/.*$`.
   ///
   /// [options_requestedPolicyVersion] - Optional. The maximum policy version
   /// that will be used to format the policy.Valid values are 0, 1, and 3.
@@ -726,10 +860,124 @@ class ProjectsLocationsLakesContentResource {
         _response as core.Map<core.String, core.dynamic>);
   }
 
-  /// Sets the access control policy on the specified resource.
+  /// List content.
   ///
-  /// Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and
-  /// PERMISSION_DENIED errors.
+  /// Request parameters:
+  ///
+  /// [parent] - Required. The resource name of the parent lake:
+  /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}
+  /// Value must have pattern
+  /// `^projects/\[^/\]+/locations/\[^/\]+/lakes/\[^/\]+$`.
+  ///
+  /// [filter] - Optional. Filter request. Filters are case-sensitive. The
+  /// following formats are supported:labels.key1 = "value1" labels:key1 type =
+  /// "NOTEBOOK" type = "SQL_SCRIPT"These restrictions can be coinjoined with
+  /// AND, OR and NOT conjunctions.
+  ///
+  /// [pageSize] - Optional. Maximum number of content to return. The service
+  /// may return fewer than this value. If unspecified, at most 10 content will
+  /// be returned. The maximum value is 1000; values above 1000 will be coerced
+  /// to 1000.
+  ///
+  /// [pageToken] - Optional. Page token received from a previous ListContent
+  /// call. Provide this to retrieve the subsequent page. When paginating, all
+  /// other parameters provided to ListContent must match the call that provided
+  /// the page token.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudDataplexV1ListContentResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudDataplexV1ListContentResponse> list(
+    core.String parent, {
+    core.String? filter,
+    core.int? pageSize,
+    core.String? pageToken,
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if (filter != null) 'filter': [filter],
+      if (pageSize != null) 'pageSize': ['${pageSize}'],
+      if (pageToken != null) 'pageToken': [pageToken],
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$parent') + '/content';
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleCloudDataplexV1ListContentResponse.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// Update a content.
+  ///
+  /// Only supports full resource update.
+  ///
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Output only. The relative resource name of the content, of the
+  /// form:
+  /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
+  /// Value must have pattern
+  /// `^projects/\[^/\]+/locations/\[^/\]+/lakes/\[^/\]+/content/.*$`.
+  ///
+  /// [updateMask] - Required. Mask of fields to update.
+  ///
+  /// [validateOnly] - Optional. Only validate the request, but do not perform
+  /// mutations. The default is false.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudDataplexV1Content].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudDataplexV1Content> patch(
+    GoogleCloudDataplexV1Content request,
+    core.String name, {
+    core.String? updateMask,
+    core.bool? validateOnly,
+    core.String? $fields,
+  }) async {
+    final _body = convert.json.encode(request);
+    final _queryParams = <core.String, core.List<core.String>>{
+      if (updateMask != null) 'updateMask': [updateMask],
+      if (validateOnly != null) 'validateOnly': ['${validateOnly}'],
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'PATCH',
+      body: _body,
+      queryParams: _queryParams,
+    );
+    return GoogleCloudDataplexV1Content.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// Sets the access control policy on the specified contentitem resource.
+  ///
+  /// Replaces any existing policy.Caller must have Google IAM
+  /// dataplex.content.setIamPolicy permission on the resource.
   ///
   /// [request] - The metadata request object.
   ///
@@ -740,7 +988,7 @@ class ProjectsLocationsLakesContentResource {
   /// (https://cloud.google.com/apis/design/resource_names) for the appropriate
   /// value for this field.
   /// Value must have pattern
-  /// `^projects/\[^/\]+/locations/\[^/\]+/lakes/\[^/\]+/content/\[^/\]+$`.
+  /// `^projects/\[^/\]+/locations/\[^/\]+/lakes/\[^/\]+/content/.*$`.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -774,10 +1022,11 @@ class ProjectsLocationsLakesContentResource {
         _response as core.Map<core.String, core.dynamic>);
   }
 
-  /// Returns permissions that a caller has on the specified resource.
+  /// Returns the caller's permissions on a resource.
   ///
-  /// If the resource does not exist, this will return an empty set of
-  /// permissions, not a NOT_FOUND error.Note: This operation is designed to be
+  /// If the resource does not exist, an empty set of permissions is returned (a
+  /// NOT_FOUND error is not returned).A caller is not required to have Google
+  /// IAM permission to make this request.Note: This operation is designed to be
   /// used for building permission-aware UIs and command-line tools, not for
   /// authorization checking. This operation may "fail open" without warning.
   ///
@@ -790,7 +1039,7 @@ class ProjectsLocationsLakesContentResource {
   /// (https://cloud.google.com/apis/design/resource_names) for the appropriate
   /// value for this field.
   /// Value must have pattern
-  /// `^projects/\[^/\]+/locations/\[^/\]+/lakes/\[^/\]+/content/\[^/\]+$`.
+  /// `^projects/\[^/\]+/locations/\[^/\]+/lakes/\[^/\]+/content/.*$`.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -964,6 +1213,66 @@ class ProjectsLocationsLakesContentitemsResource {
         _response as core.Map<core.String, core.dynamic>);
   }
 
+  /// Gets the access control policy for a contentitem resource.
+  ///
+  /// A NOT_FOUND error is returned if the resource does not exist. An empty
+  /// policy is returned if the resource exists but does not have a policy set
+  /// on it.Caller must have Google IAM dataplex.content.getIamPolicy permission
+  /// on the resource.
+  ///
+  /// Request parameters:
+  ///
+  /// [resource] - REQUIRED: The resource for which the policy is being
+  /// requested. See Resource names
+  /// (https://cloud.google.com/apis/design/resource_names) for the appropriate
+  /// value for this field.
+  /// Value must have pattern
+  /// `^projects/\[^/\]+/locations/\[^/\]+/lakes/\[^/\]+/contentitems/.*$`.
+  ///
+  /// [options_requestedPolicyVersion] - Optional. The maximum policy version
+  /// that will be used to format the policy.Valid values are 0, 1, and 3.
+  /// Requests specifying an invalid value will be rejected.Requests for
+  /// policies with any conditional role bindings must specify version 3.
+  /// Policies with no conditional role bindings may specify any valid value or
+  /// leave the field unset.The policy in the response might use the policy
+  /// version that you specified, or it might use a lower policy version. For
+  /// example, if you specify version 3, but the policy has no conditional role
+  /// bindings, the response uses version 1.To learn which resources support
+  /// conditions in their IAM policies, see the IAM documentation
+  /// (https://cloud.google.com/iam/help/conditions/resource-policies).
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleIamV1Policy].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleIamV1Policy> getIamPolicy(
+    core.String resource, {
+    core.int? options_requestedPolicyVersion,
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if (options_requestedPolicyVersion != null)
+        'options.requestedPolicyVersion': ['${options_requestedPolicyVersion}'],
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$resource') + ':getIamPolicy';
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleIamV1Policy.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
   /// List content.
   ///
   /// Request parameters:
@@ -1075,6 +1384,106 @@ class ProjectsLocationsLakesContentitemsResource {
       queryParams: _queryParams,
     );
     return GoogleCloudDataplexV1Content.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// Sets the access control policy on the specified contentitem resource.
+  ///
+  /// Replaces any existing policy.Caller must have Google IAM
+  /// dataplex.content.setIamPolicy permission on the resource.
+  ///
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [resource] - REQUIRED: The resource for which the policy is being
+  /// specified. See Resource names
+  /// (https://cloud.google.com/apis/design/resource_names) for the appropriate
+  /// value for this field.
+  /// Value must have pattern
+  /// `^projects/\[^/\]+/locations/\[^/\]+/lakes/\[^/\]+/contentitems/.*$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleIamV1Policy].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleIamV1Policy> setIamPolicy(
+    GoogleIamV1SetIamPolicyRequest request,
+    core.String resource, {
+    core.String? $fields,
+  }) async {
+    final _body = convert.json.encode(request);
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$resource') + ':setIamPolicy';
+
+    final _response = await _requester.request(
+      _url,
+      'POST',
+      body: _body,
+      queryParams: _queryParams,
+    );
+    return GoogleIamV1Policy.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// Returns the caller's permissions on a resource.
+  ///
+  /// If the resource does not exist, an empty set of permissions is returned (a
+  /// NOT_FOUND error is not returned).A caller is not required to have Google
+  /// IAM permission to make this request.Note: This operation is designed to be
+  /// used for building permission-aware UIs and command-line tools, not for
+  /// authorization checking. This operation may "fail open" without warning.
+  ///
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [resource] - REQUIRED: The resource for which the policy detail is being
+  /// requested. See Resource names
+  /// (https://cloud.google.com/apis/design/resource_names) for the appropriate
+  /// value for this field.
+  /// Value must have pattern
+  /// `^projects/\[^/\]+/locations/\[^/\]+/lakes/\[^/\]+/contentitems/.*$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleIamV1TestIamPermissionsResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleIamV1TestIamPermissionsResponse> testIamPermissions(
+    GoogleIamV1TestIamPermissionsRequest request,
+    core.String resource, {
+    core.String? $fields,
+  }) async {
+    final _body = convert.json.encode(request);
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url =
+        'v1/' + core.Uri.encodeFull('$resource') + ':testIamPermissions';
+
+    final _response = await _requester.request(
+      _url,
+      'POST',
+      body: _body,
+      queryParams: _queryParams,
+    );
+    return GoogleIamV1TestIamPermissionsResponse.fromJson(
         _response as core.Map<core.String, core.dynamic>);
   }
 }

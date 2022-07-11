@@ -466,6 +466,49 @@ class ProjectsKeysResource {
     return GoogleCloudRecaptchaenterpriseV1Key.fromJson(
         _response as core.Map<core.String, core.dynamic>);
   }
+
+  /// Returns the secret key related to the specified public key.
+  ///
+  /// You should use the legacy secret key only if you are integrating with a
+  /// 3rd party using the legacy reCAPTCHA instead of reCAPTCHA Enterprise.
+  ///
+  /// Request parameters:
+  ///
+  /// [key] - Required. The public key name linked to the requested secret key ,
+  /// in the format "projects/{project}/keys/{key}".
+  /// Value must have pattern `^projects/\[^/\]+/keys/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a
+  /// [GoogleCloudRecaptchaenterpriseV1RetrieveLegacySecretKeyResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudRecaptchaenterpriseV1RetrieveLegacySecretKeyResponse>
+      retrieveLegacySecretKey(
+    core.String key, {
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url =
+        'v1/' + core.Uri.encodeFull('$key') + ':retrieveLegacySecretKey';
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleCloudRecaptchaenterpriseV1RetrieveLegacySecretKeyResponse
+        .fromJson(_response as core.Map<core.String, core.dynamic>);
+  }
 }
 
 class ProjectsRelatedaccountgroupmembershipsResource {
@@ -1471,6 +1514,35 @@ class GoogleCloudRecaptchaenterpriseV1RelatedAccountGroupMembership {
   core.Map<core.String, core.dynamic> toJson() => {
         if (hashedAccountId != null) 'hashedAccountId': hashedAccountId!,
         if (name != null) 'name': name!,
+      };
+}
+
+/// Secret key used in legacy reCAPTCHA only.
+///
+/// Should be used when integrating with a 3rd party which is still using legacy
+/// reCAPTCHA.
+class GoogleCloudRecaptchaenterpriseV1RetrieveLegacySecretKeyResponse {
+  /// The secret key (also known as shared secret) authorizes communication
+  /// between your application backend and the reCAPTCHA Enterprise server to
+  /// create an assessment.
+  ///
+  /// The secret key needs to be kept safe for security purposes.
+  core.String? legacySecretKey;
+
+  GoogleCloudRecaptchaenterpriseV1RetrieveLegacySecretKeyResponse({
+    this.legacySecretKey,
+  });
+
+  GoogleCloudRecaptchaenterpriseV1RetrieveLegacySecretKeyResponse.fromJson(
+      core.Map _json)
+      : this(
+          legacySecretKey: _json.containsKey('legacySecretKey')
+              ? _json['legacySecretKey'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (legacySecretKey != null) 'legacySecretKey': legacySecretKey!,
       };
 }
 

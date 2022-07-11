@@ -75,6 +75,7 @@
 ///     - [OrganizationsEnvironmentsQueriesResource]
 ///     - [OrganizationsEnvironmentsReferencesResource]
 ///     - [OrganizationsEnvironmentsResourcefilesResource]
+///     - [OrganizationsEnvironmentsSecurityReportsResource]
 ///     - [OrganizationsEnvironmentsSharedflowsResource]
 ///       - [OrganizationsEnvironmentsSharedflowsDeploymentsResource]
 ///       - [OrganizationsEnvironmentsSharedflowsRevisionsResource]
@@ -83,6 +84,7 @@
 ///     - [OrganizationsEnvironmentsTraceConfigResource]
 ///       - [OrganizationsEnvironmentsTraceConfigOverridesResource]
 ///   - [OrganizationsHostQueriesResource]
+///   - [OrganizationsHostSecurityReportsResource]
 ///   - [OrganizationsHostStatsResource]
 ///   - [OrganizationsInstancesResource]
 ///     - [OrganizationsInstancesAttachmentsResource]
@@ -93,6 +95,8 @@
 ///   - [OrganizationsOperationsResource]
 ///   - [OrganizationsOptimizedHostStatsResource]
 ///   - [OrganizationsReportsResource]
+///   - [OrganizationsSecurityProfilesResource]
+///     - [OrganizationsSecurityProfilesEnvironmentsResource]
 ///   - [OrganizationsSharedflowsResource]
 ///     - [OrganizationsSharedflowsDeploymentsResource]
 ///     - [OrganizationsSharedflowsRevisionsResource]
@@ -218,6 +222,8 @@ class OrganizationsResource {
       OrganizationsEnvironmentsResource(_requester);
   OrganizationsHostQueriesResource get hostQueries =>
       OrganizationsHostQueriesResource(_requester);
+  OrganizationsHostSecurityReportsResource get hostSecurityReports =>
+      OrganizationsHostSecurityReportsResource(_requester);
   OrganizationsHostStatsResource get hostStats =>
       OrganizationsHostStatsResource(_requester);
   OrganizationsInstancesResource get instances =>
@@ -230,6 +236,8 @@ class OrganizationsResource {
       OrganizationsOptimizedHostStatsResource(_requester);
   OrganizationsReportsResource get reports =>
       OrganizationsReportsResource(_requester);
+  OrganizationsSecurityProfilesResource get securityProfiles =>
+      OrganizationsSecurityProfilesResource(_requester);
   OrganizationsSharedflowsResource get sharedflows =>
       OrganizationsSharedflowsResource(_requester);
   OrganizationsSitesResource get sites =>
@@ -2170,17 +2178,19 @@ class OrganizationsApisKeyvaluemapsEntriesResource {
   OrganizationsApisKeyvaluemapsEntriesResource(commons.ApiRequester client)
       : _requester = client;
 
-  /// Creates key value entries in a org, env or apis scoped key value map.
+  /// Creates key value entries in a key value map scoped to an organization,
+  /// environment, or API proxy.
   ///
   /// [request] - The metadata request object.
   ///
   /// Request parameters:
   ///
   /// [parent] - Required. Scope as indicated by the URI in which to create the
-  /// key value map entry. Use one of the following formats in your request:
-  /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`.
+  /// key value map entry. Use **one** of the following structures in your
+  /// request: *
+  /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. *
   /// `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}`
-  /// `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
+  /// * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
   /// Value must have pattern
   /// `^organizations/\[^/\]+/apis/\[^/\]+/keyvaluemaps/\[^/\]+$`.
   ///
@@ -2216,15 +2226,22 @@ class OrganizationsApisKeyvaluemapsEntriesResource {
         _response as core.Map<core.String, core.dynamic>);
   }
 
-  /// Deletes a key value entry from an org, environment or apis scoped key
-  /// value map.
+  /// Deletes a key value entry from a key value map scoped to an organization,
+  /// environment, or API proxy.
+  ///
+  /// **Note:** After you delete the key value entry, the policy consuming the
+  /// entry will continue to function with its cached values for a few minutes.
+  /// This is expected behavior.
   ///
   /// Request parameters:
   ///
   /// [name] - Required. Scope as indicated by the URI in which to delete the
-  /// key value map entry. Use one of the following formats in your request:
+  /// key value map entry. Use **one** of the following structures in your
+  /// request: *
   /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
+  /// *
   /// `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}/entries/{entry}`
+  /// *
   /// `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
   /// Value must have pattern
   /// `^organizations/\[^/\]+/apis/\[^/\]+/keyvaluemaps/\[^/\]+/entries/\[^/\]+$`.
@@ -2263,9 +2280,12 @@ class OrganizationsApisKeyvaluemapsEntriesResource {
   /// Request parameters:
   ///
   /// [name] - Required. Scope as indicated by the URI in which to fetch the key
-  /// value map entry/value. Use one of the following formats in your request:
+  /// value map entry/value. Use **one** of the following structures in your
+  /// request: *
   /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
+  /// *
   /// `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}/entries/{entry}`
+  /// *
   /// `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
   /// Value must have pattern
   /// `^organizations/\[^/\]+/apis/\[^/\]+/keyvaluemaps/\[^/\]+/entries/\[^/\]+$`.
@@ -2305,18 +2325,19 @@ class OrganizationsApisKeyvaluemapsEntriesResource {
   /// Request parameters:
   ///
   /// [parent] - Required. Scope as indicated by the URI in which to list key
-  /// value maps. Use one of the following formats in your request:
-  /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`.
+  /// value maps. Use **one** of the following structures in your request: *
+  /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. *
   /// `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}`
-  /// `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
+  /// * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
   /// Value must have pattern
   /// `^organizations/\[^/\]+/apis/\[^/\]+/keyvaluemaps/\[^/\]+$`.
   ///
   /// [pageSize] - Optional. Maximum number of key value entries to return. If
   /// unspecified, at most 100 entries will be returned.
   ///
-  /// [pageToken] - Optional. Page token, a key value entry returned from a
-  /// previous call that can use to retrieve the next page.
+  /// [pageToken] - Optional. Page token. If provides, must be a valid key value
+  /// entry returned from a previous call that can be used to retrieve the next
+  /// page.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -5537,6 +5558,8 @@ class OrganizationsEnvironmentsResource {
       OrganizationsEnvironmentsReferencesResource(_requester);
   OrganizationsEnvironmentsResourcefilesResource get resourcefiles =>
       OrganizationsEnvironmentsResourcefilesResource(_requester);
+  OrganizationsEnvironmentsSecurityReportsResource get securityReports =>
+      OrganizationsEnvironmentsSecurityReportsResource(_requester);
   OrganizationsEnvironmentsSharedflowsResource get sharedflows =>
       OrganizationsEnvironmentsSharedflowsResource(_requester);
   OrganizationsEnvironmentsStatsResource get stats =>
@@ -5598,6 +5621,9 @@ class OrganizationsEnvironmentsResource {
   }
 
   /// Deletes an environment from an organization.
+  ///
+  /// **Note**: You must delete all key value maps and key value entries before
+  /// you can delete an environment.
   ///
   /// Request parameters:
   ///
@@ -8159,17 +8185,19 @@ class OrganizationsEnvironmentsKeyvaluemapsEntriesResource {
       commons.ApiRequester client)
       : _requester = client;
 
-  /// Creates key value entries in a org, env or apis scoped key value map.
+  /// Creates key value entries in a key value map scoped to an organization,
+  /// environment, or API proxy.
   ///
   /// [request] - The metadata request object.
   ///
   /// Request parameters:
   ///
   /// [parent] - Required. Scope as indicated by the URI in which to create the
-  /// key value map entry. Use one of the following formats in your request:
-  /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`.
+  /// key value map entry. Use **one** of the following structures in your
+  /// request: *
+  /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. *
   /// `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}`
-  /// `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
+  /// * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
   /// Value must have pattern
   /// `^organizations/\[^/\]+/environments/\[^/\]+/keyvaluemaps/\[^/\]+$`.
   ///
@@ -8205,15 +8233,22 @@ class OrganizationsEnvironmentsKeyvaluemapsEntriesResource {
         _response as core.Map<core.String, core.dynamic>);
   }
 
-  /// Deletes a key value entry from an org, environment or apis scoped key
-  /// value map.
+  /// Deletes a key value entry from a key value map scoped to an organization,
+  /// environment, or API proxy.
+  ///
+  /// **Note:** After you delete the key value entry, the policy consuming the
+  /// entry will continue to function with its cached values for a few minutes.
+  /// This is expected behavior.
   ///
   /// Request parameters:
   ///
   /// [name] - Required. Scope as indicated by the URI in which to delete the
-  /// key value map entry. Use one of the following formats in your request:
+  /// key value map entry. Use **one** of the following structures in your
+  /// request: *
   /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
+  /// *
   /// `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}/entries/{entry}`
+  /// *
   /// `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
   /// Value must have pattern
   /// `^organizations/\[^/\]+/environments/\[^/\]+/keyvaluemaps/\[^/\]+/entries/\[^/\]+$`.
@@ -8252,9 +8287,12 @@ class OrganizationsEnvironmentsKeyvaluemapsEntriesResource {
   /// Request parameters:
   ///
   /// [name] - Required. Scope as indicated by the URI in which to fetch the key
-  /// value map entry/value. Use one of the following formats in your request:
+  /// value map entry/value. Use **one** of the following structures in your
+  /// request: *
   /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
+  /// *
   /// `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}/entries/{entry}`
+  /// *
   /// `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
   /// Value must have pattern
   /// `^organizations/\[^/\]+/environments/\[^/\]+/keyvaluemaps/\[^/\]+/entries/\[^/\]+$`.
@@ -8294,18 +8332,19 @@ class OrganizationsEnvironmentsKeyvaluemapsEntriesResource {
   /// Request parameters:
   ///
   /// [parent] - Required. Scope as indicated by the URI in which to list key
-  /// value maps. Use one of the following formats in your request:
-  /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`.
+  /// value maps. Use **one** of the following structures in your request: *
+  /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. *
   /// `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}`
-  /// `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
+  /// * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
   /// Value must have pattern
   /// `^organizations/\[^/\]+/environments/\[^/\]+/keyvaluemaps/\[^/\]+$`.
   ///
   /// [pageSize] - Optional. Maximum number of key value entries to return. If
   /// unspecified, at most 100 entries will be returned.
   ///
-  /// [pageToken] - Optional. Page token, a key value entry returned from a
-  /// previous call that can use to retrieve the next page.
+  /// [pageToken] - Optional. Page token. If provides, must be a valid key value
+  /// entry returned from a previous call that can be used to retrieve the next
+  /// page.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -9201,6 +9240,255 @@ class OrganizationsEnvironmentsResourcefilesResource {
       queryParams: _queryParams,
     );
     return GoogleCloudApigeeV1ResourceFile.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+}
+
+class OrganizationsEnvironmentsSecurityReportsResource {
+  final commons.ApiRequester _requester;
+
+  OrganizationsEnvironmentsSecurityReportsResource(commons.ApiRequester client)
+      : _requester = client;
+
+  /// Submit a report request to be processed in the background.
+  ///
+  /// If the submission succeeds, the API returns a 200 status and an ID that
+  /// refer to the report request. In addition to the HTTP status 200, the
+  /// `state` of "enqueued" means that the request succeeded.
+  ///
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [parent] - Required. The parent resource name. Must be of the form
+  /// `organizations/{org}/environments/{env}`.
+  /// Value must have pattern `^organizations/\[^/\]+/environments/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudApigeeV1SecurityReport].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudApigeeV1SecurityReport> create(
+    GoogleCloudApigeeV1SecurityReportQuery request,
+    core.String parent, {
+    core.String? $fields,
+  }) async {
+    final _body = convert.json.encode(request);
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$parent') + '/securityReports';
+
+    final _response = await _requester.request(
+      _url,
+      'POST',
+      body: _body,
+      queryParams: _queryParams,
+    );
+    return GoogleCloudApigeeV1SecurityReport.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// Get security report status If the query is still in progress, the `state`
+  /// is set to "running" After the query has completed successfully, `state` is
+  /// set to "completed"
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Required. Name of the security report to get. Must be of the form
+  /// `organizations/{org}/environments/{env}/securityReports/{reportId}`.
+  /// Value must have pattern
+  /// `^organizations/\[^/\]+/environments/\[^/\]+/securityReports/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudApigeeV1SecurityReport].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudApigeeV1SecurityReport> get(
+    core.String name, {
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleCloudApigeeV1SecurityReport.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// After the query is completed, use this API to retrieve the results as
+  /// file.
+  ///
+  /// If the request succeeds, and there is a non-zero result set, the result is
+  /// downloaded to the client as a zipped JSON file. The name of the downloaded
+  /// file will be: OfflineQueryResult-.zip Example:
+  /// `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip`
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Required. Name of the security report result to get. Must be of
+  /// the form
+  /// `organizations/{org}/environments/{env}/securityReports/{reportId}/result`.
+  /// Value must have pattern
+  /// `^organizations/\[^/\]+/environments/\[^/\]+/securityReports/\[^/\]+/result$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleApiHttpBody].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleApiHttpBody> getResult(
+    core.String name, {
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleApiHttpBody.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// After the query is completed, use this API to view the query result when
+  /// result size is small.
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Required. Name of the security report result view to get. Must be
+  /// of the form
+  /// `organizations/{org}/environments/{env}/securityReports/{reportId}/resultView`.
+  /// Value must have pattern
+  /// `^organizations/\[^/\]+/environments/\[^/\]+/securityReports/\[^/\]+/resultView$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudApigeeV1SecurityReportResultView].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudApigeeV1SecurityReportResultView> getResultView(
+    core.String name, {
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleCloudApigeeV1SecurityReportResultView.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// Return a list of Security Reports
+  ///
+  /// Request parameters:
+  ///
+  /// [parent] - Required. The parent resource name. Must be of the form
+  /// `organizations/{org}/environments/{env}`.
+  /// Value must have pattern `^organizations/\[^/\]+/environments/\[^/\]+$`.
+  ///
+  /// [dataset] - Filter response list by dataset. Example: `api`, `mint`
+  ///
+  /// [from] - Filter response list by returning security reports that created
+  /// after this date time. Time must be in ISO date-time format like
+  /// '2011-12-03T10:15:30Z'.
+  ///
+  /// [pageSize] - The maximum number of security report to return in the list
+  /// response.
+  ///
+  /// [pageToken] - Token returned from the previous list response to fetch the
+  /// next page.
+  ///
+  /// [status] - Filter response list by security reports status.
+  ///
+  /// [submittedBy] - Filter response list by user who submitted queries.
+  ///
+  /// [to] - Filter response list by returning security reports that created
+  /// before this date time. Time must be in ISO date-time format like
+  /// '2011-12-03T10:16:30Z'.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudApigeeV1ListSecurityReportsResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudApigeeV1ListSecurityReportsResponse> list(
+    core.String parent, {
+    core.String? dataset,
+    core.String? from,
+    core.int? pageSize,
+    core.String? pageToken,
+    core.String? status,
+    core.String? submittedBy,
+    core.String? to,
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if (dataset != null) 'dataset': [dataset],
+      if (from != null) 'from': [from],
+      if (pageSize != null) 'pageSize': ['${pageSize}'],
+      if (pageToken != null) 'pageToken': [pageToken],
+      if (status != null) 'status': [status],
+      if (submittedBy != null) 'submittedBy': [submittedBy],
+      if (to != null) 'to': [to],
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$parent') + '/securityReports';
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleCloudApigeeV1ListSecurityReportsResponse.fromJson(
         _response as core.Map<core.String, core.dynamic>);
   }
 }
@@ -10229,6 +10517,259 @@ class OrganizationsHostQueriesResource {
   }
 }
 
+class OrganizationsHostSecurityReportsResource {
+  final commons.ApiRequester _requester;
+
+  OrganizationsHostSecurityReportsResource(commons.ApiRequester client)
+      : _requester = client;
+
+  /// Submit a query at host level to be processed in the background.
+  ///
+  /// If the submission of the query succeeds, the API returns a 201 status and
+  /// an ID that refer to the query. In addition to the HTTP status 201, the
+  /// `state` of "enqueued" means that the request succeeded.
+  ///
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [parent] - Required. The parent resource name. Must be of the form
+  /// `organizations/{org}`.
+  /// Value must have pattern `^organizations/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudApigeeV1SecurityReport].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudApigeeV1SecurityReport> create(
+    GoogleCloudApigeeV1SecurityReportQuery request,
+    core.String parent, {
+    core.String? $fields,
+  }) async {
+    final _body = convert.json.encode(request);
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url =
+        'v1/' + core.Uri.encodeFull('$parent') + '/hostSecurityReports';
+
+    final _response = await _requester.request(
+      _url,
+      'POST',
+      body: _body,
+      queryParams: _queryParams,
+    );
+    return GoogleCloudApigeeV1SecurityReport.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// Get status of a query submitted at host level.
+  ///
+  /// If the query is still in progress, the `state` is set to "running" After
+  /// the query has completed successfully, `state` is set to "completed"
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Required. Name of the security report to get. Must be of the form
+  /// `organizations/{org}/securityReports/{reportId}`.
+  /// Value must have pattern
+  /// `^organizations/\[^/\]+/hostSecurityReports/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudApigeeV1SecurityReport].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudApigeeV1SecurityReport> get(
+    core.String name, {
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleCloudApigeeV1SecurityReport.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// After the query is completed, use this API to retrieve the results.
+  ///
+  /// If the request succeeds, and there is a non-zero result set, the result is
+  /// downloaded to the client as a zipped JSON file. The name of the downloaded
+  /// file will be: OfflineQueryResult-.zip Example:
+  /// `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip`
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Required. Name of the security report result to get. Must be of
+  /// the form `organizations/{org}/securityReports/{reportId}/result`.
+  /// Value must have pattern
+  /// `^organizations/\[^/\]+/hostSecurityReports/\[^/\]+/result$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleApiHttpBody].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleApiHttpBody> getResult(
+    core.String name, {
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleApiHttpBody.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// After the query is completed, use this API to view the query result when
+  /// result size is small.
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Required. Name of the security report result view to get. Must be
+  /// of the form `organizations/{org}/securityReports/{reportId}/resultView`.
+  /// Value must have pattern
+  /// `^organizations/\[^/\]+/hostSecurityReports/\[^/\]+/resultView$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudApigeeV1SecurityReportResultView].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudApigeeV1SecurityReportResultView> getResultView(
+    core.String name, {
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleCloudApigeeV1SecurityReportResultView.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// Return a list of Security Reports at host level.
+  ///
+  /// Request parameters:
+  ///
+  /// [parent] - Required. The parent resource name. Must be of the form
+  /// `organizations/{org}`.
+  /// Value must have pattern `^organizations/\[^/\]+$`.
+  ///
+  /// [dataset] - Filter response list by dataset. Example: `api`, `mint`
+  ///
+  /// [envgroupHostname] - Required. Filter response list by hostname.
+  ///
+  /// [from] - Filter response list by returning security reports that created
+  /// after this date time. Time must be in ISO date-time format like
+  /// '2011-12-03T10:15:30Z'.
+  ///
+  /// [pageSize] - The maximum number of security report to return in the list
+  /// response.
+  ///
+  /// [pageToken] - Token returned from the previous list response to fetch the
+  /// next page.
+  ///
+  /// [status] - Filter response list by security report status.
+  ///
+  /// [submittedBy] - Filter response list by user who submitted queries.
+  ///
+  /// [to] - Filter response list by returning security reports that created
+  /// before this date time. Time must be in ISO date-time format like
+  /// '2011-12-03T10:16:30Z'.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudApigeeV1ListSecurityReportsResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudApigeeV1ListSecurityReportsResponse> list(
+    core.String parent, {
+    core.String? dataset,
+    core.String? envgroupHostname,
+    core.String? from,
+    core.int? pageSize,
+    core.String? pageToken,
+    core.String? status,
+    core.String? submittedBy,
+    core.String? to,
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if (dataset != null) 'dataset': [dataset],
+      if (envgroupHostname != null) 'envgroupHostname': [envgroupHostname],
+      if (from != null) 'from': [from],
+      if (pageSize != null) 'pageSize': ['${pageSize}'],
+      if (pageToken != null) 'pageToken': [pageToken],
+      if (status != null) 'status': [status],
+      if (submittedBy != null) 'submittedBy': [submittedBy],
+      if (to != null) 'to': [to],
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url =
+        'v1/' + core.Uri.encodeFull('$parent') + '/hostSecurityReports';
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleCloudApigeeV1ListSecurityReportsResponse.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+}
+
 class OrganizationsHostStatsResource {
   final commons.ApiRequester _requester;
 
@@ -11230,17 +11771,19 @@ class OrganizationsKeyvaluemapsEntriesResource {
   OrganizationsKeyvaluemapsEntriesResource(commons.ApiRequester client)
       : _requester = client;
 
-  /// Creates key value entries in a org, env or apis scoped key value map.
+  /// Creates key value entries in a key value map scoped to an organization,
+  /// environment, or API proxy.
   ///
   /// [request] - The metadata request object.
   ///
   /// Request parameters:
   ///
   /// [parent] - Required. Scope as indicated by the URI in which to create the
-  /// key value map entry. Use one of the following formats in your request:
-  /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`.
+  /// key value map entry. Use **one** of the following structures in your
+  /// request: *
+  /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. *
   /// `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}`
-  /// `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
+  /// * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
   /// Value must have pattern `^organizations/\[^/\]+/keyvaluemaps/\[^/\]+$`.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
@@ -11275,15 +11818,22 @@ class OrganizationsKeyvaluemapsEntriesResource {
         _response as core.Map<core.String, core.dynamic>);
   }
 
-  /// Deletes a key value entry from an org, environment or apis scoped key
-  /// value map.
+  /// Deletes a key value entry from a key value map scoped to an organization,
+  /// environment, or API proxy.
+  ///
+  /// **Note:** After you delete the key value entry, the policy consuming the
+  /// entry will continue to function with its cached values for a few minutes.
+  /// This is expected behavior.
   ///
   /// Request parameters:
   ///
   /// [name] - Required. Scope as indicated by the URI in which to delete the
-  /// key value map entry. Use one of the following formats in your request:
+  /// key value map entry. Use **one** of the following structures in your
+  /// request: *
   /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
+  /// *
   /// `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}/entries/{entry}`
+  /// *
   /// `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
   /// Value must have pattern
   /// `^organizations/\[^/\]+/keyvaluemaps/\[^/\]+/entries/\[^/\]+$`.
@@ -11322,9 +11872,12 @@ class OrganizationsKeyvaluemapsEntriesResource {
   /// Request parameters:
   ///
   /// [name] - Required. Scope as indicated by the URI in which to fetch the key
-  /// value map entry/value. Use one of the following formats in your request:
+  /// value map entry/value. Use **one** of the following structures in your
+  /// request: *
   /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
+  /// *
   /// `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}/entries/{entry}`
+  /// *
   /// `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
   /// Value must have pattern
   /// `^organizations/\[^/\]+/keyvaluemaps/\[^/\]+/entries/\[^/\]+$`.
@@ -11364,17 +11917,18 @@ class OrganizationsKeyvaluemapsEntriesResource {
   /// Request parameters:
   ///
   /// [parent] - Required. Scope as indicated by the URI in which to list key
-  /// value maps. Use one of the following formats in your request:
-  /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`.
+  /// value maps. Use **one** of the following structures in your request: *
+  /// `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. *
   /// `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}`
-  /// `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
+  /// * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
   /// Value must have pattern `^organizations/\[^/\]+/keyvaluemaps/\[^/\]+$`.
   ///
   /// [pageSize] - Optional. Maximum number of key value entries to return. If
   /// unspecified, at most 100 entries will be returned.
   ///
-  /// [pageToken] - Optional. Page token, a key value entry returned from a
-  /// previous call that can use to retrieve the next page.
+  /// [pageToken] - Optional. Page token. If provides, must be a valid key value
+  /// entry returned from a previous call that can be used to retrieve the next
+  /// page.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -11843,6 +12397,301 @@ class OrganizationsReportsResource {
       queryParams: _queryParams,
     );
     return GoogleCloudApigeeV1CustomReport.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+}
+
+class OrganizationsSecurityProfilesResource {
+  final commons.ApiRequester _requester;
+
+  OrganizationsSecurityProfilesEnvironmentsResource get environments =>
+      OrganizationsSecurityProfilesEnvironmentsResource(_requester);
+
+  OrganizationsSecurityProfilesResource(commons.ApiRequester client)
+      : _requester = client;
+
+  /// GetSecurityProfile gets the specified security profile.
+  ///
+  /// Returns NOT_FOUND if security profile is not present for the specified
+  /// organization.
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Required. Security profile in the following format:
+  /// \`organizations/{org}/securityProfiles/{profile}'. Profile may optionally
+  /// contain revision ID. If revision ID is not provided, the response will
+  /// contain latest revision by default. Example:
+  /// organizations/testOrg/securityProfiles/testProfile@5
+  /// Value must have pattern
+  /// `^organizations/\[^/\]+/securityProfiles/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudApigeeV1SecurityProfile].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudApigeeV1SecurityProfile> get(
+    core.String name, {
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleCloudApigeeV1SecurityProfile.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// ListSecurityProfiles lists all the security profiles associated with the
+  /// org including attached and unattached profiles.
+  ///
+  /// Request parameters:
+  ///
+  /// [parent] - Required. For a specific organization, list of all the security
+  /// profiles. Format: `organizations/{org}`
+  /// Value must have pattern `^organizations/\[^/\]+$`.
+  ///
+  /// [pageSize] - The maximum number of profiles to return. The service may
+  /// return fewer than this value. If unspecified, at most 50 profiles will be
+  /// returned.
+  ///
+  /// [pageToken] - A page token, received from a previous
+  /// `ListSecurityProfiles` call. Provide this to retrieve the subsequent page.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudApigeeV1ListSecurityProfilesResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudApigeeV1ListSecurityProfilesResponse> list(
+    core.String parent, {
+    core.int? pageSize,
+    core.String? pageToken,
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if (pageSize != null) 'pageSize': ['${pageSize}'],
+      if (pageToken != null) 'pageToken': [pageToken],
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$parent') + '/securityProfiles';
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleCloudApigeeV1ListSecurityProfilesResponse.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// ListSecurityProfileRevisions lists all the revisions of the security
+  /// profile.
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Required. For a specific profile, list all the revisions. Format:
+  /// `organizations/{org}/securityProfiles/{profile}`
+  /// Value must have pattern
+  /// `^organizations/\[^/\]+/securityProfiles/\[^/\]+$`.
+  ///
+  /// [pageSize] - The maximum number of profile revisions to return. The
+  /// service may return fewer than this value. If unspecified, at most 50
+  /// revisions will be returned.
+  ///
+  /// [pageToken] - A page token, received from a previous
+  /// `ListSecurityProfileRevisions` call. Provide this to retrieve the
+  /// subsequent page.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a
+  /// [GoogleCloudApigeeV1ListSecurityProfileRevisionsResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudApigeeV1ListSecurityProfileRevisionsResponse>
+      listRevisions(
+    core.String name, {
+    core.int? pageSize,
+    core.String? pageToken,
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if (pageSize != null) 'pageSize': ['${pageSize}'],
+      if (pageToken != null) 'pageToken': [pageToken],
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$name') + ':listRevisions';
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return GoogleCloudApigeeV1ListSecurityProfileRevisionsResponse.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+}
+
+class OrganizationsSecurityProfilesEnvironmentsResource {
+  final commons.ApiRequester _requester;
+
+  OrganizationsSecurityProfilesEnvironmentsResource(commons.ApiRequester client)
+      : _requester = client;
+
+  /// ComputeEnvironmentScores calculates scores for requested time range for
+  /// the specified security profile and environment.
+  ///
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [profileEnvironment] - Required. Name of organization and environment and
+  /// profile id for which score needs to be computed. Format:
+  /// organizations/{org}/securityProfiles/{profile}/environments/{env}
+  /// Value must have pattern
+  /// `^organizations/\[^/\]+/securityProfiles/\[^/\]+/environments/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleCloudApigeeV1ComputeEnvironmentScoresResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudApigeeV1ComputeEnvironmentScoresResponse>
+      computeEnvironmentScores(
+    GoogleCloudApigeeV1ComputeEnvironmentScoresRequest request,
+    core.String profileEnvironment, {
+    core.String? $fields,
+  }) async {
+    final _body = convert.json.encode(request);
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' +
+        core.Uri.encodeFull('$profileEnvironment') +
+        ':computeEnvironmentScores';
+
+    final _response = await _requester.request(
+      _url,
+      'POST',
+      body: _body,
+      queryParams: _queryParams,
+    );
+    return GoogleCloudApigeeV1ComputeEnvironmentScoresResponse.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// CreateSecurityProfileEnvironmentAssociation creates profile environment
+  /// association i.e. attaches environment to security profile.
+  ///
+  /// [request] - The metadata request object.
+  ///
+  /// Request parameters:
+  ///
+  /// [parent] - Required. Name of organization and security profile ID. Format:
+  /// organizations/{org}/securityProfiles/{profile}
+  /// Value must have pattern
+  /// `^organizations/\[^/\]+/securityProfiles/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a
+  /// [GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation> create(
+    GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation request,
+    core.String parent, {
+    core.String? $fields,
+  }) async {
+    final _body = convert.json.encode(request);
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$parent') + '/environments';
+
+    final _response = await _requester.request(
+      _url,
+      'POST',
+      body: _body,
+      queryParams: _queryParams,
+    );
+    return GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// DeleteSecurityProfileEnvironmentAssociation removes profile environment
+  /// association i.e. detaches environment from security profile.
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Required. The name of the environment attachment to delete.
+  /// Format: organizations/{org}/securityProfiles/{profile}/environments/{env}
+  /// Value must have pattern
+  /// `^organizations/\[^/\]+/securityProfiles/\[^/\]+/environments/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [GoogleProtobufEmpty].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<GoogleProtobufEmpty> delete(
+    core.String name, {
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'DELETE',
+      queryParams: _queryParams,
+    );
+    return GoogleProtobufEmpty.fromJson(
         _response as core.Map<core.String, core.dynamic>);
   }
 }
@@ -12706,6 +13555,9 @@ class GoogleCloudApigeeV1AddonsConfig {
   /// Configuration for the Advanced API Ops add-on.
   GoogleCloudApigeeV1AdvancedApiOpsConfig? advancedApiOpsConfig;
 
+  /// Configuration for the API Security add-on.
+  GoogleCloudApigeeV1ApiSecurityConfig? apiSecurityConfig;
+
   /// Configuration for the Connectors Platform add-on.
   GoogleCloudApigeeV1ConnectorsPlatformConfig? connectorsPlatformConfig;
 
@@ -12717,6 +13569,7 @@ class GoogleCloudApigeeV1AddonsConfig {
 
   GoogleCloudApigeeV1AddonsConfig({
     this.advancedApiOpsConfig,
+    this.apiSecurityConfig,
     this.connectorsPlatformConfig,
     this.integrationConfig,
     this.monetizationConfig,
@@ -12727,6 +13580,11 @@ class GoogleCloudApigeeV1AddonsConfig {
           advancedApiOpsConfig: _json.containsKey('advancedApiOpsConfig')
               ? GoogleCloudApigeeV1AdvancedApiOpsConfig.fromJson(
                   _json['advancedApiOpsConfig']
+                      as core.Map<core.String, core.dynamic>)
+              : null,
+          apiSecurityConfig: _json.containsKey('apiSecurityConfig')
+              ? GoogleCloudApigeeV1ApiSecurityConfig.fromJson(
+                  _json['apiSecurityConfig']
                       as core.Map<core.String, core.dynamic>)
               : null,
           connectorsPlatformConfig:
@@ -12750,6 +13608,7 @@ class GoogleCloudApigeeV1AddonsConfig {
   core.Map<core.String, core.dynamic> toJson() => {
         if (advancedApiOpsConfig != null)
           'advancedApiOpsConfig': advancedApiOpsConfig!,
+        if (apiSecurityConfig != null) 'apiSecurityConfig': apiSecurityConfig!,
         if (connectorsPlatformConfig != null)
           'connectorsPlatformConfig': connectorsPlatformConfig!,
         if (integrationConfig != null) 'integrationConfig': integrationConfig!,
@@ -13664,6 +14523,40 @@ class GoogleCloudApigeeV1ApiResponseWrapper {
       };
 }
 
+/// Configurations of the API Security add-on.
+class GoogleCloudApigeeV1ApiSecurityConfig {
+  /// Flag that specifies whether the API security add-on is enabled.
+  core.bool? enabled;
+
+  /// Time at which the API Security add-on expires in in milliseconds since
+  /// epoch.
+  ///
+  /// If unspecified, the add-on will never expire.
+  ///
+  /// Output only.
+  core.String? expiresAt;
+
+  GoogleCloudApigeeV1ApiSecurityConfig({
+    this.enabled,
+    this.expiresAt,
+  });
+
+  GoogleCloudApigeeV1ApiSecurityConfig.fromJson(core.Map _json)
+      : this(
+          enabled: _json.containsKey('enabled')
+              ? _json['enabled'] as core.bool
+              : null,
+          expiresAt: _json.containsKey('expiresAt')
+              ? _json['expiresAt'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (enabled != null) 'enabled': enabled!,
+        if (expiresAt != null) 'expiresAt': expiresAt!,
+      };
+}
+
 class GoogleCloudApigeeV1App {
   /// List of API products associated with the app.
   core.List<GoogleCloudApigeeV1ApiProductRef>? apiProducts;
@@ -14443,6 +15336,147 @@ class GoogleCloudApigeeV1CommonNameConfig {
   core.Map<core.String, core.dynamic> toJson() => {
         if (matchWildCards != null) 'matchWildCards': matchWildCards!,
         if (name != null) 'name': name!,
+      };
+}
+
+/// Request for ComputeEnvironmentScores.
+class GoogleCloudApigeeV1ComputeEnvironmentScoresRequest {
+  /// Filters are used to filter scored components.
+  ///
+  /// Return all the components if no filter is mentioned. Example: \[{
+  /// "scorePath":
+  /// "/org@myorg/envgroup@myenvgroup/env@myenv/proxies/proxy@myproxy/source" },
+  /// { "scorePath":
+  /// "/org@myorg/envgroup@myenvgroup/env@myenv/proxies/proxy@myproxy/target",
+  /// }\] This will return components with path:
+  /// "/org@myorg/envgroup@myenvgroup/env@myenv/proxies/proxy@myproxy/source" OR
+  /// "/org@myorg/envgroup@myenvgroup/env@myenv/proxies/proxy@myproxy/target"
+  ///
+  /// Optional.
+  core.List<GoogleCloudApigeeV1ComputeEnvironmentScoresRequestFilter>? filters;
+
+  /// The maximum number of subcomponents to be returned in a single page.
+  ///
+  /// The service may return fewer than this value. If unspecified, at most 100
+  /// subcomponents will be returned in a single page.
+  ///
+  /// Optional.
+  core.int? pageSize;
+
+  /// A token that can be sent as `page_token` to retrieve the next page.
+  ///
+  /// If this field is omitted, there are no subsequent pages.
+  ///
+  /// Optional.
+  core.String? pageToken;
+
+  /// Time range for score calculation.
+  ///
+  /// At most 14 days of scores will be returned.
+  ///
+  /// Required.
+  GoogleTypeInterval? timeRange;
+
+  GoogleCloudApigeeV1ComputeEnvironmentScoresRequest({
+    this.filters,
+    this.pageSize,
+    this.pageToken,
+    this.timeRange,
+  });
+
+  GoogleCloudApigeeV1ComputeEnvironmentScoresRequest.fromJson(core.Map _json)
+      : this(
+          filters: _json.containsKey('filters')
+              ? (_json['filters'] as core.List)
+                  .map((value) =>
+                      GoogleCloudApigeeV1ComputeEnvironmentScoresRequestFilter
+                          .fromJson(
+                              value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+          pageSize: _json.containsKey('pageSize')
+              ? _json['pageSize'] as core.int
+              : null,
+          pageToken: _json.containsKey('pageToken')
+              ? _json['pageToken'] as core.String
+              : null,
+          timeRange: _json.containsKey('timeRange')
+              ? GoogleTypeInterval.fromJson(
+                  _json['timeRange'] as core.Map<core.String, core.dynamic>)
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (filters != null) 'filters': filters!,
+        if (pageSize != null) 'pageSize': pageSize!,
+        if (pageToken != null) 'pageToken': pageToken!,
+        if (timeRange != null) 'timeRange': timeRange!,
+      };
+}
+
+/// Filter scores by component path.
+///
+/// Used custom filter instead of AIP-160 as the use cases are highly
+/// constrained and predictable.
+class GoogleCloudApigeeV1ComputeEnvironmentScoresRequestFilter {
+  /// Return scores for this component.
+  ///
+  /// Example:
+  /// "/org@myorg/envgroup@myenvgroup/env@myenv/proxies/proxy@myproxy/source"
+  ///
+  /// Optional.
+  core.String? scorePath;
+
+  GoogleCloudApigeeV1ComputeEnvironmentScoresRequestFilter({
+    this.scorePath,
+  });
+
+  GoogleCloudApigeeV1ComputeEnvironmentScoresRequestFilter.fromJson(
+      core.Map _json)
+      : this(
+          scorePath: _json.containsKey('scorePath')
+              ? _json['scorePath'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (scorePath != null) 'scorePath': scorePath!,
+      };
+}
+
+/// Response for ComputeEnvironmentScores.
+class GoogleCloudApigeeV1ComputeEnvironmentScoresResponse {
+  /// A page token, received from a previous `ComputeScore` call.
+  ///
+  /// Provide this to retrieve the subsequent page.
+  core.String? nextPageToken;
+
+  /// List of scores.
+  ///
+  /// One score per day.
+  core.List<GoogleCloudApigeeV1Score>? scores;
+
+  GoogleCloudApigeeV1ComputeEnvironmentScoresResponse({
+    this.nextPageToken,
+    this.scores,
+  });
+
+  GoogleCloudApigeeV1ComputeEnvironmentScoresResponse.fromJson(core.Map _json)
+      : this(
+          nextPageToken: _json.containsKey('nextPageToken')
+              ? _json['nextPageToken'] as core.String
+              : null,
+          scores: _json.containsKey('scores')
+              ? (_json['scores'] as core.List)
+                  .map((value) => GoogleCloudApigeeV1Score.fromJson(
+                      value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (nextPageToken != null) 'nextPageToken': nextPageToken!,
+        if (scores != null) 'scores': scores!,
       };
 }
 
@@ -16612,6 +17646,15 @@ class GoogleCloudApigeeV1Environment {
   /// Optional.
   core.String? displayName;
 
+  /// Url of the forward proxy to be applied to the runtime instances in this
+  /// environment.
+  ///
+  /// Must be in the format of {scheme}://{hostname}:{port}. Note that scheme
+  /// must be one of "http" or "https", and port must be supplied.
+  ///
+  /// Optional.
+  core.String? forwardProxyUri;
+
   /// Last modification time of this environment as milliseconds since epoch.
   ///
   /// Output only.
@@ -16648,6 +17691,7 @@ class GoogleCloudApigeeV1Environment {
     this.deploymentType,
     this.description,
     this.displayName,
+    this.forwardProxyUri,
     this.lastModifiedAt,
     this.name,
     this.properties,
@@ -16671,6 +17715,9 @@ class GoogleCloudApigeeV1Environment {
           displayName: _json.containsKey('displayName')
               ? _json['displayName'] as core.String
               : null,
+          forwardProxyUri: _json.containsKey('forwardProxyUri')
+              ? _json['forwardProxyUri'] as core.String
+              : null,
           lastModifiedAt: _json.containsKey('lastModifiedAt')
               ? _json['lastModifiedAt'] as core.String
               : null,
@@ -16689,6 +17736,7 @@ class GoogleCloudApigeeV1Environment {
         if (deploymentType != null) 'deploymentType': deploymentType!,
         if (description != null) 'description': description!,
         if (displayName != null) 'displayName': displayName!,
+        if (forwardProxyUri != null) 'forwardProxyUri': forwardProxyUri!,
         if (lastModifiedAt != null) 'lastModifiedAt': lastModifiedAt!,
         if (name != null) 'name': name!,
         if (properties != null) 'properties': properties!,
@@ -16720,6 +17768,12 @@ class GoogleCloudApigeeV1EnvironmentConfig {
 
   /// List of flow hooks in the environment.
   core.List<GoogleCloudApigeeV1FlowHookConfig>? flowhooks;
+
+  /// The forward proxy's url to be used by the runtime.
+  ///
+  /// When set, runtime will send requests to the target via the given forward
+  /// proxy. This is only used by programmable gateways.
+  core.String? forwardProxyUri;
 
   /// The location for the gateway config blob as a URI, e.g. a Cloud Storage
   /// URI.
@@ -16779,6 +17833,7 @@ class GoogleCloudApigeeV1EnvironmentConfig {
     this.deployments,
     this.featureFlags,
     this.flowhooks,
+    this.forwardProxyUri,
     this.gatewayConfigLocation,
     this.keystores,
     this.name,
@@ -16832,6 +17887,9 @@ class GoogleCloudApigeeV1EnvironmentConfig {
                   .map((value) => GoogleCloudApigeeV1FlowHookConfig.fromJson(
                       value as core.Map<core.String, core.dynamic>))
                   .toList()
+              : null,
+          forwardProxyUri: _json.containsKey('forwardProxyUri')
+              ? _json['forwardProxyUri'] as core.String
               : null,
           gatewayConfigLocation: _json.containsKey('gatewayConfigLocation')
               ? _json['gatewayConfigLocation'] as core.String
@@ -16889,6 +17947,7 @@ class GoogleCloudApigeeV1EnvironmentConfig {
         if (deployments != null) 'deployments': deployments!,
         if (featureFlags != null) 'featureFlags': featureFlags!,
         if (flowhooks != null) 'flowhooks': flowhooks!,
+        if (forwardProxyUri != null) 'forwardProxyUri': forwardProxyUri!,
         if (gatewayConfigLocation != null)
           'gatewayConfigLocation': gatewayConfigLocation!,
         if (keystores != null) 'keystores': keystores!,
@@ -18170,7 +19229,8 @@ class GoogleCloudApigeeV1KeyValueEntry {
 class GoogleCloudApigeeV1KeyValueMap {
   /// Flag that specifies whether entry values will be encrypted.
   ///
-  /// Enable to encrypt entry values.
+  /// You must set this value to `true`. Apigee X and hybrid do not support
+  /// unencrytped key value maps.
   ///
   /// Optional.
   core.bool? encrypted;
@@ -19052,6 +20112,116 @@ class GoogleCloudApigeeV1ListRatePlansResponse {
   core.Map<core.String, core.dynamic> toJson() => {
         if (nextStartKey != null) 'nextStartKey': nextStartKey!,
         if (ratePlans != null) 'ratePlans': ratePlans!,
+      };
+}
+
+/// Response for ListSecurityProfileRevisions.
+class GoogleCloudApigeeV1ListSecurityProfileRevisionsResponse {
+  /// A token that can be sent as `page_token` to retrieve the next page.
+  ///
+  /// If this field is omitted, there are no subsequent pages.
+  core.String? nextPageToken;
+
+  /// List of security profile revisions.
+  ///
+  /// The revisions may be attached or unattached to any environment.
+  core.List<GoogleCloudApigeeV1SecurityProfile>? securityProfiles;
+
+  GoogleCloudApigeeV1ListSecurityProfileRevisionsResponse({
+    this.nextPageToken,
+    this.securityProfiles,
+  });
+
+  GoogleCloudApigeeV1ListSecurityProfileRevisionsResponse.fromJson(
+      core.Map _json)
+      : this(
+          nextPageToken: _json.containsKey('nextPageToken')
+              ? _json['nextPageToken'] as core.String
+              : null,
+          securityProfiles: _json.containsKey('securityProfiles')
+              ? (_json['securityProfiles'] as core.List)
+                  .map((value) => GoogleCloudApigeeV1SecurityProfile.fromJson(
+                      value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (nextPageToken != null) 'nextPageToken': nextPageToken!,
+        if (securityProfiles != null) 'securityProfiles': securityProfiles!,
+      };
+}
+
+/// Response for ListSecurityProfiles.
+class GoogleCloudApigeeV1ListSecurityProfilesResponse {
+  /// A token that can be sent as `page_token` to retrieve the next page.
+  ///
+  /// If this field is omitted, there are no subsequent pages.
+  core.String? nextPageToken;
+
+  /// List of security profiles in the organization.
+  ///
+  /// The profiles may be attached or unattached to any environment. This will
+  /// return latest revision of each profile.
+  core.List<GoogleCloudApigeeV1SecurityProfile>? securityProfiles;
+
+  GoogleCloudApigeeV1ListSecurityProfilesResponse({
+    this.nextPageToken,
+    this.securityProfiles,
+  });
+
+  GoogleCloudApigeeV1ListSecurityProfilesResponse.fromJson(core.Map _json)
+      : this(
+          nextPageToken: _json.containsKey('nextPageToken')
+              ? _json['nextPageToken'] as core.String
+              : null,
+          securityProfiles: _json.containsKey('securityProfiles')
+              ? (_json['securityProfiles'] as core.List)
+                  .map((value) => GoogleCloudApigeeV1SecurityProfile.fromJson(
+                      value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (nextPageToken != null) 'nextPageToken': nextPageToken!,
+        if (securityProfiles != null) 'securityProfiles': securityProfiles!,
+      };
+}
+
+/// The response for SecurityReports.
+class GoogleCloudApigeeV1ListSecurityReportsResponse {
+  /// If the number of security reports exceeded the page size requested, the
+  /// token can be used to fetch the next page in a subsequent call.
+  ///
+  /// If the response is the last page and there are no more reports to return
+  /// this field is left empty.
+  core.String? nextPageToken;
+
+  /// The security reports belong to requested resource name.
+  core.List<GoogleCloudApigeeV1SecurityReport>? securityReports;
+
+  GoogleCloudApigeeV1ListSecurityReportsResponse({
+    this.nextPageToken,
+    this.securityReports,
+  });
+
+  GoogleCloudApigeeV1ListSecurityReportsResponse.fromJson(core.Map _json)
+      : this(
+          nextPageToken: _json.containsKey('nextPageToken')
+              ? _json['nextPageToken'] as core.String
+              : null,
+          securityReports: _json.containsKey('securityReports')
+              ? (_json['securityReports'] as core.List)
+                  .map((value) => GoogleCloudApigeeV1SecurityReport.fromJson(
+                      value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (nextPageToken != null) 'nextPageToken': nextPageToken!,
+        if (securityReports != null) 'securityReports': securityReports!,
       };
 }
 
@@ -21614,6 +22784,937 @@ class GoogleCloudApigeeV1SchemaSchemaProperty {
       };
 }
 
+/// Represents Security Score.
+class GoogleCloudApigeeV1Score {
+  /// Component containing score, recommendations and actions.
+  GoogleCloudApigeeV1ScoreComponent? component;
+
+  /// List of all the drilldown score components.
+  core.List<GoogleCloudApigeeV1ScoreComponent>? subcomponents;
+
+  /// Start and end time for the score.
+  GoogleTypeInterval? timeRange;
+
+  GoogleCloudApigeeV1Score({
+    this.component,
+    this.subcomponents,
+    this.timeRange,
+  });
+
+  GoogleCloudApigeeV1Score.fromJson(core.Map _json)
+      : this(
+          component: _json.containsKey('component')
+              ? GoogleCloudApigeeV1ScoreComponent.fromJson(
+                  _json['component'] as core.Map<core.String, core.dynamic>)
+              : null,
+          subcomponents: _json.containsKey('subcomponents')
+              ? (_json['subcomponents'] as core.List)
+                  .map((value) => GoogleCloudApigeeV1ScoreComponent.fromJson(
+                      value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+          timeRange: _json.containsKey('timeRange')
+              ? GoogleTypeInterval.fromJson(
+                  _json['timeRange'] as core.Map<core.String, core.dynamic>)
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (component != null) 'component': component!,
+        if (subcomponents != null) 'subcomponents': subcomponents!,
+        if (timeRange != null) 'timeRange': timeRange!,
+      };
+}
+
+/// Component is an individual security element that is scored.
+class GoogleCloudApigeeV1ScoreComponent {
+  /// Time when score was calculated.
+  core.String? calculateTime;
+
+  /// Time in the requested time period when data was last captured to compute
+  /// the score.
+  core.String? dataCaptureTime;
+
+  /// List of paths for next components.
+  core.List<core.String>? drilldownPaths;
+
+  /// List of recommendations to improve API security.
+  core.List<GoogleCloudApigeeV1ScoreComponentRecommendation>? recommendations;
+
+  /// Score for the component.
+  core.int? score;
+
+  /// Path of the component.
+  ///
+  /// Example: /org@myorg/envgroup@myenvgroup/proxies/proxy@myproxy
+  core.String? scorePath;
+
+  GoogleCloudApigeeV1ScoreComponent({
+    this.calculateTime,
+    this.dataCaptureTime,
+    this.drilldownPaths,
+    this.recommendations,
+    this.score,
+    this.scorePath,
+  });
+
+  GoogleCloudApigeeV1ScoreComponent.fromJson(core.Map _json)
+      : this(
+          calculateTime: _json.containsKey('calculateTime')
+              ? _json['calculateTime'] as core.String
+              : null,
+          dataCaptureTime: _json.containsKey('dataCaptureTime')
+              ? _json['dataCaptureTime'] as core.String
+              : null,
+          drilldownPaths: _json.containsKey('drilldownPaths')
+              ? (_json['drilldownPaths'] as core.List)
+                  .map((value) => value as core.String)
+                  .toList()
+              : null,
+          recommendations: _json.containsKey('recommendations')
+              ? (_json['recommendations'] as core.List)
+                  .map((value) =>
+                      GoogleCloudApigeeV1ScoreComponentRecommendation.fromJson(
+                          value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+          score: _json.containsKey('score') ? _json['score'] as core.int : null,
+          scorePath: _json.containsKey('scorePath')
+              ? _json['scorePath'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (calculateTime != null) 'calculateTime': calculateTime!,
+        if (dataCaptureTime != null) 'dataCaptureTime': dataCaptureTime!,
+        if (drilldownPaths != null) 'drilldownPaths': drilldownPaths!,
+        if (recommendations != null) 'recommendations': recommendations!,
+        if (score != null) 'score': score!,
+        if (scorePath != null) 'scorePath': scorePath!,
+      };
+}
+
+/// Recommendation based on security concerns and score.
+class GoogleCloudApigeeV1ScoreComponentRecommendation {
+  /// Actions for the recommendation to improve the security score.
+  core.List<GoogleCloudApigeeV1ScoreComponentRecommendationAction>? actions;
+
+  /// Description of the recommendation.
+  core.String? description;
+
+  /// Potential impact of this recommendation on the overall score.
+  ///
+  /// This denotes how important this recommendation is to improve the score.
+  core.int? impact;
+
+  /// Title represents recommendation title.
+  core.String? title;
+
+  GoogleCloudApigeeV1ScoreComponentRecommendation({
+    this.actions,
+    this.description,
+    this.impact,
+    this.title,
+  });
+
+  GoogleCloudApigeeV1ScoreComponentRecommendation.fromJson(core.Map _json)
+      : this(
+          actions: _json.containsKey('actions')
+              ? (_json['actions'] as core.List)
+                  .map((value) =>
+                      GoogleCloudApigeeV1ScoreComponentRecommendationAction
+                          .fromJson(
+                              value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+          description: _json.containsKey('description')
+              ? _json['description'] as core.String
+              : null,
+          impact:
+              _json.containsKey('impact') ? _json['impact'] as core.int : null,
+          title:
+              _json.containsKey('title') ? _json['title'] as core.String : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (actions != null) 'actions': actions!,
+        if (description != null) 'description': description!,
+        if (impact != null) 'impact': impact!,
+        if (title != null) 'title': title!,
+      };
+}
+
+/// Action to improve security score.
+class GoogleCloudApigeeV1ScoreComponentRecommendationAction {
+  /// Action context for the action.
+  GoogleCloudApigeeV1ScoreComponentRecommendationActionActionContext?
+      actionContext;
+
+  /// Description of the action.
+  core.String? description;
+
+  GoogleCloudApigeeV1ScoreComponentRecommendationAction({
+    this.actionContext,
+    this.description,
+  });
+
+  GoogleCloudApigeeV1ScoreComponentRecommendationAction.fromJson(core.Map _json)
+      : this(
+          actionContext: _json.containsKey('actionContext')
+              ? GoogleCloudApigeeV1ScoreComponentRecommendationActionActionContext
+                  .fromJson(_json['actionContext']
+                      as core.Map<core.String, core.dynamic>)
+              : null,
+          description: _json.containsKey('description')
+              ? _json['description'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (actionContext != null) 'actionContext': actionContext!,
+        if (description != null) 'description': description!,
+      };
+}
+
+/// Action context are all the relevant details for the action.
+class GoogleCloudApigeeV1ScoreComponentRecommendationActionActionContext {
+  /// Documentation link for the action.
+  core.String? documentationLink;
+
+  GoogleCloudApigeeV1ScoreComponentRecommendationActionActionContext({
+    this.documentationLink,
+  });
+
+  GoogleCloudApigeeV1ScoreComponentRecommendationActionActionContext.fromJson(
+      core.Map _json)
+      : this(
+          documentationLink: _json.containsKey('documentationLink')
+              ? _json['documentationLink'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (documentationLink != null) 'documentationLink': documentationLink!,
+      };
+}
+
+/// Represents a SecurityProfile resource.
+class GoogleCloudApigeeV1SecurityProfile {
+  /// Display name of the security profile.
+  core.String? displayName;
+
+  /// List of environments attached to security profile.
+  core.List<GoogleCloudApigeeV1SecurityProfileEnvironment>? environments;
+
+  /// Maximum security score that can be generated by this profile.
+  ///
+  /// Output only.
+  core.int? maxScore;
+
+  /// Minimum security score that can be generated by this profile.
+  ///
+  /// Output only.
+  core.int? minScore;
+
+  /// Name of the security profile resource.
+  ///
+  /// Format: organizations/{org}/securityProfiles/{profile}
+  ///
+  /// Immutable.
+  core.String? name;
+
+  /// The time when revision was created.
+  ///
+  /// Output only.
+  core.String? revisionCreateTime;
+
+  /// Revision ID of the security profile.
+  ///
+  /// Output only.
+  core.String? revisionId;
+
+  /// The time when revision was published.
+  ///
+  /// Once published, the security profile revision cannot be updated further
+  /// and can be attached to environments.
+  ///
+  /// Output only.
+  core.String? revisionPublishTime;
+
+  /// The time when revision was updated.
+  ///
+  /// Output only.
+  core.String? revisionUpdateTime;
+
+  /// List of profile scoring configs in this revision.
+  core.List<GoogleCloudApigeeV1SecurityProfileScoringConfig>? scoringConfigs;
+
+  GoogleCloudApigeeV1SecurityProfile({
+    this.displayName,
+    this.environments,
+    this.maxScore,
+    this.minScore,
+    this.name,
+    this.revisionCreateTime,
+    this.revisionId,
+    this.revisionPublishTime,
+    this.revisionUpdateTime,
+    this.scoringConfigs,
+  });
+
+  GoogleCloudApigeeV1SecurityProfile.fromJson(core.Map _json)
+      : this(
+          displayName: _json.containsKey('displayName')
+              ? _json['displayName'] as core.String
+              : null,
+          environments: _json.containsKey('environments')
+              ? (_json['environments'] as core.List)
+                  .map((value) =>
+                      GoogleCloudApigeeV1SecurityProfileEnvironment.fromJson(
+                          value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+          maxScore: _json.containsKey('maxScore')
+              ? _json['maxScore'] as core.int
+              : null,
+          minScore: _json.containsKey('minScore')
+              ? _json['minScore'] as core.int
+              : null,
+          name: _json.containsKey('name') ? _json['name'] as core.String : null,
+          revisionCreateTime: _json.containsKey('revisionCreateTime')
+              ? _json['revisionCreateTime'] as core.String
+              : null,
+          revisionId: _json.containsKey('revisionId')
+              ? _json['revisionId'] as core.String
+              : null,
+          revisionPublishTime: _json.containsKey('revisionPublishTime')
+              ? _json['revisionPublishTime'] as core.String
+              : null,
+          revisionUpdateTime: _json.containsKey('revisionUpdateTime')
+              ? _json['revisionUpdateTime'] as core.String
+              : null,
+          scoringConfigs: _json.containsKey('scoringConfigs')
+              ? (_json['scoringConfigs'] as core.List)
+                  .map((value) =>
+                      GoogleCloudApigeeV1SecurityProfileScoringConfig.fromJson(
+                          value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (displayName != null) 'displayName': displayName!,
+        if (environments != null) 'environments': environments!,
+        if (maxScore != null) 'maxScore': maxScore!,
+        if (minScore != null) 'minScore': minScore!,
+        if (name != null) 'name': name!,
+        if (revisionCreateTime != null)
+          'revisionCreateTime': revisionCreateTime!,
+        if (revisionId != null) 'revisionId': revisionId!,
+        if (revisionPublishTime != null)
+          'revisionPublishTime': revisionPublishTime!,
+        if (revisionUpdateTime != null)
+          'revisionUpdateTime': revisionUpdateTime!,
+        if (scoringConfigs != null) 'scoringConfigs': scoringConfigs!,
+      };
+}
+
+/// Environment information of attached environments.
+///
+/// Scoring an environment is enabled only if it is attached to a security
+/// profile.
+class GoogleCloudApigeeV1SecurityProfileEnvironment {
+  /// Time at which environment was attached to the security profile.
+  ///
+  /// Output only.
+  core.String? attachTime;
+
+  /// Name of the environment.
+  ///
+  /// Output only.
+  core.String? environment;
+
+  GoogleCloudApigeeV1SecurityProfileEnvironment({
+    this.attachTime,
+    this.environment,
+  });
+
+  GoogleCloudApigeeV1SecurityProfileEnvironment.fromJson(core.Map _json)
+      : this(
+          attachTime: _json.containsKey('attachTime')
+              ? _json['attachTime'] as core.String
+              : null,
+          environment: _json.containsKey('environment')
+              ? _json['environment'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (attachTime != null) 'attachTime': attachTime!,
+        if (environment != null) 'environment': environment!,
+      };
+}
+
+/// Represents a SecurityProfileEnvironmentAssociation resource.
+class GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation {
+  /// The time when environment was attached to the security profile.
+  ///
+  /// Output only.
+  core.String? attachTime;
+
+  /// Name of the profile-environment association resource.
+  ///
+  /// Format: organizations/{org}/securityProfiles/{profile}/environments/{env}
+  ///
+  /// Immutable.
+  core.String? name;
+
+  /// Revision ID of the security profile.
+  core.String? securityProfileRevisionId;
+
+  GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation({
+    this.attachTime,
+    this.name,
+    this.securityProfileRevisionId,
+  });
+
+  GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation.fromJson(
+      core.Map _json)
+      : this(
+          attachTime: _json.containsKey('attachTime')
+              ? _json['attachTime'] as core.String
+              : null,
+          name: _json.containsKey('name') ? _json['name'] as core.String : null,
+          securityProfileRevisionId:
+              _json.containsKey('securityProfileRevisionId')
+                  ? _json['securityProfileRevisionId'] as core.String
+                  : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (attachTime != null) 'attachTime': attachTime!,
+        if (name != null) 'name': name!,
+        if (securityProfileRevisionId != null)
+          'securityProfileRevisionId': securityProfileRevisionId!,
+      };
+}
+
+/// Security configurations to manage scoring.
+class GoogleCloudApigeeV1SecurityProfileScoringConfig {
+  /// Description of the config.
+  core.String? description;
+
+  /// Path of the component config used for scoring.
+  core.String? scorePath;
+
+  /// Title of the config.
+  core.String? title;
+
+  GoogleCloudApigeeV1SecurityProfileScoringConfig({
+    this.description,
+    this.scorePath,
+    this.title,
+  });
+
+  GoogleCloudApigeeV1SecurityProfileScoringConfig.fromJson(core.Map _json)
+      : this(
+          description: _json.containsKey('description')
+              ? _json['description'] as core.String
+              : null,
+          scorePath: _json.containsKey('scorePath')
+              ? _json['scorePath'] as core.String
+              : null,
+          title:
+              _json.containsKey('title') ? _json['title'] as core.String : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (description != null) 'description': description!,
+        if (scorePath != null) 'scorePath': scorePath!,
+        if (title != null) 'title': title!,
+      };
+}
+
+/// SecurityReport saves all the information about the created security report.
+class GoogleCloudApigeeV1SecurityReport {
+  /// Creation time of the query.
+  core.String? created;
+
+  /// Display Name specified by the user.
+  core.String? displayName;
+
+  /// Hostname is available only when query is executed at host level.
+  core.String? envgroupHostname;
+
+  /// Error is set when query fails.
+  core.String? error;
+
+  /// ExecutionTime is available only after the query is completed.
+  core.String? executionTime;
+
+  /// Contains information like metrics, dimenstions etc of the Security Report.
+  GoogleCloudApigeeV1SecurityReportMetadata? queryParams;
+
+  /// Report Definition ID.
+  core.String? reportDefinitionId;
+
+  /// Result is available only after the query is completed.
+  GoogleCloudApigeeV1SecurityReportResultMetadata? result;
+
+  /// ResultFileSize is available only after the query is completed.
+  core.String? resultFileSize;
+
+  /// ResultRows is available only after the query is completed.
+  core.String? resultRows;
+
+  /// Self link of the query.
+  ///
+  /// Example:
+  /// `/organizations/myorg/environments/myenv/securityReports/9cfc0d85-0f30-46d6-ae6f-318d0cb961bd`
+  /// or following format if query is running at host level:
+  /// `/organizations/myorg/hostSecurityReports/9cfc0d85-0f30-46d6-ae6f-318d0cb961bd`
+  core.String? self;
+
+  /// Query state could be "enqueued", "running", "completed", "failed".
+  core.String? state;
+
+  /// Last updated timestamp for the query.
+  ///
+  /// Output only.
+  core.String? updated;
+
+  GoogleCloudApigeeV1SecurityReport({
+    this.created,
+    this.displayName,
+    this.envgroupHostname,
+    this.error,
+    this.executionTime,
+    this.queryParams,
+    this.reportDefinitionId,
+    this.result,
+    this.resultFileSize,
+    this.resultRows,
+    this.self,
+    this.state,
+    this.updated,
+  });
+
+  GoogleCloudApigeeV1SecurityReport.fromJson(core.Map _json)
+      : this(
+          created: _json.containsKey('created')
+              ? _json['created'] as core.String
+              : null,
+          displayName: _json.containsKey('displayName')
+              ? _json['displayName'] as core.String
+              : null,
+          envgroupHostname: _json.containsKey('envgroupHostname')
+              ? _json['envgroupHostname'] as core.String
+              : null,
+          error:
+              _json.containsKey('error') ? _json['error'] as core.String : null,
+          executionTime: _json.containsKey('executionTime')
+              ? _json['executionTime'] as core.String
+              : null,
+          queryParams: _json.containsKey('queryParams')
+              ? GoogleCloudApigeeV1SecurityReportMetadata.fromJson(
+                  _json['queryParams'] as core.Map<core.String, core.dynamic>)
+              : null,
+          reportDefinitionId: _json.containsKey('reportDefinitionId')
+              ? _json['reportDefinitionId'] as core.String
+              : null,
+          result: _json.containsKey('result')
+              ? GoogleCloudApigeeV1SecurityReportResultMetadata.fromJson(
+                  _json['result'] as core.Map<core.String, core.dynamic>)
+              : null,
+          resultFileSize: _json.containsKey('resultFileSize')
+              ? _json['resultFileSize'] as core.String
+              : null,
+          resultRows: _json.containsKey('resultRows')
+              ? _json['resultRows'] as core.String
+              : null,
+          self: _json.containsKey('self') ? _json['self'] as core.String : null,
+          state:
+              _json.containsKey('state') ? _json['state'] as core.String : null,
+          updated: _json.containsKey('updated')
+              ? _json['updated'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (created != null) 'created': created!,
+        if (displayName != null) 'displayName': displayName!,
+        if (envgroupHostname != null) 'envgroupHostname': envgroupHostname!,
+        if (error != null) 'error': error!,
+        if (executionTime != null) 'executionTime': executionTime!,
+        if (queryParams != null) 'queryParams': queryParams!,
+        if (reportDefinitionId != null)
+          'reportDefinitionId': reportDefinitionId!,
+        if (result != null) 'result': result!,
+        if (resultFileSize != null) 'resultFileSize': resultFileSize!,
+        if (resultRows != null) 'resultRows': resultRows!,
+        if (self != null) 'self': self!,
+        if (state != null) 'state': state!,
+        if (updated != null) 'updated': updated!,
+      };
+}
+
+/// Metadata for the security report.
+class GoogleCloudApigeeV1SecurityReportMetadata {
+  /// Dimensions of the SecurityReport.
+  core.List<core.String>? dimensions;
+
+  /// End timestamp of the query range.
+  core.String? endTimestamp;
+
+  /// Metrics of the SecurityReport.
+  ///
+  /// Example: \["name:bot_count,func:sum,alias:sum_bot_count"\]
+  core.List<core.String>? metrics;
+
+  /// MIME type / Output format.
+  core.String? mimeType;
+
+  /// Start timestamp of the query range.
+  core.String? startTimestamp;
+
+  /// Query GroupBy time unit.
+  ///
+  /// Example: "seconds", "minute", "hour"
+  core.String? timeUnit;
+
+  GoogleCloudApigeeV1SecurityReportMetadata({
+    this.dimensions,
+    this.endTimestamp,
+    this.metrics,
+    this.mimeType,
+    this.startTimestamp,
+    this.timeUnit,
+  });
+
+  GoogleCloudApigeeV1SecurityReportMetadata.fromJson(core.Map _json)
+      : this(
+          dimensions: _json.containsKey('dimensions')
+              ? (_json['dimensions'] as core.List)
+                  .map((value) => value as core.String)
+                  .toList()
+              : null,
+          endTimestamp: _json.containsKey('endTimestamp')
+              ? _json['endTimestamp'] as core.String
+              : null,
+          metrics: _json.containsKey('metrics')
+              ? (_json['metrics'] as core.List)
+                  .map((value) => value as core.String)
+                  .toList()
+              : null,
+          mimeType: _json.containsKey('mimeType')
+              ? _json['mimeType'] as core.String
+              : null,
+          startTimestamp: _json.containsKey('startTimestamp')
+              ? _json['startTimestamp'] as core.String
+              : null,
+          timeUnit: _json.containsKey('timeUnit')
+              ? _json['timeUnit'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (dimensions != null) 'dimensions': dimensions!,
+        if (endTimestamp != null) 'endTimestamp': endTimestamp!,
+        if (metrics != null) 'metrics': metrics!,
+        if (mimeType != null) 'mimeType': mimeType!,
+        if (startTimestamp != null) 'startTimestamp': startTimestamp!,
+        if (timeUnit != null) 'timeUnit': timeUnit!,
+      };
+}
+
+/// Body structure when user makes a request to create a security report.
+class GoogleCloudApigeeV1SecurityReportQuery {
+  /// Delimiter used in the CSV file, if `outputFormat` is set to `csv`.
+  ///
+  /// Defaults to the `,` (comma) character. Supported delimiter characters
+  /// include comma (`,`), pipe (`|`), and tab (`\t`).
+  core.String? csvDelimiter;
+
+  /// A list of dimensions.
+  ///
+  /// https://docs.apigee.com/api-platform/analytics/analytics-reference#dimensions
+  core.List<core.String>? dimensions;
+
+  /// Security Report display name which users can specify.
+  core.String? displayName;
+
+  /// Hostname needs to be specified if query intends to run at host level.
+  ///
+  /// This field is only allowed when query is submitted by
+  /// CreateHostSecurityReport where analytics data will be grouped by
+  /// organization and hostname.
+  core.String? envgroupHostname;
+
+  /// Boolean expression that can be used to filter data.
+  ///
+  /// Filter expressions can be combined using AND/OR terms and should be fully
+  /// parenthesized to avoid ambiguity. See Analytics metrics, dimensions, and
+  /// filters reference
+  /// https://docs.apigee.com/api-platform/analytics/analytics-reference for
+  /// more information on the fields available to filter on. For more
+  /// information on the tokens that you use to build filter expressions, see
+  /// Filter expression syntax.
+  /// https://docs.apigee.com/api-platform/analytics/asynch-reports-api#filter-expression-syntax
+  core.String? filter;
+
+  /// Time unit used to group the result set.
+  ///
+  /// Valid values include: second, minute, hour, day, week, or month. If a
+  /// query includes groupByTimeUnit, then the result is an aggregation based on
+  /// the specified time unit and the resultant timestamp does not include
+  /// milliseconds precision. If a query omits groupByTimeUnit, then the
+  /// resultant timestamp includes milliseconds precision.
+  core.String? groupByTimeUnit;
+
+  /// Maximum number of rows that can be returned in the result.
+  core.int? limit;
+
+  /// A list of Metrics.
+  core.List<GoogleCloudApigeeV1SecurityReportQueryMetric>? metrics;
+
+  /// Valid values include: `csv` or `json`.
+  ///
+  /// Defaults to `json`. Note: Configure the delimiter for CSV output using the
+  /// csvDelimiter property.
+  core.String? mimeType;
+
+  /// Report Definition ID.
+  core.String? reportDefinitionId;
+
+  /// Time range for the query.
+  ///
+  /// Can use the following predefined strings to specify the time range:
+  /// `last60minutes` `last24hours` `last7days` Or, specify the timeRange as a
+  /// structure describing start and end timestamps in the ISO format:
+  /// yyyy-mm-ddThh:mm:ssZ. Example: "timeRange": { "start":
+  /// "2018-07-29T00:13:00Z", "end": "2018-08-01T00:18:00Z" }
+  ///
+  /// Required.
+  ///
+  /// The values for Object must be JSON objects. It can consist of `num`,
+  /// `String`, `bool` and `null` as well as `Map` and `List` values.
+  core.Object? timeRange;
+
+  GoogleCloudApigeeV1SecurityReportQuery({
+    this.csvDelimiter,
+    this.dimensions,
+    this.displayName,
+    this.envgroupHostname,
+    this.filter,
+    this.groupByTimeUnit,
+    this.limit,
+    this.metrics,
+    this.mimeType,
+    this.reportDefinitionId,
+    this.timeRange,
+  });
+
+  GoogleCloudApigeeV1SecurityReportQuery.fromJson(core.Map _json)
+      : this(
+          csvDelimiter: _json.containsKey('csvDelimiter')
+              ? _json['csvDelimiter'] as core.String
+              : null,
+          dimensions: _json.containsKey('dimensions')
+              ? (_json['dimensions'] as core.List)
+                  .map((value) => value as core.String)
+                  .toList()
+              : null,
+          displayName: _json.containsKey('displayName')
+              ? _json['displayName'] as core.String
+              : null,
+          envgroupHostname: _json.containsKey('envgroupHostname')
+              ? _json['envgroupHostname'] as core.String
+              : null,
+          filter: _json.containsKey('filter')
+              ? _json['filter'] as core.String
+              : null,
+          groupByTimeUnit: _json.containsKey('groupByTimeUnit')
+              ? _json['groupByTimeUnit'] as core.String
+              : null,
+          limit: _json.containsKey('limit') ? _json['limit'] as core.int : null,
+          metrics: _json.containsKey('metrics')
+              ? (_json['metrics'] as core.List)
+                  .map((value) =>
+                      GoogleCloudApigeeV1SecurityReportQueryMetric.fromJson(
+                          value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+          mimeType: _json.containsKey('mimeType')
+              ? _json['mimeType'] as core.String
+              : null,
+          reportDefinitionId: _json.containsKey('reportDefinitionId')
+              ? _json['reportDefinitionId'] as core.String
+              : null,
+          timeRange: _json.containsKey('timeRange') ? _json['timeRange'] : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (csvDelimiter != null) 'csvDelimiter': csvDelimiter!,
+        if (dimensions != null) 'dimensions': dimensions!,
+        if (displayName != null) 'displayName': displayName!,
+        if (envgroupHostname != null) 'envgroupHostname': envgroupHostname!,
+        if (filter != null) 'filter': filter!,
+        if (groupByTimeUnit != null) 'groupByTimeUnit': groupByTimeUnit!,
+        if (limit != null) 'limit': limit!,
+        if (metrics != null) 'metrics': metrics!,
+        if (mimeType != null) 'mimeType': mimeType!,
+        if (reportDefinitionId != null)
+          'reportDefinitionId': reportDefinitionId!,
+        if (timeRange != null) 'timeRange': timeRange!,
+      };
+}
+
+/// Metric of the Query
+class GoogleCloudApigeeV1SecurityReportQueryMetric {
+  /// Aggregation function: avg, min, max, or sum.
+  core.String? aggregationFunction;
+
+  /// Alias for the metric.
+  ///
+  /// Alias will be used to replace metric name in query results.
+  core.String? alias;
+
+  /// Metric name.
+  ///
+  /// Required.
+  core.String? name;
+
+  /// One of `+`, `-`, `/`, `%`, `*`.
+  core.String? operator;
+
+  /// Operand value should be provided when operator is set.
+  core.String? value;
+
+  GoogleCloudApigeeV1SecurityReportQueryMetric({
+    this.aggregationFunction,
+    this.alias,
+    this.name,
+    this.operator,
+    this.value,
+  });
+
+  GoogleCloudApigeeV1SecurityReportQueryMetric.fromJson(core.Map _json)
+      : this(
+          aggregationFunction: _json.containsKey('aggregationFunction')
+              ? _json['aggregationFunction'] as core.String
+              : null,
+          alias:
+              _json.containsKey('alias') ? _json['alias'] as core.String : null,
+          name: _json.containsKey('name') ? _json['name'] as core.String : null,
+          operator: _json.containsKey('operator')
+              ? _json['operator'] as core.String
+              : null,
+          value:
+              _json.containsKey('value') ? _json['value'] as core.String : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (aggregationFunction != null)
+          'aggregationFunction': aggregationFunction!,
+        if (alias != null) 'alias': alias!,
+        if (name != null) 'name': name!,
+        if (operator != null) 'operator': operator!,
+        if (value != null) 'value': value!,
+      };
+}
+
+/// Contains informations about the security report results.
+class GoogleCloudApigeeV1SecurityReportResultMetadata {
+  /// Expire_time is set to 7 days after report creation.
+  ///
+  /// Query result will be unaccessable after this time. Example:
+  /// "2021-05-04T13:38:52-07:00"
+  ///
+  /// Output only.
+  core.String? expires;
+
+  /// Self link of the query results.
+  ///
+  /// Example:
+  /// `/organizations/myorg/environments/myenv/securityReports/9cfc0d85-0f30-46d6-ae6f-318d0cb961bd/result`
+  /// or following format if query is running at host level:
+  /// `/organizations/myorg/hostSecurityReports/9cfc0d85-0f30-46d6-ae6f-318d0cb961bd/result`
+  core.String? self;
+
+  GoogleCloudApigeeV1SecurityReportResultMetadata({
+    this.expires,
+    this.self,
+  });
+
+  GoogleCloudApigeeV1SecurityReportResultMetadata.fromJson(core.Map _json)
+      : this(
+          expires: _json.containsKey('expires')
+              ? _json['expires'] as core.String
+              : null,
+          self: _json.containsKey('self') ? _json['self'] as core.String : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (expires != null) 'expires': expires!,
+        if (self != null) 'self': self!,
+      };
+}
+
+/// The response for security report result view APIs.
+class GoogleCloudApigeeV1SecurityReportResultView {
+  /// Error code when there is a failure.
+  core.int? code;
+
+  /// Error message when there is a failure.
+  core.String? error;
+
+  /// Metadata contains information like metrics, dimenstions etc of the
+  /// security report.
+  GoogleCloudApigeeV1SecurityReportMetadata? metadata;
+
+  /// Rows of security report result.
+  ///
+  /// Each row is a JSON object. Example: {sum(message_count): 1, developer_app:
+  /// "(not set)",…}
+  ///
+  /// The values for Object must be JSON objects. It can consist of `num`,
+  /// `String`, `bool` and `null` as well as `Map` and `List` values.
+  core.List<core.Object?>? rows;
+
+  /// State of retrieving ResultView.
+  core.String? state;
+
+  GoogleCloudApigeeV1SecurityReportResultView({
+    this.code,
+    this.error,
+    this.metadata,
+    this.rows,
+    this.state,
+  });
+
+  GoogleCloudApigeeV1SecurityReportResultView.fromJson(core.Map _json)
+      : this(
+          code: _json.containsKey('code') ? _json['code'] as core.int : null,
+          error:
+              _json.containsKey('error') ? _json['error'] as core.String : null,
+          metadata: _json.containsKey('metadata')
+              ? GoogleCloudApigeeV1SecurityReportMetadata.fromJson(
+                  _json['metadata'] as core.Map<core.String, core.dynamic>)
+              : null,
+          rows: _json.containsKey('rows') ? _json['rows'] as core.List : null,
+          state:
+              _json.containsKey('state') ? _json['state'] as core.String : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (code != null) 'code': code!,
+        if (error != null) 'error': error!,
+        if (metadata != null) 'metadata': metadata!,
+        if (rows != null) 'rows': rows!,
+        if (state != null) 'state': state!,
+      };
+}
+
 class GoogleCloudApigeeV1ServiceIssuersMapping {
   /// List of trusted issuer email ids.
   core.List<core.String>? emailIds;
@@ -23302,6 +25403,14 @@ typedef GoogleRpcStatus = $Status;
 /// service that evaluates it. See the service documentation for additional
 /// information.
 typedef GoogleTypeExpr = $Expr;
+
+/// Represents a time interval, encoded as a Timestamp start (inclusive) and a
+/// Timestamp end (exclusive).
+///
+/// The start must be less than or equal to the end. When the start equals the
+/// end, the interval is empty (matches no time). When both start and end are
+/// unspecified, the interval matches any time.
+typedef GoogleTypeInterval = $Interval;
 
 /// Represents an amount of money with its currency type.
 typedef GoogleTypeMoney = $Money;

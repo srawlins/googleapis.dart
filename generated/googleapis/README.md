@@ -196,6 +196,13 @@ Provides ways to manage Bare Metal Solution hardware installed in a regional ext
 - [Documentation](https://cloud.google.com/bare-metal)
 - [API details](https://pub.dev/documentation/googleapis/9.1.0/baremetalsolution.v2/baremetalsolution.v2-library.html)
 
+#### BeyondCorp API - `beyondcorp.v1`
+
+Beyondcorp Enterprise provides identity and context aware access controls for enterprise resources and enables zero-trust access. Using the Beyondcorp Enterprise APIs, enterprises can set up multi-cloud and on-prem connectivity using the App Connector hybrid connectivity solution.
+
+- [Documentation](https://cloud.google.com/)
+- [API details](https://pub.dev/documentation/googleapis/9.1.0/beyondcorp.v1/beyondcorp.v1-library.html)
+
 #### ![Logo](https://www.google.com/images/icons/product/search-16.gif) BigQuery API - `bigquery.v2`
 
 A data platform for customers to create, manage, share and query data.
@@ -238,7 +245,7 @@ The management interface for Binary Authorization, a service that provides polic
 - [Documentation](https://cloud.google.com/binary-authorization/)
 - [API details](https://pub.dev/documentation/googleapis/9.1.0/binaryauthorization.v1/binaryauthorization.v1-library.html)
 
-#### Blogger API v3 - `blogger.v3`
+#### Blogger API - `blogger.v3`
 
 The Blogger API provides access to posts, comments and pages of a Blogger blog.
 
@@ -572,6 +579,13 @@ Build applications to efficiently manage large or complex trafficking, reporting
 
 - [Documentation](https://developers.google.com/doubleclick-advertisers/)
 - [API details](https://pub.dev/documentation/googleapis/9.1.0/dfareporting.v3_5/dfareporting.v3_5-library.html)
+
+#### Campaign Manager 360 API - `dfareporting.v4`
+
+Build applications to efficiently manage large or complex trafficking, reporting, and attribution workflows for Campaign Manager 360.
+
+- [Documentation](https://developers.google.com/doubleclick-advertisers/)
+- [API details](https://pub.dev/documentation/googleapis/9.1.0/dfareporting.v4/dfareporting.v4-library.html)
 
 #### Dialogflow API - `dialogflow.v2`
 
@@ -1006,7 +1020,7 @@ The My Business Account Management API provides an interface for managing access
 
 #### My Business Business Calls API - `mybusinessbusinesscalls.v1`
 
-The My Business Business Calls API manages business calls information of a location on Google.
+The My Business Business Calls API manages business calls information of a location on Google and collect insights like the number of missed calls to their location. Additional information about Business calls can be found at https://support.google.com/business/answer/9688285?p=call_history. If the Google Business Profile links to a Google Ads account and call history is turned on, calls that last longer than a specific time, and that can be attributed to an ad interaction, will show in the linked Google Ads account under the "Calls from Ads" conversion. If smart bidding and call conversions are used in the optimization strategy, there could be a change in ad spend. Learn more about smart bidding. To view and perform actions on a location's calls, you need to be a `OWNER`, `CO_OWNER` or `MANAGER` of the location.
 
 - [Documentation](https://developers.google.com/my-business/)
 - [API details](https://pub.dev/documentation/googleapis/9.1.0/mybusinessbusinesscalls.v1/mybusinessbusinesscalls.v1-library.html)

@@ -6291,6 +6291,9 @@ class Person {
   /// The person's name
   core.List<Name>? personNames;
 
+  /// The person's phone numbers
+  core.List<PhoneNumber>? phoneNumbers;
+
   /// A person's read-only photo.
   ///
   /// A picture shown next to the person's name to help others recognize the
@@ -6302,6 +6305,7 @@ class Person {
     this.name,
     this.obfuscatedId,
     this.personNames,
+    this.phoneNumbers,
     this.photos,
   });
 
@@ -6323,6 +6327,12 @@ class Person {
                       value as core.Map<core.String, core.dynamic>))
                   .toList()
               : null,
+          phoneNumbers: _json.containsKey('phoneNumbers')
+              ? (_json['phoneNumbers'] as core.List)
+                  .map((value) => PhoneNumber.fromJson(
+                      value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
           photos: _json.containsKey('photos')
               ? (_json['photos'] as core.List)
                   .map((value) => Photo.fromJson(
@@ -6336,7 +6346,39 @@ class Person {
         if (name != null) 'name': name!,
         if (obfuscatedId != null) 'obfuscatedId': obfuscatedId!,
         if (personNames != null) 'personNames': personNames!,
+        if (phoneNumbers != null) 'phoneNumbers': phoneNumbers!,
         if (photos != null) 'photos': photos!,
+      };
+}
+
+/// A person's Phone Number
+class PhoneNumber {
+  /// The phone number of the person.
+  core.String? phoneNumber;
+
+  ///
+  /// Possible string values are:
+  /// - "OTHER"
+  /// - "MOBILE"
+  /// - "OFFICE"
+  core.String? type;
+
+  PhoneNumber({
+    this.phoneNumber,
+    this.type,
+  });
+
+  PhoneNumber.fromJson(core.Map _json)
+      : this(
+          phoneNumber: _json.containsKey('phoneNumber')
+              ? _json['phoneNumber'] as core.String
+              : null,
+          type: _json.containsKey('type') ? _json['type'] as core.String : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (phoneNumber != null) 'phoneNumber': phoneNumber!,
+        if (type != null) 'type': type!,
       };
 }
 

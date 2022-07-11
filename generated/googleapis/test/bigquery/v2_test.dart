@@ -5243,6 +5243,7 @@ api.QueryTimelineSample buildQueryTimelineSample() {
     o.activeUnits = 'foo';
     o.completedUnits = 'foo';
     o.elapsedMs = 'foo';
+    o.estimatedRunnableUnits = 'foo';
     o.pendingUnits = 'foo';
     o.totalSlotMs = 'foo';
   }
@@ -5263,6 +5264,10 @@ void checkQueryTimelineSample(api.QueryTimelineSample o) {
     );
     unittest.expect(
       o.elapsedMs!,
+      unittest.equals('foo'),
+    );
+    unittest.expect(
+      o.estimatedRunnableUnits!,
       unittest.equals('foo'),
     );
     unittest.expect(
@@ -6127,6 +6132,7 @@ api.Table buildTable() {
     o.lastModifiedTime = 'foo';
     o.location = 'foo';
     o.materializedView = buildMaterializedViewDefinition();
+    o.maxStaleness = 'foo';
     o.model = buildModelDefinition();
     o.numBytes = 'foo';
     o.numLongTermBytes = 'foo';
@@ -6204,6 +6210,10 @@ void checkTable(api.Table o) {
       unittest.equals('foo'),
     );
     checkMaterializedViewDefinition(o.materializedView!);
+    unittest.expect(
+      o.maxStaleness!,
+      unittest.equals('foo'),
+    );
     checkModelDefinition(o.model!);
     unittest.expect(
       o.numBytes!,
@@ -7123,9 +7133,11 @@ api.TrainingOptions buildTrainingOptions() {
     o.lossType = 'foo';
     o.maxIterations = 'foo';
     o.maxParallelTrials = 'foo';
+    o.maxTimeSeriesLength = 'foo';
     o.maxTreeDepth = 'foo';
     o.minRelativeProgress = 42.0;
     o.minSplitLoss = 42.0;
+    o.minTimeSeriesLength = 'foo';
     o.minTreeChildWeight = 'foo';
     o.modelUri = 'foo';
     o.nonSeasonalOrder = buildArimaOrder();
@@ -7140,8 +7152,10 @@ api.TrainingOptions buildTrainingOptions() {
     o.timeSeriesDataColumn = 'foo';
     o.timeSeriesIdColumn = 'foo';
     o.timeSeriesIdColumns = buildUnnamed114();
+    o.timeSeriesLengthFraction = 42.0;
     o.timeSeriesTimestampColumn = 'foo';
     o.treeMethod = 'foo';
+    o.trendSmoothingWindowSize = 'foo';
     o.userColumn = 'foo';
     o.walsAlpha = 42.0;
     o.warmStart = true;
@@ -7278,6 +7292,10 @@ void checkTrainingOptions(api.TrainingOptions o) {
       unittest.equals('foo'),
     );
     unittest.expect(
+      o.maxTimeSeriesLength!,
+      unittest.equals('foo'),
+    );
+    unittest.expect(
       o.maxTreeDepth!,
       unittest.equals('foo'),
     );
@@ -7288,6 +7306,10 @@ void checkTrainingOptions(api.TrainingOptions o) {
     unittest.expect(
       o.minSplitLoss!,
       unittest.equals(42.0),
+    );
+    unittest.expect(
+      o.minTimeSeriesLength!,
+      unittest.equals('foo'),
     );
     unittest.expect(
       o.minTreeChildWeight!,
@@ -7337,11 +7359,19 @@ void checkTrainingOptions(api.TrainingOptions o) {
     );
     checkUnnamed114(o.timeSeriesIdColumns!);
     unittest.expect(
+      o.timeSeriesLengthFraction!,
+      unittest.equals(42.0),
+    );
+    unittest.expect(
       o.timeSeriesTimestampColumn!,
       unittest.equals('foo'),
     );
     unittest.expect(
       o.treeMethod!,
+      unittest.equals('foo'),
+    );
+    unittest.expect(
+      o.trendSmoothingWindowSize!,
       unittest.equals('foo'),
     );
     unittest.expect(

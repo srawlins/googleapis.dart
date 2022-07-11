@@ -1527,6 +1527,7 @@ class AuthConfig {
   /// Authorization Grant based authentication
   /// - "OAUTH2_CLIENT_CREDENTIALS" : Oauth 2.0 Client Credentials Grant
   /// Authentication
+  /// - "SSH_PUBLIC_KEY" : SSH Public Key Authentication
   core.String? authType;
 
   /// Oauth2ClientCredentials.
@@ -1534,6 +1535,9 @@ class AuthConfig {
 
   /// Oauth2JwtBearer.
   Oauth2JwtBearer? oauth2JwtBearer;
+
+  /// SSH Public Key.
+  SshPublicKey? sshPublicKey;
 
   /// UserPassword.
   UserPassword? userPassword;
@@ -1543,6 +1547,7 @@ class AuthConfig {
     this.authType,
     this.oauth2ClientCredentials,
     this.oauth2JwtBearer,
+    this.sshPublicKey,
     this.userPassword,
   });
 
@@ -1566,6 +1571,10 @@ class AuthConfig {
               ? Oauth2JwtBearer.fromJson(_json['oauth2JwtBearer']
                   as core.Map<core.String, core.dynamic>)
               : null,
+          sshPublicKey: _json.containsKey('sshPublicKey')
+              ? SshPublicKey.fromJson(
+                  _json['sshPublicKey'] as core.Map<core.String, core.dynamic>)
+              : null,
           userPassword: _json.containsKey('userPassword')
               ? UserPassword.fromJson(
                   _json['userPassword'] as core.Map<core.String, core.dynamic>)
@@ -1579,6 +1588,7 @@ class AuthConfig {
         if (oauth2ClientCredentials != null)
           'oauth2ClientCredentials': oauth2ClientCredentials!,
         if (oauth2JwtBearer != null) 'oauth2JwtBearer': oauth2JwtBearer!,
+        if (sshPublicKey != null) 'sshPublicKey': sshPublicKey!,
         if (userPassword != null) 'userPassword': userPassword!,
       };
 }
@@ -1593,6 +1603,7 @@ class AuthConfigTemplate {
   /// Authorization Grant based authentication
   /// - "OAUTH2_CLIENT_CREDENTIALS" : Oauth 2.0 Client Credentials Grant
   /// Authentication
+  /// - "SSH_PUBLIC_KEY" : SSH Public Key Authentication
   core.String? authType;
 
   /// Config variables to describe an `AuthConfig` for a `Connection`.
@@ -4068,6 +4079,56 @@ class Source {
   core.Map<core.String, core.dynamic> toJson() => {
         if (fieldId != null) 'fieldId': fieldId!,
         if (sourceType != null) 'sourceType': sourceType!,
+      };
+}
+
+/// Parameters to support Ssh public key Authentication.
+class SshPublicKey {
+  /// Format of SSH Client cert.
+  core.String? certType;
+
+  /// This is an optional field used in case client has enabled multi-factor
+  /// authentication
+  Secret? password;
+
+  /// SSH Client Cert.
+  ///
+  /// It should contain both public and private key.
+  Secret? sshClientCert;
+
+  /// The user account used to authenticate.
+  core.String? username;
+
+  SshPublicKey({
+    this.certType,
+    this.password,
+    this.sshClientCert,
+    this.username,
+  });
+
+  SshPublicKey.fromJson(core.Map _json)
+      : this(
+          certType: _json.containsKey('certType')
+              ? _json['certType'] as core.String
+              : null,
+          password: _json.containsKey('password')
+              ? Secret.fromJson(
+                  _json['password'] as core.Map<core.String, core.dynamic>)
+              : null,
+          sshClientCert: _json.containsKey('sshClientCert')
+              ? Secret.fromJson(
+                  _json['sshClientCert'] as core.Map<core.String, core.dynamic>)
+              : null,
+          username: _json.containsKey('username')
+              ? _json['username'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (certType != null) 'certType': certType!,
+        if (password != null) 'password': password!,
+        if (sshClientCert != null) 'sshClientCert': sshClientCert!,
+        if (username != null) 'username': username!,
       };
 }
 

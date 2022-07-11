@@ -6577,7 +6577,14 @@ class GooglePrivacyDlpV2CharacterMaskConfig {
   /// Number of characters to mask.
   ///
   /// If not set, all matching chars will be masked. Skipped characters do not
-  /// count towards this tally.
+  /// count towards this tally. If `number_to_mask` is negative, this denotes
+  /// inverse masking. Cloud DLP masks all but a number of characters. For
+  /// example, suppose you have the following values: - `masking_character` is
+  /// `*` - `number_to_mask` is `-4` - `reverse_order` is `false` -
+  /// `CharsToIgnore` includes `-` - Input string is `1234-5678-9012-3456` The
+  /// resulting de-identified string is `****-****-****-3456`. Cloud DLP masks
+  /// all but the last four characters. If `reverse_order` is `true`, all but
+  /// the first four characters are masked as `1234-****-****-****`.
   core.int? numberToMask;
 
   /// Mask characters in reverse order.
@@ -9737,8 +9744,115 @@ class GooglePrivacyDlpV2InfoType {
       };
 }
 
+/// Classification of infoTypes to organize them according to geographic
+/// location, industry, and data type.
+class GooglePrivacyDlpV2InfoTypeCategory {
+  /// The group of relevant businesses where this infoType is commonly used
+  /// Possible string values are:
+  /// - "INDUSTRY_UNSPECIFIED" : Unused industry
+  /// - "FINANCE" : The infoType is typically used in the finance industry.
+  /// - "HEALTH" : The infoType is typically used in the health industry.
+  /// - "TELECOMMUNICATIONS" : The infoType is typically used in the
+  /// telecommunications industry.
+  core.String? industryCategory;
+
+  /// The region or country that issued the ID or document represented by the
+  /// infoType.
+  /// Possible string values are:
+  /// - "LOCATION_UNSPECIFIED" : Unused location
+  /// - "GLOBAL" : The infoType is not issued by or tied to a specific region,
+  /// but is used almost everywhere.
+  /// - "ARGENTINA" : The infoType is typically used in Argentina.
+  /// - "AUSTRALIA" : The infoType is typically used in Australia.
+  /// - "BELGIUM" : The infoType is typically used in Belgium.
+  /// - "BRAZIL" : The infoType is typically used in Brazil.
+  /// - "CANADA" : The infoType is typically used in Canada.
+  /// - "CHILE" : The infoType is typically used in Chile.
+  /// - "CHINA" : The infoType is typically used in China.
+  /// - "COLOMBIA" : The infoType is typically used in Colombia.
+  /// - "DENMARK" : The infoType is typically used in Denmark.
+  /// - "FRANCE" : The infoType is typically used in France.
+  /// - "FINLAND" : The infoType is typically used in Finland.
+  /// - "GERMANY" : The infoType is typically used in Germany.
+  /// - "HONG_KONG" : The infoType is typically used in Hong Kong.
+  /// - "INDIA" : The infoType is typically used in India.
+  /// - "INDONESIA" : The infoType is typically used in Indonesia.
+  /// - "IRELAND" : The infoType is typically used in Ireland.
+  /// - "ISRAEL" : The infoType is typically used in Israel.
+  /// - "ITALY" : The infoType is typically used in Italy.
+  /// - "JAPAN" : The infoType is typically used in Japan.
+  /// - "KOREA" : The infoType is typically used in Korea.
+  /// - "MEXICO" : The infoType is typically used in Mexico.
+  /// - "THE_NETHERLANDS" : The infoType is typically used in the Netherlands.
+  /// - "NORWAY" : The infoType is typically used in Norway.
+  /// - "PARAGUAY" : The infoType is typically used in Paraguay.
+  /// - "PERU" : The infoType is typically used in Peru.
+  /// - "POLAND" : The infoType is typically used in Poland.
+  /// - "PORTUGAL" : The infoType is typically used in Portugal.
+  /// - "SINGAPORE" : The infoType is typically used in Singapore.
+  /// - "SOUTH_AFRICA" : The infoType is typically used in South Africa.
+  /// - "SPAIN" : The infoType is typically used in Spain.
+  /// - "SWEDEN" : The infoType is typically used in Sweden.
+  /// - "TAIWAN" : The infoType is typically used in Taiwan.
+  /// - "THAILAND" : The infoType is typically used in Thailand.
+  /// - "TURKEY" : The infoType is typically used in Turkey.
+  /// - "UNITED_KINGDOM" : The infoType is typically used in the United Kingdom.
+  /// - "UNITED_STATES" : The infoType is typically used in the United States.
+  /// - "URUGUAY" : The infoType is typically used in Uruguay.
+  /// - "VENEZUELA" : The infoType is typically used in Venezuela.
+  /// - "INTERNAL" : The infoType is typically used in Google internally.
+  core.String? locationCategory;
+
+  /// The class of identifiers where this infoType belongs
+  /// Possible string values are:
+  /// - "TYPE_UNSPECIFIED" : Unused type
+  /// - "PII" : Personally identifiable information, for example, a name or
+  /// phone number
+  /// - "SPII" : Personally identifiable information that is especially
+  /// sensitive, for example, a passport number.
+  /// - "DEMOGRAPHIC" : Attributes that can partially identify someone,
+  /// especially in combination with other attributes, like age, height, and
+  /// gender.
+  /// - "CREDENTIAL" : Confidential or secret information, for example, a
+  /// password.
+  /// - "GOVERNMENT_ID" : An identification document issued by a government.
+  /// - "DOCUMENT" : A document, for example, a resume or source code.
+  /// - "CONTEXTUAL_INFORMATION" : Information that is not sensitive on its own,
+  /// but provides details about the circumstances surrounding an entity or an
+  /// event.
+  core.String? typeCategory;
+
+  GooglePrivacyDlpV2InfoTypeCategory({
+    this.industryCategory,
+    this.locationCategory,
+    this.typeCategory,
+  });
+
+  GooglePrivacyDlpV2InfoTypeCategory.fromJson(core.Map _json)
+      : this(
+          industryCategory: _json.containsKey('industryCategory')
+              ? _json['industryCategory'] as core.String
+              : null,
+          locationCategory: _json.containsKey('locationCategory')
+              ? _json['locationCategory'] as core.String
+              : null,
+          typeCategory: _json.containsKey('typeCategory')
+              ? _json['typeCategory'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (industryCategory != null) 'industryCategory': industryCategory!,
+        if (locationCategory != null) 'locationCategory': locationCategory!,
+        if (typeCategory != null) 'typeCategory': typeCategory!,
+      };
+}
+
 /// InfoType description.
 class GooglePrivacyDlpV2InfoTypeDescription {
+  /// The category of the infoType.
+  core.List<GooglePrivacyDlpV2InfoTypeCategory>? categories;
+
   /// Description of the infotype.
   ///
   /// Translated when language is provided in the request.
@@ -9754,6 +9868,7 @@ class GooglePrivacyDlpV2InfoTypeDescription {
   core.List<core.String>? supportedBy;
 
   GooglePrivacyDlpV2InfoTypeDescription({
+    this.categories,
     this.description,
     this.displayName,
     this.name,
@@ -9762,6 +9877,12 @@ class GooglePrivacyDlpV2InfoTypeDescription {
 
   GooglePrivacyDlpV2InfoTypeDescription.fromJson(core.Map _json)
       : this(
+          categories: _json.containsKey('categories')
+              ? (_json['categories'] as core.List)
+                  .map((value) => GooglePrivacyDlpV2InfoTypeCategory.fromJson(
+                      value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
           description: _json.containsKey('description')
               ? _json['description'] as core.String
               : null,
@@ -9777,6 +9898,7 @@ class GooglePrivacyDlpV2InfoTypeDescription {
         );
 
   core.Map<core.String, core.dynamic> toJson() => {
+        if (categories != null) 'categories': categories!,
         if (description != null) 'description': description!,
         if (displayName != null) 'displayName': displayName!,
         if (name != null) 'name': name!,

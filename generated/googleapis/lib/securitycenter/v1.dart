@@ -5651,6 +5651,37 @@ class Cvssv3 {
       };
 }
 
+/// Memory hash detection contributing to the binary family match.
+class Detection {
+  /// The name of the binary associated with the memory hash signature
+  /// detection.
+  core.String? binary;
+
+  /// The percentage of memory page hashes in the signature that were matched.
+  core.double? percentPagesMatched;
+
+  Detection({
+    this.binary,
+    this.percentPagesMatched,
+  });
+
+  Detection.fromJson(core.Map _json)
+      : this(
+          binary: _json.containsKey('binary')
+              ? _json['binary'] as core.String
+              : null,
+          percentPagesMatched: _json.containsKey('percentPagesMatched')
+              ? (_json['percentPagesMatched'] as core.num).toDouble()
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (binary != null) 'binary': binary!,
+        if (percentPagesMatched != null)
+          'percentPagesMatched': percentPagesMatched!,
+      };
+}
+
 /// A generic empty message that you can re-use to avoid defining duplicated
 /// empty messages in your APIs.
 ///
@@ -7114,9 +7145,14 @@ class Indicator {
   /// List of ip addresses associated to the Finding.
   core.List<core.String>? ipAddresses;
 
+  /// The list of matched signatures indicating that the given process is
+  /// present in the environment.
+  core.List<ProcessSignature>? signatures;
+
   Indicator({
     this.domains,
     this.ipAddresses,
+    this.signatures,
   });
 
   Indicator.fromJson(core.Map _json)
@@ -7131,11 +7167,18 @@ class Indicator {
                   .map((value) => value as core.String)
                   .toList()
               : null,
+          signatures: _json.containsKey('signatures')
+              ? (_json['signatures'] as core.List)
+                  .map((value) => ProcessSignature.fromJson(
+                      value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
         );
 
   core.Map<core.String, core.dynamic> toJson() => {
         if (domains != null) 'domains': domains!,
         if (ipAddresses != null) 'ipAddresses': ipAddresses!,
+        if (signatures != null) 'signatures': signatures!,
       };
 }
 
@@ -7491,6 +7534,39 @@ class ListSourcesResponse {
   core.Map<core.String, core.dynamic> toJson() => {
         if (nextPageToken != null) 'nextPageToken': nextPageToken!,
         if (sources != null) 'sources': sources!,
+      };
+}
+
+/// A signature corresponding to memory page hashes.
+class MemoryHashSignature {
+  /// The binary family.
+  core.String? binaryFamily;
+
+  /// The list of memory hash detections contributing to the binary family
+  /// match.
+  core.List<Detection>? detections;
+
+  MemoryHashSignature({
+    this.binaryFamily,
+    this.detections,
+  });
+
+  MemoryHashSignature.fromJson(core.Map _json)
+      : this(
+          binaryFamily: _json.containsKey('binaryFamily')
+              ? _json['binaryFamily'] as core.String
+              : null,
+          detections: _json.containsKey('detections')
+              ? (_json['detections'] as core.List)
+                  .map((value) => Detection.fromJson(
+                      value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (binaryFamily != null) 'binaryFamily': binaryFamily!,
+        if (detections != null) 'detections': detections!,
       };
 }
 
@@ -7912,6 +7988,10 @@ class Process {
   /// File information for libraries loaded by the process.
   core.List<File>? libraries;
 
+  /// The process name visible in utilities like top and ps; it can be accessed
+  /// via /proc/\[pid\]/comm and changed with prctl(PR_SET_NAME).
+  core.String? name;
+
   /// The parent process id.
   core.String? parentPid;
 
@@ -7930,6 +8010,7 @@ class Process {
     this.envVariables,
     this.envVariablesTruncated,
     this.libraries,
+    this.name,
     this.parentPid,
     this.pid,
     this.script,
@@ -7964,6 +8045,7 @@ class Process {
                       value as core.Map<core.String, core.dynamic>))
                   .toList()
               : null,
+          name: _json.containsKey('name') ? _json['name'] as core.String : null,
           parentPid: _json.containsKey('parentPid')
               ? _json['parentPid'] as core.String
               : null,
@@ -7983,9 +8065,42 @@ class Process {
         if (envVariablesTruncated != null)
           'envVariablesTruncated': envVariablesTruncated!,
         if (libraries != null) 'libraries': libraries!,
+        if (name != null) 'name': name!,
         if (parentPid != null) 'parentPid': parentPid!,
         if (pid != null) 'pid': pid!,
         if (script != null) 'script': script!,
+      };
+}
+
+/// Indicates what signature matched this process.
+class ProcessSignature {
+  /// Signature indicating that a binary family was matched.
+  MemoryHashSignature? memoryHashSignature;
+
+  /// Signature indicating that a YARA rule was matched.
+  YaraRuleSignature? yaraRuleSignature;
+
+  ProcessSignature({
+    this.memoryHashSignature,
+    this.yaraRuleSignature,
+  });
+
+  ProcessSignature.fromJson(core.Map _json)
+      : this(
+          memoryHashSignature: _json.containsKey('memoryHashSignature')
+              ? MemoryHashSignature.fromJson(_json['memoryHashSignature']
+                  as core.Map<core.String, core.dynamic>)
+              : null,
+          yaraRuleSignature: _json.containsKey('yaraRuleSignature')
+              ? YaraRuleSignature.fromJson(_json['yaraRuleSignature']
+                  as core.Map<core.String, core.dynamic>)
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (memoryHashSignature != null)
+          'memoryHashSignature': memoryHashSignature!,
+        if (yaraRuleSignature != null) 'yaraRuleSignature': yaraRuleSignature!,
       };
 }
 
@@ -8518,5 +8633,26 @@ class Vulnerability {
 
   core.Map<core.String, core.dynamic> toJson() => {
         if (cve != null) 'cve': cve!,
+      };
+}
+
+/// A signature corresponding to a YARA rule.
+class YaraRuleSignature {
+  /// The name of the YARA rule.
+  core.String? yaraRule;
+
+  YaraRuleSignature({
+    this.yaraRule,
+  });
+
+  YaraRuleSignature.fromJson(core.Map _json)
+      : this(
+          yaraRule: _json.containsKey('yaraRule')
+              ? _json['yaraRule'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (yaraRule != null) 'yaraRule': yaraRule!,
       };
 }

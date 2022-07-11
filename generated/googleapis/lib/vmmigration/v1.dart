@@ -30,6 +30,7 @@
 ///       - [ProjectsLocationsSourcesMigratingVmsResource]
 ///         - [ProjectsLocationsSourcesMigratingVmsCloneJobsResource]
 ///         - [ProjectsLocationsSourcesMigratingVmsCutoverJobsResource]
+///         - [ProjectsLocationsSourcesMigratingVmsReplicationCyclesResource]
 ///       - [ProjectsLocationsSourcesUtilizationReportsResource]
 ///     - [ProjectsLocationsTargetProjectsResource]
 library vmmigration.v1;
@@ -1339,6 +1340,10 @@ class ProjectsLocationsSourcesMigratingVmsResource {
       ProjectsLocationsSourcesMigratingVmsCloneJobsResource(_requester);
   ProjectsLocationsSourcesMigratingVmsCutoverJobsResource get cutoverJobs =>
       ProjectsLocationsSourcesMigratingVmsCutoverJobsResource(_requester);
+  ProjectsLocationsSourcesMigratingVmsReplicationCyclesResource
+      get replicationCycles =>
+          ProjectsLocationsSourcesMigratingVmsReplicationCyclesResource(
+              _requester);
 
   ProjectsLocationsSourcesMigratingVmsResource(commons.ApiRequester client)
       : _requester = client;
@@ -2215,6 +2220,111 @@ class ProjectsLocationsSourcesMigratingVmsCutoverJobsResource {
   }
 }
 
+class ProjectsLocationsSourcesMigratingVmsReplicationCyclesResource {
+  final commons.ApiRequester _requester;
+
+  ProjectsLocationsSourcesMigratingVmsReplicationCyclesResource(
+      commons.ApiRequester client)
+      : _requester = client;
+
+  /// Gets details of a single ReplicationCycle.
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Required. The name of the ReplicationCycle.
+  /// Value must have pattern
+  /// `^projects/\[^/\]+/locations/\[^/\]+/sources/\[^/\]+/migratingVms/\[^/\]+/replicationCycles/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [ReplicationCycle].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<ReplicationCycle> get(
+    core.String name, {
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return ReplicationCycle.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+
+  /// Lists ReplicationCycles in a given MigratingVM.
+  ///
+  /// Request parameters:
+  ///
+  /// [parent] - Required. The parent, which owns this collection of
+  /// ReplicationCycles.
+  /// Value must have pattern
+  /// `^projects/\[^/\]+/locations/\[^/\]+/sources/\[^/\]+/migratingVms/\[^/\]+$`.
+  ///
+  /// [filter] - Optional. The filter request.
+  ///
+  /// [orderBy] - Optional. the order by fields for the result.
+  ///
+  /// [pageSize] - Optional. The maximum number of replication cycles to return.
+  /// The service may return fewer than this value. If unspecified, at most 100
+  /// migrating VMs will be returned. The maximum value is 100; values above 100
+  /// will be coerced to 100.
+  ///
+  /// [pageToken] - Required. A page token, received from a previous
+  /// `ListReplicationCycles` call. Provide this to retrieve the subsequent
+  /// page. When paginating, all other parameters provided to
+  /// `ListReplicationCycles` must match the call that provided the page token.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [ListReplicationCyclesResponse].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<ListReplicationCyclesResponse> list(
+    core.String parent, {
+    core.String? filter,
+    core.String? orderBy,
+    core.int? pageSize,
+    core.String? pageToken,
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if (filter != null) 'filter': [filter],
+      if (orderBy != null) 'orderBy': [orderBy],
+      if (pageSize != null) 'pageSize': ['${pageSize}'],
+      if (pageToken != null) 'pageToken': [pageToken],
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v1/' + core.Uri.encodeFull('$parent') + '/replicationCycles';
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return ListReplicationCyclesResponse.fromJson(
+        _response as core.Map<core.String, core.dynamic>);
+  }
+}
+
 class ProjectsLocationsSourcesUtilizationReportsResource {
   final commons.ApiRequester _requester;
 
@@ -2878,6 +2988,9 @@ class AvailableUpdates {
 
 /// Represent the source AWS VM details.
 class AwsSourceVmDetails {
+  /// The total size of the disks being migrated in bytes.
+  core.String? committedStorageBytes;
+
   /// The firmware type of the source VM.
   /// Possible string values are:
   /// - "FIRMWARE_UNSPECIFIED" : The firmware is unknown.
@@ -2886,17 +2999,23 @@ class AwsSourceVmDetails {
   core.String? firmware;
 
   AwsSourceVmDetails({
+    this.committedStorageBytes,
     this.firmware,
   });
 
   AwsSourceVmDetails.fromJson(core.Map _json)
       : this(
+          committedStorageBytes: _json.containsKey('committedStorageBytes')
+              ? _json['committedStorageBytes'] as core.String
+              : null,
           firmware: _json.containsKey('firmware')
               ? _json['firmware'] as core.String
               : null,
         );
 
   core.Map<core.String, core.dynamic> toJson() => {
+        if (committedStorageBytes != null)
+          'committedStorageBytes': committedStorageBytes!,
         if (firmware != null) 'firmware': firmware!,
       };
 }
@@ -4215,6 +4334,56 @@ class ListOperationsResponse {
   core.Map<core.String, core.dynamic> toJson() => {
         if (nextPageToken != null) 'nextPageToken': nextPageToken!,
         if (operations != null) 'operations': operations!,
+      };
+}
+
+/// Response message for 'ListReplicationCycles' request.
+class ListReplicationCyclesResponse {
+  /// A token, which can be sent as `page_token` to retrieve the next page.
+  ///
+  /// If this field is omitted, there are no subsequent pages.
+  ///
+  /// Output only.
+  core.String? nextPageToken;
+
+  /// The list of replication cycles response.
+  ///
+  /// Output only.
+  core.List<ReplicationCycle>? replicationCycles;
+
+  /// Locations that could not be reached.
+  ///
+  /// Output only.
+  core.List<core.String>? unreachable;
+
+  ListReplicationCyclesResponse({
+    this.nextPageToken,
+    this.replicationCycles,
+    this.unreachable,
+  });
+
+  ListReplicationCyclesResponse.fromJson(core.Map _json)
+      : this(
+          nextPageToken: _json.containsKey('nextPageToken')
+              ? _json['nextPageToken'] as core.String
+              : null,
+          replicationCycles: _json.containsKey('replicationCycles')
+              ? (_json['replicationCycles'] as core.List)
+                  .map((value) => ReplicationCycle.fromJson(
+                      value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+          unreachable: _json.containsKey('unreachable')
+              ? (_json['unreachable'] as core.List)
+                  .map((value) => value as core.String)
+                  .toList()
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (nextPageToken != null) 'nextPageToken': nextPageToken!,
+        if (replicationCycles != null) 'replicationCycles': replicationCycles!,
+        if (unreachable != null) 'unreachable': unreachable!,
       };
 }
 

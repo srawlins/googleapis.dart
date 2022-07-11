@@ -2000,6 +2000,116 @@ class LiveBroadcastsResource {
         _response as core.Map<core.String, core.dynamic>);
   }
 
+  /// Insert cuepoints in a broadcast
+  ///
+  /// Request parameters:
+  ///
+  /// [id] - Broadcast to insert ads to, or equivalently `external_video_id` for
+  /// internal use.
+  ///
+  /// [onBehalfOfContentOwner] - *Note:* This parameter is intended exclusively
+  /// for YouTube content partners. The *onBehalfOfContentOwner* parameter
+  /// indicates that the request's authorization credentials identify a YouTube
+  /// CMS user who is acting on behalf of the content owner specified in the
+  /// parameter value. This parameter is intended for YouTube content partners
+  /// that own and manage many different YouTube channels. It allows content
+  /// owners to authenticate once and get access to all their video and channel
+  /// data, without having to provide authentication credentials for each
+  /// individual channel. The CMS account that the user authenticates with must
+  /// be linked to the specified YouTube content owner.
+  ///
+  /// [onBehalfOfContentOwnerChannel] - This parameter can only be used in a
+  /// properly authorized request. *Note:* This parameter is intended
+  /// exclusively for YouTube content partners. The
+  /// *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID
+  /// of the channel to which a video is being added. This parameter is required
+  /// when a request specifies a value for the onBehalfOfContentOwner parameter,
+  /// and it can only be used in conjunction with that parameter. In addition,
+  /// the request must be authorized using a CMS account that is linked to the
+  /// content owner that the onBehalfOfContentOwner parameter specifies.
+  /// Finally, the channel that the onBehalfOfContentOwnerChannel parameter
+  /// value specifies must be linked to the content owner that the
+  /// onBehalfOfContentOwner parameter specifies. This parameter is intended for
+  /// YouTube content partners that own and manage many different YouTube
+  /// channels. It allows content owners to authenticate once and perform
+  /// actions on behalf of the channel specified in the parameter value, without
+  /// having to provide authentication credentials for each separate channel.
+  ///
+  /// [part] - The *part* parameter specifies a comma-separated list of one or
+  /// more liveBroadcast resource properties that the API response will include.
+  /// The part names that you can include in the parameter value are id,
+  /// snippet, contentDetails, and status.
+  ///
+  /// [resource_cueType] - null
+  /// Possible string values are:
+  /// - "cueTypeUnspecified"
+  /// - "cueTypeAd"
+  ///
+  /// [resource_durationSecs] - The duration of this cuepoint.
+  ///
+  /// [resource_etag] - null
+  ///
+  /// [resource_id] - The identifier for cuepoint resource.
+  ///
+  /// [resource_insertionOffsetTimeMs] - The time when the cuepoint should be
+  /// inserted by offset to the broadcast actual start time.
+  ///
+  /// [resource_walltimeMs] - The wall clock time at which the cuepoint should
+  /// be inserted. Only one of insertion_offset_time_ms and walltime_ms may be
+  /// set at a time.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [Cuepoint].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<Cuepoint> insertCuepoint({
+    core.String? id,
+    core.String? onBehalfOfContentOwner,
+    core.String? onBehalfOfContentOwnerChannel,
+    core.List<core.String>? part,
+    core.String? resource_cueType,
+    core.int? resource_durationSecs,
+    core.String? resource_etag,
+    core.String? resource_id,
+    core.String? resource_insertionOffsetTimeMs,
+    core.String? resource_walltimeMs,
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if (id != null) 'id': [id],
+      if (onBehalfOfContentOwner != null)
+        'onBehalfOfContentOwner': [onBehalfOfContentOwner],
+      if (onBehalfOfContentOwnerChannel != null)
+        'onBehalfOfContentOwnerChannel': [onBehalfOfContentOwnerChannel],
+      if (part != null) 'part': part,
+      if (resource_cueType != null) 'resource.cueType': [resource_cueType],
+      if (resource_durationSecs != null)
+        'resource.durationSecs': ['${resource_durationSecs}'],
+      if (resource_etag != null) 'resource.etag': [resource_etag],
+      if (resource_id != null) 'resource.id': [resource_id],
+      if (resource_insertionOffsetTimeMs != null)
+        'resource.insertionOffsetTimeMs': [resource_insertionOffsetTimeMs],
+      if (resource_walltimeMs != null)
+        'resource.walltimeMs': [resource_walltimeMs],
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    const _url = 'youtube/v3/liveBroadcasts/cuepoint';
+
+    final _response = await _requester.request(
+      _url,
+      'POST',
+      queryParams: _queryParams,
+    );
+    return Cuepoint.fromJson(_response as core.Map<core.String, core.dynamic>);
+  }
+
   /// Retrieve the list of broadcasts associated with the given channel.
   ///
   /// Request parameters:
@@ -4432,14 +4542,14 @@ class ThirdPartyLinksResource {
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
   ///
-  /// Completes with a [ThirdPartyLink].
+  /// Completes with a [ThirdPartyLinkListResponse].
   ///
   /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
   /// error.
   ///
   /// If the used [http.Client] completes with an error when making a REST call,
   /// this method will complete with the same error.
-  async.Future<ThirdPartyLink> list(
+  async.Future<ThirdPartyLinkListResponse> list(
     core.List<core.String> part, {
     core.String? externalChannelId,
     core.String? linkingToken,
@@ -4464,7 +4574,7 @@ class ThirdPartyLinksResource {
       'GET',
       queryParams: _queryParams,
     );
-    return ThirdPartyLink.fromJson(
+    return ThirdPartyLinkListResponse.fromJson(
         _response as core.Map<core.String, core.dynamic>);
   }
 
@@ -9760,6 +9870,71 @@ class ContentRating {
         if (smsaRating != null) 'smsaRating': smsaRating!,
         if (tvpgRating != null) 'tvpgRating': tvpgRating!,
         if (ytRating != null) 'ytRating': ytRating!,
+      };
+}
+
+/// Note that there may be a 5-second end-point resolution issue.
+///
+/// For instance, if a cuepoint comes in for 22:03:27, we may stuff the cuepoint
+/// into 22:03:25 or 22:03:30, depending. This is an artifact of HLS.
+class Cuepoint {
+  ///
+  /// Possible string values are:
+  /// - "cueTypeUnspecified"
+  /// - "cueTypeAd"
+  core.String? cueType;
+
+  /// The duration of this cuepoint.
+  core.int? durationSecs;
+  core.String? etag;
+
+  /// The identifier for cuepoint resource.
+  core.String? id;
+
+  /// The time when the cuepoint should be inserted by offset to the broadcast
+  /// actual start time.
+  core.String? insertionOffsetTimeMs;
+
+  /// The wall clock time at which the cuepoint should be inserted.
+  ///
+  /// Only one of insertion_offset_time_ms and walltime_ms may be set at a time.
+  core.String? walltimeMs;
+
+  Cuepoint({
+    this.cueType,
+    this.durationSecs,
+    this.etag,
+    this.id,
+    this.insertionOffsetTimeMs,
+    this.walltimeMs,
+  });
+
+  Cuepoint.fromJson(core.Map _json)
+      : this(
+          cueType: _json.containsKey('cueType')
+              ? _json['cueType'] as core.String
+              : null,
+          durationSecs: _json.containsKey('durationSecs')
+              ? _json['durationSecs'] as core.int
+              : null,
+          etag: _json.containsKey('etag') ? _json['etag'] as core.String : null,
+          id: _json.containsKey('id') ? _json['id'] as core.String : null,
+          insertionOffsetTimeMs: _json.containsKey('insertionOffsetTimeMs')
+              ? _json['insertionOffsetTimeMs'] as core.String
+              : null,
+          walltimeMs: _json.containsKey('walltimeMs')
+              ? _json['walltimeMs'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (cueType != null) 'cueType': cueType!,
+        if (durationSecs != null) 'durationSecs': durationSecs!,
+        if (etag != null) 'etag': etag!,
+        if (id != null) 'id': id!,
+        if (insertionOffsetTimeMs != null)
+          'insertionOffsetTimeMs': insertionOffsetTimeMs!,
+        if (walltimeMs != null) 'walltimeMs': walltimeMs!,
       };
 }
 
@@ -15106,6 +15281,41 @@ class ThirdPartyLink {
         if (linkingToken != null) 'linkingToken': linkingToken!,
         if (snippet != null) 'snippet': snippet!,
         if (status != null) 'status': status!,
+      };
+}
+
+class ThirdPartyLinkListResponse {
+  /// Etag of this resource.
+  core.String? etag;
+  core.List<ThirdPartyLink>? items;
+
+  /// Identifies what kind of resource this is.
+  ///
+  /// Value: the fixed string "youtube#thirdPartyLinkListResponse".
+  core.String? kind;
+
+  ThirdPartyLinkListResponse({
+    this.etag,
+    this.items,
+    this.kind,
+  });
+
+  ThirdPartyLinkListResponse.fromJson(core.Map _json)
+      : this(
+          etag: _json.containsKey('etag') ? _json['etag'] as core.String : null,
+          items: _json.containsKey('items')
+              ? (_json['items'] as core.List)
+                  .map((value) => ThirdPartyLink.fromJson(
+                      value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+          kind: _json.containsKey('kind') ? _json['kind'] as core.String : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (etag != null) 'etag': etag!,
+        if (items != null) 'items': items!,
+        if (kind != null) 'kind': kind!,
       };
 }
 

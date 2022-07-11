@@ -10198,6 +10198,12 @@ class QueryTimelineSample {
   /// Milliseconds elapsed since the start of query execution.
   core.String? elapsedMs;
 
+  /// Units of work that can be scheduled immediately.
+  ///
+  /// Providing additional slots for these units of work will speed up the
+  /// query, provided no other query in the reservation needs additional slots.
+  core.String? estimatedRunnableUnits;
+
   /// Total parallel units of work remaining for the active stages.
   core.String? pendingUnits;
 
@@ -10208,6 +10214,7 @@ class QueryTimelineSample {
     this.activeUnits,
     this.completedUnits,
     this.elapsedMs,
+    this.estimatedRunnableUnits,
     this.pendingUnits,
     this.totalSlotMs,
   });
@@ -10223,6 +10230,9 @@ class QueryTimelineSample {
           elapsedMs: _json.containsKey('elapsedMs')
               ? _json['elapsedMs'] as core.String
               : null,
+          estimatedRunnableUnits: _json.containsKey('estimatedRunnableUnits')
+              ? _json['estimatedRunnableUnits'] as core.String
+              : null,
           pendingUnits: _json.containsKey('pendingUnits')
               ? _json['pendingUnits'] as core.String
               : null,
@@ -10235,6 +10245,8 @@ class QueryTimelineSample {
         if (activeUnits != null) 'activeUnits': activeUnits!,
         if (completedUnits != null) 'completedUnits': completedUnits!,
         if (elapsedMs != null) 'elapsedMs': elapsedMs!,
+        if (estimatedRunnableUnits != null)
+          'estimatedRunnableUnits': estimatedRunnableUnits!,
         if (pendingUnits != null) 'pendingUnits': pendingUnits!,
         if (totalSlotMs != null) 'totalSlotMs': totalSlotMs!,
       };
@@ -11458,6 +11470,19 @@ class Table {
   /// Optional.
   MaterializedViewDefinition? materializedView;
 
+  /// Max staleness of data that could be returned when table or materialized
+  /// view is queried (formatted as Google SQL Interval type).
+  ///
+  /// Optional.
+  core.String? maxStaleness;
+  core.List<core.int> get maxStalenessAsBytes =>
+      convert.base64.decode(maxStaleness!);
+
+  set maxStalenessAsBytes(core.List<core.int> _bytes) {
+    maxStaleness =
+        convert.base64.encode(_bytes).replaceAll('/', '_').replaceAll('+', '-');
+  }
+
   /// \[Output-only, Beta\] Present iff this table represents a ML model.
   ///
   /// Describes the training information for the model, and it is required to
@@ -11595,6 +11620,7 @@ class Table {
     this.lastModifiedTime,
     this.location,
     this.materializedView,
+    this.maxStaleness,
     this.model,
     this.numBytes,
     this.numLongTermBytes,
@@ -11676,6 +11702,9 @@ class Table {
           materializedView: _json.containsKey('materializedView')
               ? MaterializedViewDefinition.fromJson(_json['materializedView']
                   as core.Map<core.String, core.dynamic>)
+              : null,
+          maxStaleness: _json.containsKey('maxStaleness')
+              ? _json['maxStaleness'] as core.String
               : null,
           model: _json.containsKey('model')
               ? ModelDefinition.fromJson(
@@ -11776,6 +11805,7 @@ class Table {
         if (lastModifiedTime != null) 'lastModifiedTime': lastModifiedTime!,
         if (location != null) 'location': location!,
         if (materializedView != null) 'materializedView': materializedView!,
+        if (maxStaleness != null) 'maxStaleness': maxStaleness!,
         if (model != null) 'model': model!,
         if (numBytes != null) 'numBytes': numBytes!,
         if (numLongTermBytes != null) 'numLongTermBytes': numLongTermBytes!,
@@ -12906,6 +12936,12 @@ class TrainingOptions {
   /// Maximum number of trials to run in parallel.
   core.String? maxParallelTrials;
 
+  /// Get truncated length by last n points in time series.
+  ///
+  /// Use separately from time_series_length_fraction and
+  /// min_time_series_length.
+  core.String? maxTimeSeriesLength;
+
   /// Maximum depth of a tree for boosted tree models.
   core.String? maxTreeDepth;
 
@@ -12917,6 +12953,11 @@ class TrainingOptions {
 
   /// Minimum split loss for boosted tree models.
   core.double? minSplitLoss;
+
+  /// Set fast trend ARIMA_PLUS model minimum training length.
+  ///
+  /// Use in pair with time_series_length_fraction.
+  core.String? minTimeSeriesLength;
 
   /// Minimum sum of instance weight needed in a child for boosted tree models.
   core.String? minTreeChildWeight;
@@ -12975,6 +13016,9 @@ class TrainingOptions {
   /// The time series id columns that were used during ARIMA model training.
   core.List<core.String>? timeSeriesIdColumns;
 
+  /// Get truncated length by fraction in time series.
+  core.double? timeSeriesLengthFraction;
+
   /// Column to be designated as time series timestamp for ARIMA model.
   core.String? timeSeriesTimestampColumn;
 
@@ -12987,6 +13031,9 @@ class TrainingOptions {
   /// gradient histogram.
   /// - "HIST" : Fast histogram optimized approximate greedy algorithm.
   core.String? treeMethod;
+
+  /// The smoothing window size for the trend component of the time series.
+  core.String? trendSmoothingWindowSize;
 
   /// User column specified for matrix factorization models.
   core.String? userColumn;
@@ -13039,9 +13086,11 @@ class TrainingOptions {
     this.lossType,
     this.maxIterations,
     this.maxParallelTrials,
+    this.maxTimeSeriesLength,
     this.maxTreeDepth,
     this.minRelativeProgress,
     this.minSplitLoss,
+    this.minTimeSeriesLength,
     this.minTreeChildWeight,
     this.modelUri,
     this.nonSeasonalOrder,
@@ -13056,8 +13105,10 @@ class TrainingOptions {
     this.timeSeriesDataColumn,
     this.timeSeriesIdColumn,
     this.timeSeriesIdColumns,
+    this.timeSeriesLengthFraction,
     this.timeSeriesTimestampColumn,
     this.treeMethod,
+    this.trendSmoothingWindowSize,
     this.userColumn,
     this.walsAlpha,
     this.warmStart,
@@ -13201,6 +13252,9 @@ class TrainingOptions {
           maxParallelTrials: _json.containsKey('maxParallelTrials')
               ? _json['maxParallelTrials'] as core.String
               : null,
+          maxTimeSeriesLength: _json.containsKey('maxTimeSeriesLength')
+              ? _json['maxTimeSeriesLength'] as core.String
+              : null,
           maxTreeDepth: _json.containsKey('maxTreeDepth')
               ? _json['maxTreeDepth'] as core.String
               : null,
@@ -13209,6 +13263,9 @@ class TrainingOptions {
               : null,
           minSplitLoss: _json.containsKey('minSplitLoss')
               ? (_json['minSplitLoss'] as core.num).toDouble()
+              : null,
+          minTimeSeriesLength: _json.containsKey('minTimeSeriesLength')
+              ? _json['minTimeSeriesLength'] as core.String
               : null,
           minTreeChildWeight: _json.containsKey('minTreeChildWeight')
               ? _json['minTreeChildWeight'] as core.String
@@ -13255,6 +13312,10 @@ class TrainingOptions {
                   .map((value) => value as core.String)
                   .toList()
               : null,
+          timeSeriesLengthFraction:
+              _json.containsKey('timeSeriesLengthFraction')
+                  ? (_json['timeSeriesLengthFraction'] as core.num).toDouble()
+                  : null,
           timeSeriesTimestampColumn:
               _json.containsKey('timeSeriesTimestampColumn')
                   ? _json['timeSeriesTimestampColumn'] as core.String
@@ -13262,6 +13323,10 @@ class TrainingOptions {
           treeMethod: _json.containsKey('treeMethod')
               ? _json['treeMethod'] as core.String
               : null,
+          trendSmoothingWindowSize:
+              _json.containsKey('trendSmoothingWindowSize')
+                  ? _json['trendSmoothingWindowSize'] as core.String
+                  : null,
           userColumn: _json.containsKey('userColumn')
               ? _json['userColumn'] as core.String
               : null,
@@ -13322,10 +13387,14 @@ class TrainingOptions {
         if (lossType != null) 'lossType': lossType!,
         if (maxIterations != null) 'maxIterations': maxIterations!,
         if (maxParallelTrials != null) 'maxParallelTrials': maxParallelTrials!,
+        if (maxTimeSeriesLength != null)
+          'maxTimeSeriesLength': maxTimeSeriesLength!,
         if (maxTreeDepth != null) 'maxTreeDepth': maxTreeDepth!,
         if (minRelativeProgress != null)
           'minRelativeProgress': minRelativeProgress!,
         if (minSplitLoss != null) 'minSplitLoss': minSplitLoss!,
+        if (minTimeSeriesLength != null)
+          'minTimeSeriesLength': minTimeSeriesLength!,
         if (minTreeChildWeight != null)
           'minTreeChildWeight': minTreeChildWeight!,
         if (modelUri != null) 'modelUri': modelUri!,
@@ -13347,9 +13416,13 @@ class TrainingOptions {
           'timeSeriesIdColumn': timeSeriesIdColumn!,
         if (timeSeriesIdColumns != null)
           'timeSeriesIdColumns': timeSeriesIdColumns!,
+        if (timeSeriesLengthFraction != null)
+          'timeSeriesLengthFraction': timeSeriesLengthFraction!,
         if (timeSeriesTimestampColumn != null)
           'timeSeriesTimestampColumn': timeSeriesTimestampColumn!,
         if (treeMethod != null) 'treeMethod': treeMethod!,
+        if (trendSmoothingWindowSize != null)
+          'trendSmoothingWindowSize': trendSmoothingWindowSize!,
         if (userColumn != null) 'userColumn': userColumn!,
         if (walsAlpha != null) 'walsAlpha': walsAlpha!,
         if (warmStart != null) 'warmStart': warmStart!,

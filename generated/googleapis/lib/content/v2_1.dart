@@ -15205,7 +15205,8 @@ class MerchantRejectionReason {
 class Metrics {
   /// Average order size - the average number of items in an order.
   ///
-  /// **This metric cannot be segmented by product dimensions.**
+  /// **This metric cannot be segmented by product dimensions and
+  /// customer_country_code.**
   core.double? aos;
 
   /// Average order value - the average value (total price of items) of all
@@ -15215,7 +15216,8 @@ class Metrics {
   /// If this metric is selected, 'segments.currency_code' is automatically
   /// added to the SELECT clause in the search query (unless it is explicitly
   /// selected by the user) and the currency_code segment is populated in the
-  /// response. **This metric cannot be segmented by product dimensions.**
+  /// response. **This metric cannot be segmented by product dimensions and
+  /// customer_country_code.**
   core.double? aovMicros;
 
   /// Number of clicks.
@@ -15256,20 +15258,23 @@ class Metrics {
   /// Average number of days between an order being placed and the order being
   /// fully shipped, reported on the last shipment date.
   ///
-  /// **This metric cannot be segmented by product dimensions.**
+  /// **This metric cannot be segmented by product dimensions and
+  /// customer_country_code.**
   core.double? daysToShip;
 
   /// Number of times merchant's products are shown.
   core.String? impressions;
 
   /// Average number of days between an item being ordered and the item being
+  /// **This metric cannot be segmented by customer_country_code.**
   core.double? itemDaysToShip;
 
   /// Percentage of shipped items in relation to all finalized items (shipped or
   /// rejected by the merchant; unshipped items are not taken into account),
   /// reported on the order date.
   ///
-  /// Item fill rate is lowered by merchant rejections.
+  /// Item fill rate is lowered by merchant rejections. **This metric cannot be
+  /// segmented by customer_country_code.**
   core.double? itemFillRate;
 
   /// Total price of ordered items.
@@ -15279,23 +15284,27 @@ class Metrics {
   /// returned value is stored in the currency_code segment. If this metric is
   /// selected, 'segments.currency_code' is automatically added to the SELECT
   /// clause in the search query (unless it is explicitly selected by the user)
-  /// and the currency_code segment is populated in the response.
+  /// and the currency_code segment is populated in the response. **This metric
+  /// cannot be segmented by customer_country_code.**
   core.String? orderedItemSalesMicros;
 
   /// Number of ordered items.
   ///
   /// Excludes customer cancellations that happened within 30 minutes of placing
-  /// the order.
+  /// the order. **This metric cannot be segmented by customer_country_code.**
   core.String? orderedItems;
 
   /// Number of placed orders.
   ///
   /// Excludes customer cancellations that happened within 30 minutes of placing
-  /// the order. **This metric cannot be segmented by product dimensions.**
+  /// the order. **This metric cannot be segmented by product dimensions and
+  /// customer_country_code.**
   core.String? orders;
 
   /// Number of ordered items canceled by the merchant, reported on the order
   /// date.
+  ///
+  /// **This metric cannot be segmented by customer_country_code.**
   core.String? rejectedItems;
 
   /// Total price of returned items divided by the total price of shipped items,
@@ -15304,11 +15313,13 @@ class Metrics {
   /// If this metric is selected, 'segments.currency_code' is automatically
   /// added to the SELECT clause in the search query (unless it is explicitly
   /// selected by the user) and the currency_code segment is populated in the
-  /// response.
+  /// response. **This metric cannot be segmented by customer_country_code.**
   core.double? returnRate;
 
   /// Number of ordered items sent back for return, reported on the date when
   /// the merchant accepted the return.
+  ///
+  /// **This metric cannot be segmented by customer_country_code.**
   core.String? returnedItems;
 
   /// Total price of ordered items sent back for return, reported on the date
@@ -15318,7 +15329,7 @@ class Metrics {
   /// If this metric is selected, 'segments.currency_code' is automatically
   /// added to the SELECT clause in the search query (unless it is explicitly
   /// selected by the user) and the currency_code segment is populated in the
-  /// response.
+  /// response. **This metric cannot be segmented by customer_country_code.**
   core.String? returnsMicros;
 
   /// Total price of shipped items, reported on the order date.
@@ -15327,22 +15338,26 @@ class Metrics {
   /// is stored in the currency_code segment. If this metric is selected,
   /// 'segments.currency_code' is automatically added to the SELECT clause in
   /// the search query (unless it is explicitly selected by the user) and the
-  /// currency_code segment is populated in the response.
+  /// currency_code segment is populated in the response. **This metric cannot
+  /// be segmented by customer_country_code.**
   core.String? shippedItemSalesMicros;
 
   /// Number of shipped items, reported on the shipment date.
+  ///
+  /// **This metric cannot be segmented by customer_country_code.**
   core.String? shippedItems;
 
   /// Number of fully shipped orders, reported on the last shipment date.
   ///
-  /// **This metric cannot be segmented by product dimensions.**
+  /// **This metric cannot be segmented by product dimensions and
+  /// customer_country_code.**
   core.String? shippedOrders;
 
   /// Number of ordered items not shipped up until the end of the queried day.
   ///
   /// If a multi-day period is specified in the search query, the returned value
   /// is the average number of unshipped items over the days in the queried
-  /// period.
+  /// period. **This metric cannot be segmented by customer_country_code.**
   core.double? unshippedItems;
 
   /// Number of orders not shipped or partially shipped up until the end of the
@@ -15350,7 +15365,8 @@ class Metrics {
   ///
   /// If a multi-day period is specified in the search query, the returned value
   /// is the average number of unshipped orders over the days in the queried
-  /// period. **This metric cannot be segmented by product dimensions.**
+  /// period. **This metric cannot be segmented by product dimensions and
+  /// customer_country_code.**
   core.double? unshippedOrders;
 
   Metrics({
@@ -23911,10 +23927,9 @@ class ProductstatusesListResponse {
       };
 }
 
-/// The Promotions feature is available for `AU`, `CA`, `DE`, `FR`, `GB`, `IN`
-/// and `US` target countries, and `en` content language.
+/// Represents a promotion.
 ///
-/// Represents a promotion. See the following articles for more details. *
+/// See the following articles for more details. *
 /// [Promotions feed specification](https://support.google.com/merchants/answer/2906014)
 /// *
 /// [Local promotions feed specification](https://support.google.com/merchants/answer/10146130)
@@ -23929,7 +23944,9 @@ class Promotion {
 
   /// The content language used as part of the unique identifier.
   ///
-  /// Currently only `en` value is supported.
+  /// `en` content language is available for all target countries. `fr` content
+  /// language is available for `CA` and `FR` target countries, and `de` content
+  /// language is available for `DE` target country.
   ///
   /// Required.
   core.String? contentLanguage;
@@ -27200,11 +27217,11 @@ class SearchResponse {
 
 /// Dimensions according to which metrics are segmented in the response.
 ///
-/// Values of product dimensions, e.g., offer id, reflect the state of a product
-/// at the time of the corresponding event, e.g., impression or order. Segment
-/// fields cannot be selected in queries without also selecting at least one
-/// metric field. Values are only set for dimensions requested explicitly in the
-/// request's search query.
+/// Values of product dimensions, such as `offer_id`, reflect the state of a
+/// product at the time of the corresponding event, for example, impression or
+/// order. Segment fields cannot be selected in queries without also selecting
+/// at least one metric field. Values are only set for dimensions requested
+/// explicitly in the request's search query.
 class Segments {
   /// Brand of the product.
   core.String? brand;
@@ -27234,9 +27251,9 @@ class Segments {
   /// in Google's product taxonomy.
   core.String? categoryL5;
 
-  /// Currency in which price metrics are represented, e.g., if you select
-  /// `ordered_item_sales_micros`, the returned value will be represented by
-  /// this currency.
+  /// Currency in which price metrics are represented, for example, if you
+  /// select `ordered_item_sales_micros`, the returned value will be represented
+  /// by this currency.
   core.String? currencyCode;
 
   /// Custom label 0 for custom grouping of products.
@@ -27253,6 +27270,13 @@ class Segments {
 
   /// Custom label 4 for custom grouping of products.
   core.String? customLabel4;
+
+  /// Code of the country where the customer is located at the time of the
+  /// event.
+  ///
+  /// Represented in the ISO 3166 format. If the customer country cannot be
+  /// determined, a special 'ZZ' code is returned.
+  core.String? customerCountryCode;
 
   /// Date in the merchant timezone to which metrics apply.
   Date? date;
@@ -27285,7 +27309,7 @@ class Segments {
   /// in merchant's own product taxonomy.
   core.String? productTypeL5;
 
-  /// Program to which metrics apply, e.g., Free Product Listing.
+  /// Program to which metrics apply, for example, Free Product Listing.
   /// Possible string values are:
   /// - "PROGRAM_UNSPECIFIED" : Not specified.
   /// - "SHOPPING_ADS" : Shopping Ads.
@@ -27314,6 +27338,7 @@ class Segments {
     this.customLabel2,
     this.customLabel3,
     this.customLabel4,
+    this.customerCountryCode,
     this.date,
     this.offerId,
     this.productTypeL1,
@@ -27363,6 +27388,9 @@ class Segments {
           customLabel4: _json.containsKey('customLabel4')
               ? _json['customLabel4'] as core.String
               : null,
+          customerCountryCode: _json.containsKey('customerCountryCode')
+              ? _json['customerCountryCode'] as core.String
+              : null,
           date: _json.containsKey('date')
               ? Date.fromJson(
                   _json['date'] as core.Map<core.String, core.dynamic>)
@@ -27409,6 +27437,8 @@ class Segments {
         if (customLabel2 != null) 'customLabel2': customLabel2!,
         if (customLabel3 != null) 'customLabel3': customLabel3!,
         if (customLabel4 != null) 'customLabel4': customLabel4!,
+        if (customerCountryCode != null)
+          'customerCountryCode': customerCountryCode!,
         if (date != null) 'date': date!,
         if (offerId != null) 'offerId': offerId!,
         if (productTypeL1 != null) 'productTypeL1': productTypeL1!,

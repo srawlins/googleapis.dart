@@ -20114,6 +20114,9 @@ class GoogleCloudDialogflowV2QueryResult {
 
   /// Indicates whether the conversational query triggers a cancellation for
   /// slot filling.
+  ///
+  /// For more information, see the
+  /// [cancel slot filling documentation](https://cloud.google.com/dialogflow/es/docs/intents-actions-parameters#cancel).
   core.bool? cancelsSlotFilling;
 
   /// Free-form diagnostic information for the associated detect intent request.
@@ -21346,6 +21349,9 @@ class GoogleCloudDialogflowV2SynthesizeSpeechConfig {
       };
 }
 
+/// ============================================================================
+/// Auxiliary proto messages.
+///
 /// Represents the natural language text to be processed.
 class GoogleCloudDialogflowV2TextInput {
   /// The language of this conversational query.

@@ -5907,7 +5907,7 @@ class GoogleCloudDialogflowCxV3Agent {
   /// Please use agent.advanced_settings instead.
   core.bool? enableStackdriverLogging;
 
-  /// Indiciates whether the agent is locked for changes.
+  /// Indicates whether the agent is locked for changes.
   ///
   /// If the agent is locked, modifications to the agent will be rejected except
   /// for RestoreAgent.

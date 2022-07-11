@@ -12,7 +12,7 @@
 // ignore_for_file: unnecessary_lambdas
 // ignore_for_file: unnecessary_string_interpolations
 
-/// Blogger API v3 - v3
+/// Blogger API - v3
 ///
 /// The Blogger API provides access to posts, comments and pages of a Blogger
 /// blog.

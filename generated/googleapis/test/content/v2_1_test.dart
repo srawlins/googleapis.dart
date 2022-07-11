@@ -14736,6 +14736,7 @@ api.Segments buildSegments() {
     o.customLabel2 = 'foo';
     o.customLabel3 = 'foo';
     o.customLabel4 = 'foo';
+    o.customerCountryCode = 'foo';
     o.date = buildDate();
     o.offerId = 'foo';
     o.productTypeL1 = 'foo';
@@ -14800,6 +14801,10 @@ void checkSegments(api.Segments o) {
     );
     unittest.expect(
       o.customLabel4!,
+      unittest.equals('foo'),
+    );
+    unittest.expect(
+      o.customerCountryCode!,
       unittest.equals('foo'),
     );
     checkDate(o.date!);

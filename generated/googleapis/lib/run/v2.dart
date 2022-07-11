@@ -2280,18 +2280,25 @@ class GoogleCloudRunV2Execution {
 /// including the latest status.
 class GoogleCloudRunV2ExecutionReference {
   /// Creation timestamp of the execution.
+  core.String? completionTime;
+
+  /// Creation timestamp of the execution.
   core.String? createTime;
 
   /// Name of the execution.
   core.String? name;
 
   GoogleCloudRunV2ExecutionReference({
+    this.completionTime,
     this.createTime,
     this.name,
   });
 
   GoogleCloudRunV2ExecutionReference.fromJson(core.Map _json)
       : this(
+          completionTime: _json.containsKey('completionTime')
+              ? _json['completionTime'] as core.String
+              : null,
           createTime: _json.containsKey('createTime')
               ? _json['createTime'] as core.String
               : null,
@@ -2299,6 +2306,7 @@ class GoogleCloudRunV2ExecutionReference {
         );
 
   core.Map<core.String, core.dynamic> toJson() => {
+        if (completionTime != null) 'completionTime': completionTime!,
         if (createTime != null) 'createTime': createTime!,
         if (name != null) 'name': name!,
       };

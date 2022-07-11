@@ -1580,9 +1580,9 @@ class ProjectsResource {
   /// | NAME:howl | Equivalent to above. | | labels.color:* | The project has
   /// the label `color`. | | labels.color:red | The project's label `color` has
   /// the value `red`. | | labels.color:red labels.size:big | The project's
-  /// label `color` has the value `red` and its label `size` has the value
-  /// `big`.| ``` If no query is specified, the call will return projects for
-  /// which the user has the `resourcemanager.projects.get` permission.
+  /// label `color` has the value `red` or its label `size` has the value `big`.
+  /// | ``` If no query is specified, the call will return projects for which
+  /// the user has the `resourcemanager.projects.get` permission.
   ///
   /// [$fields] - Selector specifying which fields to include in a partial
   /// response.
@@ -1935,7 +1935,7 @@ class TagKeysResource {
   ///
   /// If another request with the same parameters is sent while the original
   /// request is in process, the second request will receive an error. A maximum
-  /// of 300 TagKeys can exist under a parent at any given time.
+  /// of 1000 TagKeys can exist under a parent at any given time.
   ///
   /// [request] - The metadata request object.
   ///
@@ -2324,7 +2324,7 @@ class TagValuesResource {
   ///
   /// If a another request with the same parameters is sent while the original
   /// request is in process the second request will receive an error. A maximum
-  /// of 300 TagValues can exist under a TagKey at any given time.
+  /// of 1000 TagValues can exist under a TagKey at any given time.
   ///
   /// [request] - The metadata request object.
   ///
@@ -4381,7 +4381,7 @@ class TagKey {
   /// purpose_data should be set for the network the tag is intended for. The
   /// key should be 'network' and the value should be in the format of the
   /// network url id string:
-  /// http://compute.googleapis.com/v1/projects/{project_number}/global/networks/{network_id}
+  /// https://compute.googleapis.com/v1/projects/{project_number}/global/networks/{network_id}
   core.String? purpose;
 
   /// Purpose data corresponds to the policy system that the tag is intended

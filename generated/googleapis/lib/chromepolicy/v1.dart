@@ -26,7 +26,6 @@
 ///   - [CustomersPoliciesResource]
 ///     - [CustomersPoliciesOrgunitsResource]
 ///   - [CustomersPolicySchemasResource]
-/// - [MediaResource]
 library chromepolicy.v1;
 
 import 'dart:async' as async;
@@ -41,15 +40,7 @@ import '../shared.dart';
 import '../src/user_agent.dart';
 
 export 'package:_discoveryapis_commons/_discoveryapis_commons.dart'
-    show
-        ApiRequestError,
-        DetailedApiRequestError,
-        Media,
-        UploadOptions,
-        ResumableUploadOptions,
-        DownloadOptions,
-        PartialDownloadOptions,
-        ByteRange;
+    show ApiRequestError, DetailedApiRequestError;
 
 /// The Chrome Policy API is a suite of services that allows Chrome
 /// administrators to control the policies applied to their managed Chrome OS
@@ -68,7 +59,6 @@ class ChromePolicyApi {
   final commons.ApiRequester _requester;
 
   CustomersResource get customers => CustomersResource(_requester);
-  MediaResource get media => MediaResource(_requester);
 
   ChromePolicyApi(http.Client client,
       {core.String rootUrl = 'https://chromepolicy.googleapis.com/',
@@ -339,69 +329,6 @@ class CustomersPolicySchemasResource {
       queryParams: _queryParams,
     );
     return GoogleChromePolicyV1ListPolicySchemasResponse.fromJson(
-        _response as core.Map<core.String, core.dynamic>);
-  }
-}
-
-class MediaResource {
-  final commons.ApiRequester _requester;
-
-  MediaResource(commons.ApiRequester client) : _requester = client;
-
-  /// Creates an enterprise file from the content provided by user.
-  ///
-  /// Returns a public download url for end user.
-  ///
-  /// [request] - The metadata request object.
-  ///
-  /// Request parameters:
-  ///
-  /// [customer] - Required. The customer for which the file upload will apply.
-  /// Value must have pattern `^customers/\[^/\]+$`.
-  ///
-  /// [$fields] - Selector specifying which fields to include in a partial
-  /// response.
-  ///
-  /// [uploadMedia] - The media to upload.
-  ///
-  /// Completes with a [GoogleChromePolicyV1UploadPolicyFileResponse].
-  ///
-  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
-  /// error.
-  ///
-  /// If the used [http.Client] completes with an error when making a REST call,
-  /// this method will complete with the same error.
-  async.Future<GoogleChromePolicyV1UploadPolicyFileResponse> upload(
-    GoogleChromePolicyV1UploadPolicyFileRequest request,
-    core.String customer, {
-    core.String? $fields,
-    commons.Media? uploadMedia,
-  }) async {
-    final _body = convert.json.encode(request);
-    final _queryParams = <core.String, core.List<core.String>>{
-      if ($fields != null) 'fields': [$fields],
-    };
-
-    core.String _url;
-    if (uploadMedia == null) {
-      _url = 'v1/' +
-          core.Uri.encodeFull('$customer') +
-          '/policies/files:uploadPolicyFile';
-    } else {
-      _url = '/upload/v1/' +
-          core.Uri.encodeFull('$customer') +
-          '/policies/files:uploadPolicyFile';
-    }
-
-    final _response = await _requester.request(
-      _url,
-      'POST',
-      body: _body,
-      queryParams: _queryParams,
-      uploadMedia: uploadMedia,
-      uploadOptions: commons.UploadOptions.defaultOptions,
-    );
-    return GoogleChromePolicyV1UploadPolicyFileResponse.fromJson(
         _response as core.Map<core.String, core.dynamic>);
   }
 }
@@ -1190,8 +1117,8 @@ class GoogleChromePolicyV1ResolveRequest {
   /// chrome.users.ShowLogoutButton Wildcards are supported, but only in the
   /// leaf portion of the schema name. Wildcards cannot be used in namespace
   /// directly. Please read
-  /// https://developers.google.com/chrome/chrome-management/guides/policyapi
-  /// for details on schema namepsaces. For example: Valid: "chrome.users.*",
+  /// https://developers.google.com/chrome/policy/guides/policy-schemas for
+  /// details on schema namepsaces. For example: Valid: "chrome.users.*",
   /// "chrome.users.apps.*", "chrome.printers.*" Invalid: "*", "*.users",
   /// "chrome.*", "chrome.*.apps.*"
   core.String? policySchemaFilter;
@@ -1339,57 +1266,6 @@ class GoogleChromePolicyV1ResolvedPolicy {
         if (sourceKey != null) 'sourceKey': sourceKey!,
         if (targetKey != null) 'targetKey': targetKey!,
         if (value != null) 'value': value!,
-      };
-}
-
-/// Request message for uploading a file for a policy.
-///
-/// Next ID: 5
-class GoogleChromePolicyV1UploadPolicyFileRequest {
-  /// The fully qualified policy schema and field name this file is uploaded
-  /// for.
-  ///
-  /// This information will be used to validate the content type of the file.
-  ///
-  /// Required.
-  core.String? policyField;
-
-  GoogleChromePolicyV1UploadPolicyFileRequest({
-    this.policyField,
-  });
-
-  GoogleChromePolicyV1UploadPolicyFileRequest.fromJson(core.Map _json)
-      : this(
-          policyField: _json.containsKey('policyField')
-              ? _json['policyField'] as core.String
-              : null,
-        );
-
-  core.Map<core.String, core.dynamic> toJson() => {
-        if (policyField != null) 'policyField': policyField!,
-      };
-}
-
-/// Response message for downloading an uploaded file.
-///
-/// Next ID: 2
-class GoogleChromePolicyV1UploadPolicyFileResponse {
-  /// The uri for end user to download the file.
-  core.String? downloadUri;
-
-  GoogleChromePolicyV1UploadPolicyFileResponse({
-    this.downloadUri,
-  });
-
-  GoogleChromePolicyV1UploadPolicyFileResponse.fromJson(core.Map _json)
-      : this(
-          downloadUri: _json.containsKey('downloadUri')
-              ? _json['downloadUri'] as core.String
-              : null,
-        );
-
-  core.Map<core.String, core.dynamic> toJson() => {
-        if (downloadUri != null) 'downloadUri': downloadUri!,
       };
 }
 
@@ -1671,7 +1547,8 @@ class Proto2FileDescriptorProto {
 
   /// The syntax of the proto file.
   ///
-  /// The supported values are "proto2" and "proto3".
+  /// The supported values are "proto2", "proto3", and "editions". If `edition`
+  /// is present, this value must be "editions".
   core.String? syntax;
 
   Proto2FileDescriptorProto({

@@ -1883,10 +1883,11 @@ class GroupsResource {
   ///
   /// [customer] - The unique ID for the customer's Google Workspace account. In
   /// case of a multi-domain account, to fetch all groups for a customer, fill
-  /// this field instead of domain. As an account administrator, you can also
-  /// use the `my_customer` alias to represent your account's `customerId`. The
-  /// `customerId` is also returned as part of the
-  /// \[Users\](/admin-sdk/directory/v1/reference/users)
+  /// in this field instead of `domain`. You can also use the `my_customer`
+  /// alias to represent your account's `customerId`. The `customerId` is also
+  /// returned as part of the \[Users\](/admin-sdk/directory/v1/reference/users)
+  /// resource. Either the `customer` or the `domain` parameter must be
+  /// provided.
   ///
   /// [domain] - The domain name. Use this field to get groups from only one
   /// domain. To return all domains for a customer account, use the `customer`
@@ -10234,7 +10235,10 @@ class Role {
 
 /// Defines an assignment of a role.
 class RoleAssignment {
-  /// The unique ID of the user this role is assigned to.
+  /// The unique ID of the entity this role is assigned to—either the `user_id`
+  /// of a user or the `uniqueId` of a service account, as defined in \[Identity
+  /// and Access Management
+  /// (IAM)\](https://cloud.google.com/iam/docs/reference/rest/v1/projects.serviceAccounts).
   core.String? assignedTo;
 
   /// ETag of the resource.
@@ -10845,13 +10849,15 @@ class User {
   /// `String`, `bool` and `null` as well as `Map` and `List` values.
   core.Object? gender;
 
-  /// Stores the hash format of the password property.
+  /// Stores the hash format of the `password` property.
   ///
-  /// We recommend sending the `password` property value as a base 16 bit
-  /// hexadecimal-encoded hash value. The following `hashFunction` values are
-  /// allowed: * `DES` * `MD5` - hash prefix is `$1$` * `SHA2-256` - hash prefix
-  /// is `$5$` * `SHA2-512` - hash prefix is `$6$` If rounds are specified as
-  /// part of the prefix, they must be 10,000 or fewer.
+  /// The following `hashFunction` values are allowed: * `MD5` - Accepts simple
+  /// hex-encoded values. * `SHA1` - Accepts simple hex-encoded values. *
+  /// `crypt` - Compliant with the
+  /// [C crypt library](https://en.wikipedia.org/wiki/Crypt_%28C%29). Supports
+  /// the DES, MD5 (hash prefix `$1$`), SHA-256 (hash prefix `$5$`), and SHA-512
+  /// (hash prefix `$6$`) hash algorithms. If rounds are specified as part of
+  /// the prefix, they must be 10,000 or fewer.
   core.String? hashFunction;
 
   /// The unique ID for the user.

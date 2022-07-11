@@ -495,6 +495,7 @@ api.GoogleCloudRunV2ExecutionReference
   final o = api.GoogleCloudRunV2ExecutionReference();
   buildCounterGoogleCloudRunV2ExecutionReference++;
   if (buildCounterGoogleCloudRunV2ExecutionReference < 3) {
+    o.completionTime = 'foo';
     o.createTime = 'foo';
     o.name = 'foo';
   }
@@ -506,6 +507,10 @@ void checkGoogleCloudRunV2ExecutionReference(
     api.GoogleCloudRunV2ExecutionReference o) {
   buildCounterGoogleCloudRunV2ExecutionReference++;
   if (buildCounterGoogleCloudRunV2ExecutionReference < 3) {
+    unittest.expect(
+      o.completionTime!,
+      unittest.equals('foo'),
+    );
     unittest.expect(
       o.createTime!,
       unittest.equals('foo'),

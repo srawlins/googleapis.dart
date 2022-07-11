@@ -21,8 +21,6 @@
 /// Create an instance of [LoggingApi] to access these resources:
 ///
 /// - [BillingAccountsResource]
-///   - [BillingAccountsBucketsResource]
-///     - [BillingAccountsBucketsViewsResource]
 ///   - [BillingAccountsExclusionsResource]
 ///   - [BillingAccountsLocationsResource]
 ///     - [BillingAccountsLocationsBucketsResource]
@@ -30,7 +28,6 @@
 ///         - [BillingAccountsLocationsBucketsViewsLogsResource]
 ///     - [BillingAccountsLocationsOperationsResource]
 ///   - [BillingAccountsLogsResource]
-///   - [BillingAccountsOperationsResource]
 ///   - [BillingAccountsSinksResource]
 /// - [EntriesResource]
 /// - [ExclusionsResource]
@@ -136,16 +133,12 @@ class LoggingApi {
 class BillingAccountsResource {
   final commons.ApiRequester _requester;
 
-  BillingAccountsBucketsResource get buckets =>
-      BillingAccountsBucketsResource(_requester);
   BillingAccountsExclusionsResource get exclusions =>
       BillingAccountsExclusionsResource(_requester);
   BillingAccountsLocationsResource get locations =>
       BillingAccountsLocationsResource(_requester);
   BillingAccountsLogsResource get logs =>
       BillingAccountsLogsResource(_requester);
-  BillingAccountsOperationsResource get operations =>
-      BillingAccountsOperationsResource(_requester);
   BillingAccountsSinksResource get sinks =>
       BillingAccountsSinksResource(_requester);
 
@@ -252,102 +245,6 @@ class BillingAccountsResource {
       queryParams: _queryParams,
     );
     return Settings.fromJson(_response as core.Map<core.String, core.dynamic>);
-  }
-}
-
-class BillingAccountsBucketsResource {
-  final commons.ApiRequester _requester;
-
-  BillingAccountsBucketsViewsResource get views =>
-      BillingAccountsBucketsViewsResource(_requester);
-
-  BillingAccountsBucketsResource(commons.ApiRequester client)
-      : _requester = client;
-
-  /// Gets a log bucket.
-  ///
-  /// Request parameters:
-  ///
-  /// [name] - Required. The resource name of the bucket:
-  /// "projects/\[PROJECT_ID\]/locations/\[LOCATION_ID\]/buckets/\[BUCKET_ID\]"
-  /// "organizations/\[ORGANIZATION_ID\]/locations/\[LOCATION_ID\]/buckets/\[BUCKET_ID\]"
-  /// "billingAccounts/\[BILLING_ACCOUNT_ID\]/locations/\[LOCATION_ID\]/buckets/\[BUCKET_ID\]"
-  /// "folders/\[FOLDER_ID\]/locations/\[LOCATION_ID\]/buckets/\[BUCKET_ID\]"
-  /// For example:"projects/my-project/locations/global/buckets/my-bucket"
-  /// Value must have pattern `^billingAccounts/\[^/\]+/buckets/\[^/\]+$`.
-  ///
-  /// [$fields] - Selector specifying which fields to include in a partial
-  /// response.
-  ///
-  /// Completes with a [LogBucket].
-  ///
-  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
-  /// error.
-  ///
-  /// If the used [http.Client] completes with an error when making a REST call,
-  /// this method will complete with the same error.
-  async.Future<LogBucket> get(
-    core.String name, {
-    core.String? $fields,
-  }) async {
-    final _queryParams = <core.String, core.List<core.String>>{
-      if ($fields != null) 'fields': [$fields],
-    };
-
-    final _url = 'v2/' + core.Uri.encodeFull('$name');
-
-    final _response = await _requester.request(
-      _url,
-      'GET',
-      queryParams: _queryParams,
-    );
-    return LogBucket.fromJson(_response as core.Map<core.String, core.dynamic>);
-  }
-}
-
-class BillingAccountsBucketsViewsResource {
-  final commons.ApiRequester _requester;
-
-  BillingAccountsBucketsViewsResource(commons.ApiRequester client)
-      : _requester = client;
-
-  /// Gets a view on a log bucket..
-  ///
-  /// Request parameters:
-  ///
-  /// [name] - Required. The resource name of the policy:
-  /// "projects/\[PROJECT_ID\]/locations/\[LOCATION_ID\]/buckets/\[BUCKET_ID\]/views/\[VIEW_ID\]"
-  /// For
-  /// example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view"
-  /// Value must have pattern
-  /// `^billingAccounts/\[^/\]+/buckets/\[^/\]+/views/\[^/\]+$`.
-  ///
-  /// [$fields] - Selector specifying which fields to include in a partial
-  /// response.
-  ///
-  /// Completes with a [LogView].
-  ///
-  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
-  /// error.
-  ///
-  /// If the used [http.Client] completes with an error when making a REST call,
-  /// this method will complete with the same error.
-  async.Future<LogView> get(
-    core.String name, {
-    core.String? $fields,
-  }) async {
-    final _queryParams = <core.String, core.List<core.String>>{
-      if ($fields != null) 'fields': [$fields],
-    };
-
-    final _url = 'v2/' + core.Uri.encodeFull('$name');
-
-    final _response = await _requester.request(
-      _url,
-      'GET',
-      queryParams: _queryParams,
-    );
-    return LogView.fromJson(_response as core.Map<core.String, core.dynamic>);
   }
 }
 
@@ -797,6 +694,47 @@ class BillingAccountsLocationsBucketsResource {
     return Empty.fromJson(_response as core.Map<core.String, core.dynamic>);
   }
 
+  /// Gets a log bucket.
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Required. The resource name of the bucket:
+  /// "projects/\[PROJECT_ID\]/locations/\[LOCATION_ID\]/buckets/\[BUCKET_ID\]"
+  /// "organizations/\[ORGANIZATION_ID\]/locations/\[LOCATION_ID\]/buckets/\[BUCKET_ID\]"
+  /// "billingAccounts/\[BILLING_ACCOUNT_ID\]/locations/\[LOCATION_ID\]/buckets/\[BUCKET_ID\]"
+  /// "folders/\[FOLDER_ID\]/locations/\[LOCATION_ID\]/buckets/\[BUCKET_ID\]"
+  /// For example:"projects/my-project/locations/global/buckets/my-bucket"
+  /// Value must have pattern
+  /// `^billingAccounts/\[^/\]+/locations/\[^/\]+/buckets/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [LogBucket].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<LogBucket> get(
+    core.String name, {
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v2/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return LogBucket.fromJson(_response as core.Map<core.String, core.dynamic>);
+  }
+
   /// Lists log buckets.
   ///
   /// Request parameters:
@@ -1065,6 +1003,45 @@ class BillingAccountsLocationsBucketsViewsResource {
     return Empty.fromJson(_response as core.Map<core.String, core.dynamic>);
   }
 
+  /// Gets a view on a log bucket..
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - Required. The resource name of the policy:
+  /// "projects/\[PROJECT_ID\]/locations/\[LOCATION_ID\]/buckets/\[BUCKET_ID\]/views/\[VIEW_ID\]"
+  /// For
+  /// example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view"
+  /// Value must have pattern
+  /// `^billingAccounts/\[^/\]+/locations/\[^/\]+/buckets/\[^/\]+/views/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [LogView].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<LogView> get(
+    core.String name, {
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v2/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return LogView.fromJson(_response as core.Map<core.String, core.dynamic>);
+  }
+
   /// Lists views on a log bucket.
   ///
   /// Request parameters:
@@ -1303,6 +1280,45 @@ class BillingAccountsLocationsOperationsResource {
     return Empty.fromJson(_response as core.Map<core.String, core.dynamic>);
   }
 
+  /// Gets the latest state of a long-running operation.
+  ///
+  /// Clients can use this method to poll the operation result at intervals as
+  /// recommended by the API service.
+  ///
+  /// Request parameters:
+  ///
+  /// [name] - The name of the operation resource.
+  /// Value must have pattern
+  /// `^billingAccounts/\[^/\]+/locations/\[^/\]+/operations/\[^/\]+$`.
+  ///
+  /// [$fields] - Selector specifying which fields to include in a partial
+  /// response.
+  ///
+  /// Completes with a [Operation].
+  ///
+  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
+  /// error.
+  ///
+  /// If the used [http.Client] completes with an error when making a REST call,
+  /// this method will complete with the same error.
+  async.Future<Operation> get(
+    core.String name, {
+    core.String? $fields,
+  }) async {
+    final _queryParams = <core.String, core.List<core.String>>{
+      if ($fields != null) 'fields': [$fields],
+    };
+
+    final _url = 'v2/' + core.Uri.encodeFull('$name');
+
+    final _response = await _requester.request(
+      _url,
+      'GET',
+      queryParams: _queryParams,
+    );
+    return Operation.fromJson(_response as core.Map<core.String, core.dynamic>);
+  }
+
   /// Lists operations that match the specified filter in the request.
   ///
   /// If the server doesn't support this method, it returns UNIMPLEMENTED.NOTE:
@@ -1476,51 +1492,6 @@ class BillingAccountsLogsResource {
     );
     return ListLogsResponse.fromJson(
         _response as core.Map<core.String, core.dynamic>);
-  }
-}
-
-class BillingAccountsOperationsResource {
-  final commons.ApiRequester _requester;
-
-  BillingAccountsOperationsResource(commons.ApiRequester client)
-      : _requester = client;
-
-  /// Gets the latest state of a long-running operation.
-  ///
-  /// Clients can use this method to poll the operation result at intervals as
-  /// recommended by the API service.
-  ///
-  /// Request parameters:
-  ///
-  /// [name] - The name of the operation resource.
-  /// Value must have pattern `^billingAccounts/\[^/\]+/operations/\[^/\]+$`.
-  ///
-  /// [$fields] - Selector specifying which fields to include in a partial
-  /// response.
-  ///
-  /// Completes with a [Operation].
-  ///
-  /// Completes with a [commons.ApiRequestError] if the API endpoint returned an
-  /// error.
-  ///
-  /// If the used [http.Client] completes with an error when making a REST call,
-  /// this method will complete with the same error.
-  async.Future<Operation> get(
-    core.String name, {
-    core.String? $fields,
-  }) async {
-    final _queryParams = <core.String, core.List<core.String>>{
-      if ($fields != null) 'fields': [$fields],
-    };
-
-    final _url = 'v2/' + core.Uri.encodeFull('$name');
-
-    final _response = await _requester.request(
-      _url,
-      'GET',
-      queryParams: _queryParams,
-    );
-    return Operation.fromJson(_response as core.Map<core.String, core.dynamic>);
   }
 }
 
@@ -12242,10 +12213,11 @@ class WriteLogEntriesRequest {
   /// failed due to a permanent error such as INVALID_ARGUMENT or
   /// PERMISSION_DENIED.
   ///
-  /// If any entry failed, then the response status is the response status is
-  /// the status of one of the failed entries. The response will include error
-  /// details keyed by the entries' zero-based index in the entries.write
-  /// method.
+  /// If any entry failed, then the response status is the response status of
+  /// one of the failed entries. The response will include error details in
+  /// WriteLogEntriesPartialErrors.log_entry_errors keyed by the entries'
+  /// zero-based index in the entries. Failed requests for which no entries are
+  /// written will not include per-entry errors.
   ///
   /// Optional.
   core.bool? partialSuccess;

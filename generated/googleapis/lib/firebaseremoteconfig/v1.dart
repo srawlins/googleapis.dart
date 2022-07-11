@@ -1347,39 +1347,63 @@ class RollbackRemoteConfigRequest {
 
 /// Open a stream of Fetch response invalidation signals.
 class StreamFetchInvalidationsRequest {
+  /// GMP App id.
+  core.String? appId;
+
   /// If this client has previously performed a Fetch, this indicates which
   /// Template version was used to process it (returned in the Fetch response).
   core.String? lastKnownVersionNumber;
 
+  /// Version of the Firebase Remote Config SDK.
+  ///
+  /// This number is hard-coded into each client.
+  core.String? sdkVersion;
+
   StreamFetchInvalidationsRequest({
+    this.appId,
     this.lastKnownVersionNumber,
+    this.sdkVersion,
   });
 
   StreamFetchInvalidationsRequest.fromJson(core.Map _json)
       : this(
+          appId:
+              _json.containsKey('appId') ? _json['appId'] as core.String : null,
           lastKnownVersionNumber: _json.containsKey('lastKnownVersionNumber')
               ? _json['lastKnownVersionNumber'] as core.String
+              : null,
+          sdkVersion: _json.containsKey('sdkVersion')
+              ? _json['sdkVersion'] as core.String
               : null,
         );
 
   core.Map<core.String, core.dynamic> toJson() => {
+        if (appId != null) 'appId': appId!,
         if (lastKnownVersionNumber != null)
           'lastKnownVersionNumber': lastKnownVersionNumber!,
+        if (sdkVersion != null) 'sdkVersion': sdkVersion!,
       };
 }
 
 /// Response indicating that the previous Fetch response is now invalid.
 class StreamFetchInvalidationsResponse {
+  /// Indicates whether or not the client should stop using Realtime feature.
+  core.bool? featureDisabled;
+
   /// Indicates the new Template version number which triggered this
   /// invalidation event.
   core.String? latestTemplateVersionNumber;
 
   StreamFetchInvalidationsResponse({
+    this.featureDisabled,
     this.latestTemplateVersionNumber,
   });
 
   StreamFetchInvalidationsResponse.fromJson(core.Map _json)
       : this(
+          featureDisabled: _json.containsKey('featureDisabled')
+              ? _json['featureDisabled'] as core.bool
+              : null,
           latestTemplateVersionNumber:
               _json.containsKey('latestTemplateVersionNumber')
                   ? _json['latestTemplateVersionNumber'] as core.String
@@ -1387,6 +1411,7 @@ class StreamFetchInvalidationsResponse {
         );
 
   core.Map<core.String, core.dynamic> toJson() => {
+        if (featureDisabled != null) 'featureDisabled': featureDisabled!,
         if (latestTemplateVersionNumber != null)
           'latestTemplateVersionNumber': latestTemplateVersionNumber!,
       };

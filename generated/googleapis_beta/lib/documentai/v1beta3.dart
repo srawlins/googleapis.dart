@@ -1914,8 +1914,8 @@ class GoogleCloudDocumentaiV1beta3DocumentPage {
   /// A list of visually detected tokens on the page.
   core.List<GoogleCloudDocumentaiV1beta3DocumentPageToken>? tokens;
 
-  /// Transformation matrices (both already applied and not) to the original
-  /// document image to produce Page.image.
+  /// Transformation matrices that were applied to the original document image
+  /// to produce Page.image.
   core.List<GoogleCloudDocumentaiV1beta3DocumentPageMatrix>? transforms;
 
   /// A list of detected non-text visual elements e.g. checkbox, signature etc.
@@ -2544,11 +2544,6 @@ class GoogleCloudDocumentaiV1beta3DocumentPageLine {
 /// Representation for transformation matrix, intended to be compatible and used
 /// with OpenCV format for image manipulation.
 class GoogleCloudDocumentaiV1beta3DocumentPageMatrix {
-  /// Has the transformation already been applied to the current Document?
-  /// Needed to disambiguate pre-processing transformations already applied vs
-  /// transformations added at annotation time by HITL operators.
-  core.bool? applied;
-
   /// Number of columns in the matrix.
   core.int? cols;
 
@@ -2572,7 +2567,6 @@ class GoogleCloudDocumentaiV1beta3DocumentPageMatrix {
   core.int? type;
 
   GoogleCloudDocumentaiV1beta3DocumentPageMatrix({
-    this.applied,
     this.cols,
     this.data,
     this.rows,
@@ -2581,9 +2575,6 @@ class GoogleCloudDocumentaiV1beta3DocumentPageMatrix {
 
   GoogleCloudDocumentaiV1beta3DocumentPageMatrix.fromJson(core.Map _json)
       : this(
-          applied: _json.containsKey('applied')
-              ? _json['applied'] as core.bool
-              : null,
           cols: _json.containsKey('cols') ? _json['cols'] as core.int : null,
           data: _json.containsKey('data') ? _json['data'] as core.String : null,
           rows: _json.containsKey('rows') ? _json['rows'] as core.int : null,
@@ -2591,7 +2582,6 @@ class GoogleCloudDocumentaiV1beta3DocumentPageMatrix {
         );
 
   core.Map<core.String, core.dynamic> toJson() => {
-        if (applied != null) 'applied': applied!,
         if (cols != null) 'cols': cols!,
         if (data != null) 'data': data!,
         if (rows != null) 'rows': rows!,
@@ -3156,6 +3146,245 @@ class GoogleCloudDocumentaiV1beta3DocumentRevisionHumanReview {
   core.Map<core.String, core.dynamic> toJson() => {
         if (state != null) 'state': state!,
         if (stateMessage != null) 'stateMessage': stateMessage!,
+      };
+}
+
+/// The schema defines the output of the processed document by a processor.
+class GoogleCloudDocumentaiV1beta3DocumentSchema {
+  /// Description of the schema.
+  core.String? description;
+
+  /// Display name to show to users.
+  core.String? displayName;
+
+  /// Entity types of the schema.
+  core.List<GoogleCloudDocumentaiV1beta3DocumentSchemaEntityType>? entityTypes;
+
+  /// Metadata of the schema.
+  GoogleCloudDocumentaiV1beta3DocumentSchemaMetadata? metadata;
+
+  GoogleCloudDocumentaiV1beta3DocumentSchema({
+    this.description,
+    this.displayName,
+    this.entityTypes,
+    this.metadata,
+  });
+
+  GoogleCloudDocumentaiV1beta3DocumentSchema.fromJson(core.Map _json)
+      : this(
+          description: _json.containsKey('description')
+              ? _json['description'] as core.String
+              : null,
+          displayName: _json.containsKey('displayName')
+              ? _json['displayName'] as core.String
+              : null,
+          entityTypes: _json.containsKey('entityTypes')
+              ? (_json['entityTypes'] as core.List)
+                  .map((value) =>
+                      GoogleCloudDocumentaiV1beta3DocumentSchemaEntityType
+                          .fromJson(
+                              value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+          metadata: _json.containsKey('metadata')
+              ? GoogleCloudDocumentaiV1beta3DocumentSchemaMetadata.fromJson(
+                  _json['metadata'] as core.Map<core.String, core.dynamic>)
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (description != null) 'description': description!,
+        if (displayName != null) 'displayName': displayName!,
+        if (entityTypes != null) 'entityTypes': entityTypes!,
+        if (metadata != null) 'metadata': metadata!,
+      };
+}
+
+/// EntityType is the wrapper of a label of the corresponding model with
+/// detailed attributes and limitations for entity-based processors.
+///
+/// Multiple types can also compose a dependency tree to represent nested types.
+class GoogleCloudDocumentaiV1beta3DocumentSchemaEntityType {
+  /// The entity type that this type is derived from.
+  ///
+  /// For now, one and only one should be set.
+  core.List<core.String>? baseTypes;
+
+  /// User defined name for the type.
+  core.String? displayName;
+
+  /// If specified, lists all the possible values for this entity.
+  ///
+  /// This should not be more than a handful of values. If the number of values
+  /// is \>10 or could change frequently use the `EntityType.value_ontology`
+  /// field and specify a list of all possible values in a value ontology file.
+  GoogleCloudDocumentaiV1beta3DocumentSchemaEntityTypeEnumValues? enumValues;
+
+  /// Name of the type.
+  ///
+  /// It must be unique within the schema file and cannot be a 'Common Type'.
+  /// Besides that we use the following naming conventions: - *use snake_casing*
+  /// - name matching is case-insensitive - Maximum 64 characters. - Must start
+  /// with a letter. - Allowed characters: ASCII letters \[a-z0-9_-\]. (For
+  /// backward compatibility internal infrastructure and tooling can handle any
+  /// ascii character) - The '/' is sometimes used to denote a property of a
+  /// type. For example line_item/amount. This convention is deprecated, but
+  /// will still be honored for backward compatibility.
+  core.String? name;
+
+  /// Describing the nested structure, or composition of an entity.
+  core.List<GoogleCloudDocumentaiV1beta3DocumentSchemaEntityTypeProperty>?
+      properties;
+
+  GoogleCloudDocumentaiV1beta3DocumentSchemaEntityType({
+    this.baseTypes,
+    this.displayName,
+    this.enumValues,
+    this.name,
+    this.properties,
+  });
+
+  GoogleCloudDocumentaiV1beta3DocumentSchemaEntityType.fromJson(core.Map _json)
+      : this(
+          baseTypes: _json.containsKey('baseTypes')
+              ? (_json['baseTypes'] as core.List)
+                  .map((value) => value as core.String)
+                  .toList()
+              : null,
+          displayName: _json.containsKey('displayName')
+              ? _json['displayName'] as core.String
+              : null,
+          enumValues: _json.containsKey('enumValues')
+              ? GoogleCloudDocumentaiV1beta3DocumentSchemaEntityTypeEnumValues
+                  .fromJson(_json['enumValues']
+                      as core.Map<core.String, core.dynamic>)
+              : null,
+          name: _json.containsKey('name') ? _json['name'] as core.String : null,
+          properties: _json.containsKey('properties')
+              ? (_json['properties'] as core.List)
+                  .map((value) =>
+                      GoogleCloudDocumentaiV1beta3DocumentSchemaEntityTypeProperty
+                          .fromJson(
+                              value as core.Map<core.String, core.dynamic>))
+                  .toList()
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (baseTypes != null) 'baseTypes': baseTypes!,
+        if (displayName != null) 'displayName': displayName!,
+        if (enumValues != null) 'enumValues': enumValues!,
+        if (name != null) 'name': name!,
+        if (properties != null) 'properties': properties!,
+      };
+}
+
+/// Defines the a list of enum values.
+class GoogleCloudDocumentaiV1beta3DocumentSchemaEntityTypeEnumValues {
+  /// The individual values that this enum values type can include.
+  core.List<core.String>? values;
+
+  GoogleCloudDocumentaiV1beta3DocumentSchemaEntityTypeEnumValues({
+    this.values,
+  });
+
+  GoogleCloudDocumentaiV1beta3DocumentSchemaEntityTypeEnumValues.fromJson(
+      core.Map _json)
+      : this(
+          values: _json.containsKey('values')
+              ? (_json['values'] as core.List)
+                  .map((value) => value as core.String)
+                  .toList()
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (values != null) 'values': values!,
+      };
+}
+
+/// Defines properties that can be part of the entity type.
+class GoogleCloudDocumentaiV1beta3DocumentSchemaEntityTypeProperty {
+  /// The name of the property.
+  ///
+  /// Follows the same guidelines as the EntityType name.
+  core.String? name;
+
+  /// Occurrence type limits the number of instances an entity type appears in
+  /// the document.
+  /// Possible string values are:
+  /// - "OCCURRENCE_TYPE_UNSPECIFIED" : Unspecified occurrence type.
+  /// - "OPTIONAL_ONCE" : There will be zero or one instance of this entity
+  /// type.
+  /// - "OPTIONAL_MULTIPLE" : The entity type will appear zero or multiple
+  /// times.
+  /// - "REQUIRED_ONCE" : The entity type will only appear exactly once.
+  /// - "REQUIRED_MULTIPLE" : The entity type will appear once or more times.
+  core.String? occurrenceType;
+
+  /// A reference to the value type of the property.
+  ///
+  /// This type is subject to the same conventions as the `Entity.base_types`
+  /// field.
+  core.String? valueType;
+
+  GoogleCloudDocumentaiV1beta3DocumentSchemaEntityTypeProperty({
+    this.name,
+    this.occurrenceType,
+    this.valueType,
+  });
+
+  GoogleCloudDocumentaiV1beta3DocumentSchemaEntityTypeProperty.fromJson(
+      core.Map _json)
+      : this(
+          name: _json.containsKey('name') ? _json['name'] as core.String : null,
+          occurrenceType: _json.containsKey('occurrenceType')
+              ? _json['occurrenceType'] as core.String
+              : null,
+          valueType: _json.containsKey('valueType')
+              ? _json['valueType'] as core.String
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (name != null) 'name': name!,
+        if (occurrenceType != null) 'occurrenceType': occurrenceType!,
+        if (valueType != null) 'valueType': valueType!,
+      };
+}
+
+/// Metadata for global schema behavior.
+class GoogleCloudDocumentaiV1beta3DocumentSchemaMetadata {
+  /// If true, on a given page, there can be multiple `document` annotations
+  /// covering it.
+  core.bool? documentAllowMultipleLabels;
+
+  /// If true, a `document` entity type can be applied to subdocument (
+  /// splitting).
+  ///
+  /// Otherwise, it can only be applied to the entire document (classification).
+  core.bool? documentSplitter;
+
+  GoogleCloudDocumentaiV1beta3DocumentSchemaMetadata({
+    this.documentAllowMultipleLabels,
+    this.documentSplitter,
+  });
+
+  GoogleCloudDocumentaiV1beta3DocumentSchemaMetadata.fromJson(core.Map _json)
+      : this(
+          documentAllowMultipleLabels:
+              _json.containsKey('documentAllowMultipleLabels')
+                  ? _json['documentAllowMultipleLabels'] as core.bool
+                  : null,
+          documentSplitter: _json.containsKey('documentSplitter')
+              ? _json['documentSplitter'] as core.bool
+              : null,
+        );
+
+  core.Map<core.String, core.dynamic> toJson() => {
+        if (documentAllowMultipleLabels != null)
+          'documentAllowMultipleLabels': documentAllowMultipleLabels!,
+        if (documentSplitter != null) 'documentSplitter': documentSplitter!,
       };
 }
 
@@ -4194,6 +4423,9 @@ class GoogleCloudDocumentaiV1beta3ReviewDocumentRequest {
   /// The document that needs human review.
   GoogleCloudDocumentaiV1beta3Document? document;
 
+  /// The document schema of the human review task.
+  GoogleCloudDocumentaiV1beta3DocumentSchema? documentSchema;
+
   /// Whether the validation should be performed on the ad-hoc review request.
   core.bool? enableSchemaValidation;
 
@@ -4210,6 +4442,7 @@ class GoogleCloudDocumentaiV1beta3ReviewDocumentRequest {
 
   GoogleCloudDocumentaiV1beta3ReviewDocumentRequest({
     this.document,
+    this.documentSchema,
     this.enableSchemaValidation,
     this.inlineDocument,
     this.priority,
@@ -4220,6 +4453,11 @@ class GoogleCloudDocumentaiV1beta3ReviewDocumentRequest {
           document: _json.containsKey('document')
               ? GoogleCloudDocumentaiV1beta3Document.fromJson(
                   _json['document'] as core.Map<core.String, core.dynamic>)
+              : null,
+          documentSchema: _json.containsKey('documentSchema')
+              ? GoogleCloudDocumentaiV1beta3DocumentSchema.fromJson(
+                  _json['documentSchema']
+                      as core.Map<core.String, core.dynamic>)
               : null,
           enableSchemaValidation: _json.containsKey('enableSchemaValidation')
               ? _json['enableSchemaValidation'] as core.bool
@@ -4236,6 +4474,7 @@ class GoogleCloudDocumentaiV1beta3ReviewDocumentRequest {
 
   core.Map<core.String, core.dynamic> toJson() => {
         if (document != null) 'document': document!,
+        if (documentSchema != null) 'documentSchema': documentSchema!,
         if (enableSchemaValidation != null)
           'enableSchemaValidation': enableSchemaValidation!,
         if (inlineDocument != null) 'inlineDocument': inlineDocument!,
@@ -4246,6 +4485,9 @@ class GoogleCloudDocumentaiV1beta3ReviewDocumentRequest {
 /// Request message for the set default processor version method.
 class GoogleCloudDocumentaiV1beta3SetDefaultProcessorVersionRequest {
   /// The resource name of child ProcessorVersion to use as default.
+  ///
+  /// Format:
+  /// `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{version}`
   ///
   /// Required.
   core.String? defaultProcessorVersion;

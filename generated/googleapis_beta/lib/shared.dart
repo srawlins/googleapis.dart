@@ -2458,6 +2458,7 @@ class $Status {
 /// - datacatalog:v1beta1 : TestIamPermissionsRequest
 /// - domains:v1beta1 : TestIamPermissionsRequest
 /// - networkconnectivity:v1alpha1 : TestIamPermissionsRequest
+/// - networksecurity:v1beta1 : GoogleIamV1TestIamPermissionsRequest
 /// - privateca:v1beta1 : TestIamPermissionsRequest
 class $TestIamPermissionsRequest {
   /// The set of permissions to check for the `resource`.

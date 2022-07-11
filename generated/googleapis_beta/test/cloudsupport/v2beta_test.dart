@@ -171,6 +171,7 @@ api.Case buildCase() {
     o.escalated = true;
     o.name = 'foo';
     o.priority = 'foo';
+    o.projectId = 'foo';
     o.severity = 'foo';
     o.state = 'foo';
     o.subscriberEmailAddresses = buildUnnamed0();
@@ -206,6 +207,10 @@ void checkCase(api.Case o) {
     );
     unittest.expect(
       o.priority!,
+      unittest.equals('foo'),
+    );
+    unittest.expect(
+      o.projectId!,
       unittest.equals('foo'),
     );
     unittest.expect(
